@@ -3,6 +3,13 @@ Ensemble model — weighted combination of all prediction models.
 
 Weight order (configurable in settings.py):
   Dixon-Coles (25%) + xG (25%) + ELO (20%) + Market (20%) + MC (10%)
+
+Monte Carlo receives the ensemble lambdas and contributes its uncertainty
+structure to the final score matrix.  Its weight applies to 3-way probs only;
+it does not double-count any other model's lambdas.
+
+Optional: altitude_m (metres above sea level) applies a small goal-rate
+multiplier based on historical World Cup data (~+9% at Mexico City 2240m).
 """
 from __future__ import annotations
 import numpy as np
@@ -17,6 +24,7 @@ def run(
     away: TeamData,
     market_data: MarketData | None = None,
     neutral: bool = True,
+    altitude_m: int = 0,
 ) -> EnsembleResult:
     # ── Run individual models ────────────────────────────────────────────────
     r_elo = elo.predict(home, away, neutral=neutral)
@@ -25,30 +33,35 @@ def run(
     r_xg  = xg_model.predict(home, away)
     r_mkt = market.predict(home, away, market_data)
 
-    # Ensemble lambdas (weighted average)
+    # ── Ensemble lambdas (weighted average, MC excluded — it uses these) ────
     w = MODEL_WEIGHTS
+    base_w = w["dixon_coles"] + w["xg"] + w["elo"] + w["market"]   # excludes MC
     lam_h = (
         w["dixon_coles"] * r_dc.lambda_home +
         w["xg"]          * r_xg.lambda_home +
         w["elo"]         * r_elo.lambda_home +
-        w["market"]      * r_mkt.lambda_home +
-        w["monte_carlo"] * r_dc.lambda_home    # use DC as MC base
-    )
+        w["market"]      * r_mkt.lambda_home
+    ) / base_w
     lam_a = (
         w["dixon_coles"] * r_dc.lambda_away +
         w["xg"]          * r_xg.lambda_away +
         w["elo"]         * r_elo.lambda_away +
-        w["market"]      * r_mkt.lambda_away +
-        w["monte_carlo"] * r_dc.lambda_away
-    )
+        w["market"]      * r_mkt.lambda_away
+    ) / base_w
+
+    # ── Altitude factor: thin air increases goal rates ───────────────────────
+    # Calibrated to ~+9% at Mexico City (2240 m); capped at 2500 m.
+    if altitude_m > 0:
+        alt_factor = 1.0 + min(altitude_m, 2500) * 0.000038
+        lam_h *= alt_factor
+        lam_a *= alt_factor
 
     # ── Monte Carlo with ensemble lambdas ────────────────────────────────────
     r_mc = monte_carlo.simulate(lam_h, lam_a, n=MONTE_CARLO_SIMULATIONS)
 
     model_results = [r_elo, r_poi, r_dc, r_xg, r_mkt, r_mc]
 
-    # ── Weighted average of 3-way probabilities ──────────────────────────────
-    # Monte Carlo already uses ensemble lambdas; treat its weight from settings
+    # ── Weighted 3-way probabilities ─────────────────────────────────────────
     model_map = {
         "dixon_coles": r_dc,
         "xg":          r_xg,
@@ -65,15 +78,15 @@ def run(
 
     # ── Build ensemble score probability matrix ───────────────────────────────
     # 60 % from DC matrix, 40 % from Monte Carlo simulation
-    dc_mat  = r_dc.score_matrix
+    dc_mat   = r_dc.score_matrix
     mc_probs = getattr(r_mc, "_score_probs", {})
 
     n = MAX_GOALS_MATRIX + 1
     combo_mat = np.zeros((n, n))
     for i in range(n):
         for j in range(n):
-            dc_p  = float(dc_mat[i, j]) if dc_mat is not None else 0.0
-            mc_p  = mc_probs.get((i, j), 0.0)
+            dc_p = float(dc_mat[i, j]) if dc_mat is not None else 0.0
+            mc_p = mc_probs.get((i, j), 0.0)
             combo_mat[i, j] = 0.60 * dc_p + 0.40 * mc_p
 
     combo_mat /= combo_mat.sum()

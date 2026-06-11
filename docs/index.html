@@ -117,7 +117,30 @@ nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(5,8,15,.85);back
       </div>
       <div class="detail-field" style="grid-column:span 2">
         <label>場地</label>
-        <input type="text" name="venue" id="inp-venue" value="MetLife Stadium, East Rutherford, NJ">
+        <select name="venue" id="inp-venue">
+          <optgroup label="🇺🇸 美國 (11 場館)">
+            <option value="MetLife Stadium, East Rutherford, NJ" selected>MetLife Stadium — 紐約/新澤西, NJ</option>
+            <option value="AT&T Stadium, Arlington, TX">AT&T Stadium — 達拉斯, TX</option>
+            <option value="SoFi Stadium, Inglewood, CA">SoFi Stadium — 洛杉磯, CA</option>
+            <option value="Levi's Stadium, Santa Clara, CA">Levi's Stadium — 舊金山灣區, CA</option>
+            <option value="Lincoln Financial Field, Philadelphia, PA">Lincoln Financial Field — 費城, PA</option>
+            <option value="Gillette Stadium, Foxborough, MA">Gillette Stadium — 波士頓, MA</option>
+            <option value="Arrowhead Stadium, Kansas City, MO">Arrowhead Stadium — 堪薩斯城, MO</option>
+            <option value="Hard Rock Stadium, Miami Gardens, FL">Hard Rock Stadium — 邁阿密, FL</option>
+            <option value="NRG Stadium, Houston, TX">NRG Stadium — 休斯頓, TX</option>
+            <option value="Lumen Field, Seattle, WA">Lumen Field — 西雅圖, WA</option>
+            <option value="Mercedes-Benz Stadium, Atlanta, GA">Mercedes-Benz Stadium — 亞特蘭大, GA</option>
+          </optgroup>
+          <optgroup label="🇨🇦 加拿大 (2 場館)">
+            <option value="BC Place, Vancouver, BC">BC Place — 溫哥華, BC</option>
+            <option value="BMO Field, Toronto, ON">BMO Field — 多倫多, ON</option>
+          </optgroup>
+          <optgroup label="🇲🇽 墨西哥 (3 場館)">
+            <option value="Estadio Azteca, Mexico City">Estadio Azteca — 墨西哥城</option>
+            <option value="Estadio Akron, Guadalajara">Estadio Akron — 瓜達拉哈拉</option>
+            <option value="Estadio BBVA, Monterrey">Estadio BBVA — 蒙特雷</option>
+          </optgroup>
+        </select>
       </div>
     </div>
     <button type="submit" class="predict-btn" id="predict-btn">⚡ 開始預測分析</button>

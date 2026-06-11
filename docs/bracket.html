@@ -191,6 +191,20 @@ a.nav-btn.gold.active,a.nav-btn.gold:hover{background:rgba(255,215,0,.07);border
   nav .nav-btn:not(:last-child):not(:first-child){display:none}
   .podium-wrap{grid-template-columns:1fr 1fr 1fr;max-width:100%}
 }
+@media(max-width:520px){
+  nav{padding:0 .8rem;height:50px}
+  .hero{padding:1.5rem 1rem 1.2rem}
+  .hero-title{font-size:1.4rem}
+  .hero-sub{font-size:.8rem}
+  .main{padding:1rem .8rem}
+  .podium-wrap{grid-template-columns:1fr;max-width:280px;align-items:start}
+  .podium-wrap .podium-card:nth-child(1){order:2}
+  .podium-wrap .podium-card:nth-child(2){order:1}
+  .podium-wrap .podium-card:nth-child(3){order:3}
+  .prob-grid{grid-template-columns:1fr 1fr}
+  .bracket-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .bracket-table{min-width:600px}
+}
 </style>
 </head>
 <body>
@@ -498,5 +512,6 @@ fetch('data/tournament.json')
     console.error('Failed to load tournament.json', err);
   });
 </script>
+<script src="help.js"></script>
 </body>
 </html>

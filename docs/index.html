@@ -50,7 +50,21 @@ nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(5,8,15,.85);back
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 .hero-badge{animation:fadeUp .6s ease both}.hero-title{animation:fadeUp .6s .1s ease both}.hero-sub{animation:fadeUp .6s .2s ease both}.selector-card{animation:fadeUp .7s .3s ease both}.teams-section{animation:fadeUp .7s .5s ease both}
 .home-wrap .team-select{border-color:rgba(0,212,255,.3)}.away-wrap .team-select{border-color:rgba(255,107,107,.3)}
-@media(max-width:600px){.teams-row{grid-template-columns:1fr;gap:.5rem}.vs-badge{display:none}.details-grid{grid-template-columns:1fr}}
+@media(max-width:600px){
+  .teams-row{grid-template-columns:1fr;gap:.5rem}
+  .vs-badge{display:none}
+  .details-grid{grid-template-columns:1fr}
+  nav{padding:0 1rem;gap:.5rem}
+  .nav-tag{display:none}
+  .nav-link{font-size:.78rem;padding:.2rem .45rem}
+  .selector-card{padding:1.4rem 1rem;border-radius:16px}
+  .hero{padding:70px 1rem 3rem}
+  .hero-title{font-size:1.9rem}
+  .teams-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:.45rem}
+  .team-chip{padding:.5rem .6rem}
+  .chip-code{font-size:.82rem}
+  .predict-btn{font-size:.88rem;padding:.95rem}
+}
 </style>
 </head>
 <body>
@@ -169,5 +183,6 @@ document.getElementById('predict-form').addEventListener('submit', function(e){
   window.location.href = `report.html?home=${home}&away=${away}&date=${encodeURIComponent(date)}&stage=${encodeURIComponent(stage)}&venue=${encodeURIComponent(venue)}`;
 });
 </script>
+<script src="help.js"></script>
 </body>
 </html>

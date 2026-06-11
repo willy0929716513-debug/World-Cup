@@ -1,0 +1,143 @@
+name: CI — Football Prediction System
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+  workflow_dispatch:
+    inputs:
+      home:
+        description: "Home team code (e.g. ARG)"
+        required: false
+        default: "ARG"
+      away:
+        description: "Away team code (e.g. BRA)"
+        required: false
+        default: "BRA"
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # ── CLI ──────────────────────────────────────────────────────────────────
+      - name: "[CLI] List teams"
+        run: python main.py --list
+
+      - name: "[CLI] Predict ${{ github.event.inputs.home || 'ARG' }} vs ${{ github.event.inputs.away || 'BRA' }}"
+        run: python main.py ${{ github.event.inputs.home || 'ARG' }} ${{ github.event.inputs.away || 'BRA' }}
+
+      - name: "[CLI] Predict FRA vs ESP (Final)"
+        run: python main.py FRA ESP --stage "Final"
+
+      # ── Web routes ───────────────────────────────────────────────────────────
+      - name: "[Web] All routes return 200"
+        run: |
+          python - <<'EOF'
+          import sys, os
+          sys.path.insert(0, '.')
+          os.chdir('web')
+          from app import app
+          client = app.test_client()
+
+          tests = [
+              ('/',                                   200),
+              ('/predict?home=ARG&away=BRA',          200),
+              ('/predict?home=FRA&away=ESP',          200),
+              ('/predict?home=GER&away=ENG',          200),
+              ('/groups',                             200),
+              ('/bracket',                            200),
+              ('/api/predict?home=ARG&away=BRA',      200),
+              ('/predict?home=INVALID&away=BRA',      400),
+          ]
+
+          failed = []
+          for path, expect in tests:
+              r = client.get(path)
+              ok = r.status_code == expect
+              print(f"{'✅' if ok else '❌'}  {path:<45} → {r.status_code}")
+              if not ok:
+                  failed.append(path)
+
+          if failed:
+              print(f"\n{len(failed)} test(s) FAILED: {failed}")
+              sys.exit(1)
+          else:
+              print(f"\nAll {len(tests)} routes passed.")
+          EOF
+
+      # ── Tournament simulator ─────────────────────────────────────────────────
+      - name: "[Simulator] 10K tournament simulation"
+        run: |
+          python - <<'EOF'
+          import sys
+          sys.path.insert(0, '.')
+          from src.tournament.simulator import simulate_tournament, GROUPS, GROUP_LIST
+
+          # Data integrity checks
+          all_teams = [t for g in GROUPS.values() for t in g]
+          assert len(all_teams) == 48,          f"Expected 48 teams, got {len(all_teams)}"
+          assert len(GROUPS) == 12,             f"Expected 12 groups, got {len(GROUPS)}"
+          assert sorted(GROUPS.keys()) == list("ABCDEFGHIJKL"), "Groups A-L missing"
+          assert len(all_teams) == len(set(all_teams)), "Duplicate teams found"
+          print("✅  Data integrity: 48 teams, 12 groups, no duplicates")
+
+          sim = simulate_tournament(n=10000, seed=42)
+          probs = sim['tournament_probs']
+
+          # Sanity checks
+          champ_total = sum(p['champ'] for p in probs.values())
+          assert 98 < champ_total < 102, f"Champ probs don't sum to ~100: {champ_total}"
+          print(f"✅  Champ probs sum: {champ_total:.1f}%")
+
+          top3 = sorted(probs.items(), key=lambda x: -x[1]['champ'])[:3]
+          for code, p in top3:
+              print(f"   {code}: {p['champ']:.1f}% champion")
+
+          bracket = sim['expected_bracket']
+          assert len(bracket['r32']) == 16, "Expected 16 R32 matches"
+          assert len(bracket['r16']) == 8,  "Expected 8 R16 matches"
+          assert len(bracket['qf'])  == 4,  "Expected 4 QF matches"
+          assert len(bracket['sf'])  == 2,  "Expected 2 SF matches"
+          assert 'team1' in bracket['final'], "Final match missing"
+          print("✅  Bracket structure: R32/R16/QF/SF/Final all correct")
+          EOF
+
+      # ── Ensemble model ───────────────────────────────────────────────────────
+      - name: "[Models] Ensemble produces valid output"
+        run: |
+          python - <<'EOF'
+          import sys
+          sys.path.insert(0, '.')
+          from src.data.loader import get_team, get_market_data
+          from src.models import ensemble
+
+          home = get_team('ARG')
+          away = get_team('BRA')
+          market = get_market_data('ARG')
+          res = ensemble.run(home, away, market_data=market, neutral=True)
+
+          assert len(res.model_results) == 6, f"Expected 6 models, got {len(res.model_results)}"
+          total = res.p_home + res.p_draw + res.p_away
+          assert abs(total - 1.0) < 0.01, f"Probs don't sum to 1: {total}"
+          assert len(res.score_probs) > 0, "Empty score matrix"
+          assert res.lambda_home > 0 and res.lambda_away > 0, "Invalid lambdas"
+
+          print(f"✅  {len(res.model_results)} models: {[m.model_name for m in res.model_results]}")
+          print(f"✅  ARG {res.p_home*100:.1f}% / Draw {res.p_draw*100:.1f}% / BRA {res.p_away*100:.1f}%")
+          print(f"✅  Probs sum: {total*100:.1f}%")
+          EOF

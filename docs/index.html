@@ -32,9 +32,9 @@ nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(5,8,15,.85);back
 .team-select{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text);font-family:'Inter',sans-serif;font-size:.95rem;padding:.75rem 1rem;border-radius:12px;appearance:none;cursor:pointer;transition:border-color .2s,box-shadow .2s}
 .team-select:focus{outline:none;border-color:var(--home);box-shadow:0 0 0 3px rgba(0,212,255,.15)}
 .away-wrap .team-select:focus{border-color:var(--away)}
-.details-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.details-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.5rem}
 .detail-field label{display:block;font-size:.72rem;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:.5rem}
-.detail-field input,.detail-field select{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;padding:.65rem 1rem;border-radius:12px;transition:border-color .2s}
+.detail-field input,.detail-field select{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;padding:.65rem 1rem;border-radius:12px;transition:border-color .2s;-webkit-appearance:none;appearance:none}
 .detail-field input:focus,.detail-field select:focus{outline:none;border-color:var(--gold)}
 .predict-btn{width:100%;padding:1.1rem;border:none;border-radius:14px;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;letter-spacing:2px;background:linear-gradient(135deg,#0070ff,#00d4ff);color:#fff;box-shadow:0 0 30px rgba(0,212,255,.35);transition:transform .2s,box-shadow .2s}
 .predict-btn:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(0,212,255,.55)}
@@ -64,6 +64,8 @@ nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(5,8,15,.85);back
   .team-chip{padding:.5rem .6rem}
   .chip-code{font-size:.82rem}
   .predict-btn{font-size:.88rem;padding:.95rem}
+  .detail-field input[type=date]{font-size:.82rem}
+  .detail-field select{font-size:.82rem}
 }
 </style>
 </head>
@@ -104,9 +106,13 @@ nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(5,8,15,.85);back
       <div class="detail-field">
         <label>賽制階段</label>
         <select name="stage" id="inp-stage">
-          <option>Group Stage</option><option>Round of 32</option><option>Round of 16</option>
-          <option>Quarter-Final</option><option>Semi-Final</option>
-          <option>3rd Place Play-off</option><option>Final</option>
+          <option value="Group Stage">小組賽</option>
+          <option value="Round of 32">32 強</option>
+          <option value="Round of 16">16 強</option>
+          <option value="Quarter-Final">八強</option>
+          <option value="Semi-Final">四強</option>
+          <option value="3rd Place Play-off">季軍賽</option>
+          <option value="Final">決賽</option>
         </select>
       </div>
       <div class="detail-field" style="grid-column:span 2">

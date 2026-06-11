@@ -243,18 +243,18 @@ for grp in GROUP_LIST:
             ht = get_team(t1)
             at = get_team(t2)
             res = ensemble.run(ht, at, market_data=None, neutral=True)
-            # Most likely score from top-10
-            best = res.most_likely_scores[0][0] if res.most_likely_scores else (1, 1)
-            score_str = f"{best[0]}-{best[1]}"
             ms.append({
-                "t1": t1, "score": score_str, "t2": t2,
+                "t1": t1, "t2": t2,
+                "xg_home": round(res.lambda_home, 2),
+                "xg_away": round(res.lambda_away, 2),
                 "p_home": round(res.p_home * 100, 1),
                 "p_draw": round(res.p_draw * 100, 1),
                 "p_away": round(res.p_away * 100, 1),
             })
         except Exception:
             lh, la = elo_to_lambdas(ALL_ELOS[t1], ALL_ELOS[t2])
-            ms.append({"t1": t1, "score": f"{int(lh)}-{int(la)}", "t2": t2,
+            ms.append({"t1": t1, "t2": t2,
+                       "xg_home": round(lh, 2), "xg_away": round(la, 2),
                        "p_home": 0, "p_draw": 0, "p_away": 0})
     group_matches[grp] = ms
 

@@ -47,22 +47,22 @@ ALL_ELOS: dict[str, int] = {
 }
 
 TEAM_NAMES: dict[str, str] = {
-    'ARG': 'Argentina',     'BRA': 'Brazil',        'FRA': 'France',
-    'ENG': 'England',       'ESP': 'Spain',          'GER': 'Germany',
-    'POR': 'Portugal',      'NED': 'Netherlands',    'URU': 'Uruguay',
-    'USA': 'United States', 'MAR': 'Morocco',        'BEL': 'Belgium',
-    'ITA': 'Italy',         'CRO': 'Croatia',        'SUI': 'Switzerland',
-    'AUT': 'Austria',       'DEN': 'Denmark',        'SRB': 'Serbia',
-    'TUR': 'Turkey',        'POL': 'Poland',         'SCO': 'Scotland',
-    'COL': 'Colombia',      'ECU': 'Ecuador',        'PAR': 'Paraguay',
-    'JPN': 'Japan',         'KOR': 'South Korea',    'KSA': 'Saudi Arabia',
-    'AUS': 'Australia',     'IRN': 'Iran',           'QAT': 'Qatar',
-    'IRQ': 'Iraq',          'UZB': 'Uzbekistan',     'SEN': 'Senegal',
-    'NGA': 'Nigeria',       'EGY': 'Egypt',          'CIV': 'Ivory Coast',
-    'ALG': 'Algeria',       'CMR': 'Cameroon',       'RSA': 'South Africa',
-    'TUN': 'Tunisia',       'MEX': 'Mexico',         'CAN': 'Canada',
-    'PAN': 'Panama',        'HON': 'Honduras',       'JAM': 'Jamaica',
-    'NZL': 'New Zealand',   'VEN': 'Venezuela',      'IDN': 'Indonesia',
+    'ARG': '阿根廷',       'BRA': '巴西',          'FRA': '法國',
+    'ENG': '英格蘭',       'ESP': '西班牙',         'GER': '德國',
+    'POR': '葡萄牙',       'NED': '荷蘭',           'URU': '烏拉圭',
+    'USA': '美國',         'MAR': '摩洛哥',         'BEL': '比利時',
+    'ITA': '義大利',       'CRO': '克羅埃西亞',     'SUI': '瑞士',
+    'AUT': '奧地利',       'DEN': '丹麥',           'SRB': '塞爾維亞',
+    'TUR': '土耳其',       'POL': '波蘭',           'SCO': '蘇格蘭',
+    'COL': '哥倫比亞',     'ECU': '厄瓜多',         'PAR': '巴拉圭',
+    'JPN': '日本',         'KOR': '南韓',           'KSA': '沙烏地阿拉伯',
+    'AUS': '澳洲',         'IRN': '伊朗',           'QAT': '卡達',
+    'IRQ': '伊拉克',       'UZB': '烏茲別克',       'SEN': '塞內加爾',
+    'NGA': '奈及利亞',     'EGY': '埃及',           'CIV': '象牙海岸',
+    'ALG': '阿爾及利亞',   'CMR': '喀麥隆',         'RSA': '南非',
+    'TUN': '突尼西亞',     'MEX': '墨西哥',         'CAN': '加拿大',
+    'PAN': '巴拿馬',       'HON': '宏都拉斯',       'JAM': '牙買加',
+    'NZL': '紐西蘭',       'VEN': '委內瑞拉',       'IDN': '印尼',
 }
 
 CONFEDERATIONS: dict[str, str] = {

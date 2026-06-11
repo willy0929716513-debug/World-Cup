@@ -1,7 +1,7 @@
 {
   "ARG": {
-    "name": "Argentina",
-    "short_name": "Argentina",
+    "name": "阿根廷",
+    "short_name": "阿根廷",
     "code": "ARG",
     "confederation": "CONMEBOL",
     "fifa_ranking": 1,
@@ -292,8 +292,8 @@
     }
   },
   "BRA": {
-    "name": "Brazil",
-    "short_name": "Brazil",
+    "name": "巴西",
+    "short_name": "巴西",
     "code": "BRA",
     "confederation": "CONMEBOL",
     "fifa_ranking": 3,
@@ -598,8 +598,8 @@
     }
   },
   "FRA": {
-    "name": "France",
-    "short_name": "France",
+    "name": "法國",
+    "short_name": "法國",
     "code": "FRA",
     "confederation": "UEFA",
     "fifa_ranking": 2,
@@ -890,8 +890,8 @@
     }
   },
   "ENG": {
-    "name": "England",
-    "short_name": "England",
+    "name": "英格蘭",
+    "short_name": "英格蘭",
     "code": "ENG",
     "confederation": "UEFA",
     "fifa_ranking": 5,
@@ -1182,8 +1182,8 @@
     }
   },
   "ESP": {
-    "name": "Spain",
-    "short_name": "Spain",
+    "name": "西班牙",
+    "short_name": "西班牙",
     "code": "ESP",
     "confederation": "UEFA",
     "fifa_ranking": 4,
@@ -1474,8 +1474,8 @@
     }
   },
   "GER": {
-    "name": "Germany",
-    "short_name": "Germany",
+    "name": "德國",
+    "short_name": "德國",
     "code": "GER",
     "confederation": "UEFA",
     "fifa_ranking": 6,
@@ -1766,8 +1766,8 @@
     }
   },
   "POR": {
-    "name": "Portugal",
-    "short_name": "Portugal",
+    "name": "葡萄牙",
+    "short_name": "葡萄牙",
     "code": "POR",
     "confederation": "UEFA",
     "fifa_ranking": 7,
@@ -2058,8 +2058,8 @@
     }
   },
   "NED": {
-    "name": "Netherlands",
-    "short_name": "Netherlands",
+    "name": "荷蘭",
+    "short_name": "荷蘭",
     "code": "NED",
     "confederation": "UEFA",
     "fifa_ranking": 8,
@@ -2350,8 +2350,8 @@
     }
   },
   "URU": {
-    "name": "Uruguay",
-    "short_name": "Uruguay",
+    "name": "烏拉圭",
+    "short_name": "烏拉圭",
     "code": "URU",
     "confederation": "CONMEBOL",
     "fifa_ranking": 12,
@@ -2642,8 +2642,8 @@
     }
   },
   "USA": {
-    "name": "United States",
-    "short_name": "USA",
+    "name": "美國",
+    "short_name": "美國",
     "code": "USA",
     "confederation": "CONCACAF",
     "fifa_ranking": 13,
@@ -2934,8 +2934,8 @@
     }
   },
   "MAR": {
-    "name": "Morocco",
-    "short_name": "Morocco",
+    "name": "摩洛哥",
+    "short_name": "摩洛哥",
     "code": "MAR",
     "confederation": "CAF",
     "fifa_ranking": 14,
@@ -3226,8 +3226,8 @@
     }
   },
   "BEL": {
-    "name": "Belgium",
-    "short_name": "Belgium",
+    "name": "比利時",
+    "short_name": "比利時",
     "code": "BEL",
     "confederation": "UEFA",
     "fifa_ranking": 5,
@@ -3435,8 +3435,8 @@
     }
   },
   "ITA": {
-    "name": "Italy",
-    "short_name": "Italy",
+    "name": "義大利",
+    "short_name": "義大利",
     "code": "ITA",
     "confederation": "UEFA",
     "fifa_ranking": 9,
@@ -3644,8 +3644,8 @@
     }
   },
   "CRO": {
-    "name": "Croatia",
-    "short_name": "Croatia",
+    "name": "克羅埃西亞",
+    "short_name": "克羅埃西亞",
     "code": "CRO",
     "confederation": "UEFA",
     "fifa_ranking": 13,
@@ -3853,8 +3853,8 @@
     }
   },
   "SUI": {
-    "name": "Switzerland",
-    "short_name": "Switzerland",
+    "name": "瑞士",
+    "short_name": "瑞士",
     "code": "SUI",
     "confederation": "UEFA",
     "fifa_ranking": 19,
@@ -4062,8 +4062,8 @@
     }
   },
   "AUT": {
-    "name": "Austria",
-    "short_name": "Austria",
+    "name": "奧地利",
+    "short_name": "奧地利",
     "code": "AUT",
     "confederation": "UEFA",
     "fifa_ranking": 26,
@@ -4271,8 +4271,8 @@
     }
   },
   "DEN": {
-    "name": "Denmark",
-    "short_name": "Denmark",
+    "name": "丹麥",
+    "short_name": "丹麥",
     "code": "DEN",
     "confederation": "UEFA",
     "fifa_ranking": 17,
@@ -4480,8 +4480,8 @@
     }
   },
   "SRB": {
-    "name": "Serbia",
-    "short_name": "Serbia",
+    "name": "塞爾維亞",
+    "short_name": "塞爾維亞",
     "code": "SRB",
     "confederation": "UEFA",
     "fifa_ranking": 33,
@@ -4689,8 +4689,8 @@
     }
   },
   "TUR": {
-    "name": "Turkey",
-    "short_name": "Turkey",
+    "name": "土耳其",
+    "short_name": "土耳其",
     "code": "TUR",
     "confederation": "UEFA",
     "fifa_ranking": 29,
@@ -4898,8 +4898,8 @@
     }
   },
   "POL": {
-    "name": "Poland",
-    "short_name": "Poland",
+    "name": "波蘭",
+    "short_name": "波蘭",
     "code": "POL",
     "confederation": "UEFA",
     "fifa_ranking": 25,
@@ -5107,8 +5107,8 @@
     }
   },
   "SCO": {
-    "name": "Scotland",
-    "short_name": "Scotland",
+    "name": "蘇格蘭",
+    "short_name": "蘇格蘭",
     "code": "SCO",
     "confederation": "UEFA",
     "fifa_ranking": 34,
@@ -5316,8 +5316,8 @@
     }
   },
   "COL": {
-    "name": "Colombia",
-    "short_name": "Colombia",
+    "name": "哥倫比亞",
+    "short_name": "哥倫比亞",
     "code": "COL",
     "confederation": "CONMEBOL",
     "fifa_ranking": 11,
@@ -5525,8 +5525,8 @@
     }
   },
   "ECU": {
-    "name": "Ecuador",
-    "short_name": "Ecuador",
+    "name": "厄瓜多",
+    "short_name": "厄瓜多",
     "code": "ECU",
     "confederation": "CONMEBOL",
     "fifa_ranking": 41,
@@ -5734,8 +5734,8 @@
     }
   },
   "PAR": {
-    "name": "Paraguay",
-    "short_name": "Paraguay",
+    "name": "巴拉圭",
+    "short_name": "巴拉圭",
     "code": "PAR",
     "confederation": "CONMEBOL",
     "fifa_ranking": 60,
@@ -5943,8 +5943,8 @@
     }
   },
   "JPN": {
-    "name": "Japan",
-    "short_name": "Japan",
+    "name": "日本",
+    "short_name": "日本",
     "code": "JPN",
     "confederation": "AFC",
     "fifa_ranking": 16,
@@ -6152,8 +6152,8 @@
     }
   },
   "KOR": {
-    "name": "South Korea",
-    "short_name": "Korea Republic",
+    "name": "南韓",
+    "short_name": "南韓",
     "code": "KOR",
     "confederation": "AFC",
     "fifa_ranking": 22,
@@ -6361,8 +6361,8 @@
     }
   },
   "KSA": {
-    "name": "Saudi Arabia",
-    "short_name": "Saudi Arabia",
+    "name": "沙烏地阿拉伯",
+    "short_name": "沙烏地阿拉伯",
     "code": "KSA",
     "confederation": "AFC",
     "fifa_ranking": 56,
@@ -6570,8 +6570,8 @@
     }
   },
   "AUS": {
-    "name": "Australia",
-    "short_name": "Australia",
+    "name": "澳洲",
+    "short_name": "澳洲",
     "code": "AUS",
     "confederation": "AFC",
     "fifa_ranking": 23,
@@ -6779,8 +6779,8 @@
     }
   },
   "IRN": {
-    "name": "Iran",
-    "short_name": "IR Iran",
+    "name": "伊朗",
+    "short_name": "伊朗",
     "code": "IRN",
     "confederation": "AFC",
     "fifa_ranking": 20,
@@ -6988,8 +6988,8 @@
     }
   },
   "QAT": {
-    "name": "Qatar",
-    "short_name": "Qatar",
+    "name": "卡達",
+    "short_name": "卡達",
     "code": "QAT",
     "confederation": "AFC",
     "fifa_ranking": 35,
@@ -7197,8 +7197,8 @@
     }
   },
   "IRQ": {
-    "name": "Iraq",
-    "short_name": "Iraq",
+    "name": "伊拉克",
+    "short_name": "伊拉克",
     "code": "IRQ",
     "confederation": "AFC",
     "fifa_ranking": 58,
@@ -7406,8 +7406,8 @@
     }
   },
   "UZB": {
-    "name": "Uzbekistan",
-    "short_name": "Uzbekistan",
+    "name": "烏茲別克",
+    "short_name": "烏茲別克",
     "code": "UZB",
     "confederation": "AFC",
     "fifa_ranking": 65,
@@ -7615,8 +7615,8 @@
     }
   },
   "SEN": {
-    "name": "Senegal",
-    "short_name": "Senegal",
+    "name": "塞內加爾",
+    "short_name": "塞內加爾",
     "code": "SEN",
     "confederation": "CAF",
     "fifa_ranking": 15,
@@ -7824,8 +7824,8 @@
     }
   },
   "NGA": {
-    "name": "Nigeria",
-    "short_name": "Nigeria",
+    "name": "奈及利亞",
+    "short_name": "奈及利亞",
     "code": "NGA",
     "confederation": "CAF",
     "fifa_ranking": 40,
@@ -8033,8 +8033,8 @@
     }
   },
   "EGY": {
-    "name": "Egypt",
-    "short_name": "Egypt",
+    "name": "埃及",
+    "short_name": "埃及",
     "code": "EGY",
     "confederation": "CAF",
     "fifa_ranking": 37,
@@ -8242,8 +8242,8 @@
     }
   },
   "CIV": {
-    "name": "Ivory Coast",
-    "short_name": "Ivory Coast",
+    "name": "象牙海岸",
+    "short_name": "象牙海岸",
     "code": "CIV",
     "confederation": "CAF",
     "fifa_ranking": 43,
@@ -8451,8 +8451,8 @@
     }
   },
   "ALG": {
-    "name": "Algeria",
-    "short_name": "Algeria",
+    "name": "阿爾及利亞",
+    "short_name": "阿爾及利亞",
     "code": "ALG",
     "confederation": "CAF",
     "fifa_ranking": 38,
@@ -8660,8 +8660,8 @@
     }
   },
   "CMR": {
-    "name": "Cameroon",
-    "short_name": "Cameroon",
+    "name": "喀麥隆",
+    "short_name": "喀麥隆",
     "code": "CMR",
     "confederation": "CAF",
     "fifa_ranking": 48,
@@ -8869,8 +8869,8 @@
     }
   },
   "RSA": {
-    "name": "South Africa",
-    "short_name": "South Africa",
+    "name": "南非",
+    "short_name": "南非",
     "code": "RSA",
     "confederation": "CAF",
     "fifa_ranking": 62,
@@ -9078,8 +9078,8 @@
     }
   },
   "TUN": {
-    "name": "Tunisia",
-    "short_name": "Tunisia",
+    "name": "突尼西亞",
+    "short_name": "突尼西亞",
     "code": "TUN",
     "confederation": "CAF",
     "fifa_ranking": 30,
@@ -9287,8 +9287,8 @@
     }
   },
   "MEX": {
-    "name": "Mexico",
-    "short_name": "Mexico",
+    "name": "墨西哥",
+    "short_name": "墨西哥",
     "code": "MEX",
     "confederation": "CONCACAF",
     "fifa_ranking": 13,
@@ -9496,8 +9496,8 @@
     }
   },
   "CAN": {
-    "name": "Canada",
-    "short_name": "Canada",
+    "name": "加拿大",
+    "short_name": "加拿大",
     "code": "CAN",
     "confederation": "CONCACAF",
     "fifa_ranking": 49,
@@ -9705,8 +9705,8 @@
     }
   },
   "PAN": {
-    "name": "Panama",
-    "short_name": "Panama",
+    "name": "巴拿馬",
+    "short_name": "巴拿馬",
     "code": "PAN",
     "confederation": "CONCACAF",
     "fifa_ranking": 81,
@@ -9914,8 +9914,8 @@
     }
   },
   "HON": {
-    "name": "Honduras",
-    "short_name": "Honduras",
+    "name": "宏都拉斯",
+    "short_name": "宏都拉斯",
     "code": "HON",
     "confederation": "CONCACAF",
     "fifa_ranking": 89,
@@ -10123,8 +10123,8 @@
     }
   },
   "JAM": {
-    "name": "Jamaica",
-    "short_name": "Jamaica",
+    "name": "牙買加",
+    "short_name": "牙買加",
     "code": "JAM",
     "confederation": "CONCACAF",
     "fifa_ranking": 47,
@@ -10332,8 +10332,8 @@
     }
   },
   "NZL": {
-    "name": "New Zealand",
-    "short_name": "New Zealand",
+    "name": "紐西蘭",
+    "short_name": "紐西蘭",
     "code": "NZL",
     "confederation": "OFC",
     "fifa_ranking": 96,
@@ -10541,8 +10541,8 @@
     }
   },
   "VEN": {
-    "name": "Venezuela",
-    "short_name": "Venezuela",
+    "name": "委內瑞拉",
+    "short_name": "委內瑞拉",
     "code": "VEN",
     "confederation": "CONMEBOL",
     "fifa_ranking": 50,
@@ -10750,8 +10750,8 @@
     }
   },
   "IDN": {
-    "name": "Indonesia",
-    "short_name": "Indonesia",
+    "name": "印尼",
+    "short_name": "印尼",
     "code": "IDN",
     "confederation": "AFC",
     "fifa_ranking": 130,

@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WC2026 Prediction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#05080f;--bg2:#090d1c;--bg3:#0c1128;--card:rgba(255,255,255,0.035);--card2:rgba(255,255,255,0.06);--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--home:#00d4ff;--home-dim:rgba(0,212,255,0.15);--home-glow:rgba(0,212,255,0.4);--away:#ff6b6b;--away-dim:rgba(255,107,107,0.15);--away-glow:rgba(255,107,107,0.4);--gold:#ffd700;--gold-dim:rgba(255,215,0,0.12);--green:#00e676;--green-dim:rgba(0,230,118,0.12);--red:#ff4444;--red-dim:rgba(255,68,68,0.12);--yellow:#ffb300;--text:#f0f4ff;--dim:rgba(240,244,255,0.45);--dim2:rgba(240,244,255,0.25);--r8:8px;--r12:12px;--r16:16px;--r20:20px;--r24:24px}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:rgba(0,212,255,.3);border-radius:3px}
+
+/* LOADING */
+.loading{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;flex-direction:column;gap:1.2rem}
+.spinner{width:44px;height:44px;border:3px solid rgba(255,215,0,.15);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-family:'Orbitron',sans-serif;font-size:.75rem;letter-spacing:3px;color:var(--dim);text-transform:uppercase}
+.error-screen{position:fixed;inset:0;background:var(--bg);display:none;align-items:center;justify-content:center;z-index:999;flex-direction:column;gap:1rem;text-align:center;padding:2rem}
+.error-screen h2{font-family:'Orbitron',sans-serif;color:var(--red);font-size:1.2rem}
+.error-screen p{color:var(--dim);font-size:.9rem;max-width:500px}
+.error-screen a{color:var(--home);text-decoration:none}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(5,8,15,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 1.5rem;height:56px;display:flex;align-items:center;gap:1rem}
+.nav-logo{font-family:'Orbitron',sans-serif;font-size:.9rem;font-weight:900;background:linear-gradient(90deg,var(--home),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px}
+.nav-spacer{flex:1}
+.nav-pill{font-size:.7rem;border:1px solid var(--border);color:var(--dim);padding:.25rem .7rem;border-radius:20px}
+.nav-back{color:var(--dim);text-decoration:none;font-size:.82rem;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+.nav-back:hover{color:var(--text)}
+.nav-tabs{display:flex;gap:.2rem}
+.nav-tab{background:none;border:none;color:var(--dim);font-family:'Inter',sans-serif;font-size:.78rem;padding:.3rem .8rem;border-radius:20px;cursor:pointer;transition:all .2s}
+.nav-tab:hover{color:var(--text);background:var(--card2)}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;padding:3.5rem 2rem 2.5rem}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 50%,rgba(0,212,255,.07) 0%,transparent 60%),radial-gradient(ellipse 80% 60% at 80% 50%,rgba(255,107,107,.07) 0%,transparent 60%),linear-gradient(180deg,rgba(9,13,28,.9) 0%,var(--bg) 100%);z-index:0}
+.hero-content{position:relative;z-index:1;max-width:1100px;margin:0 auto}
+.match-meta{display:flex;justify-content:center;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
+.meta-pill{font-size:.72rem;letter-spacing:1px;border:1px solid var(--border);color:var(--dim);padding:.3rem .8rem;border-radius:20px;background:rgba(255,255,255,.03)}
+.meta-pill.comp{border-color:rgba(255,215,0,.3);color:var(--gold);background:rgba(255,215,0,.05)}
+.matchup{display:grid;grid-template-columns:1fr auto 1fr;gap:2rem;align-items:center;margin-bottom:2.5rem}
+.team-side{display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.team-code{font-family:'Orbitron',sans-serif;font-size:3.5rem;font-weight:900;line-height:1;letter-spacing:.05em}
+.home-team .team-code{background:linear-gradient(135deg,var(--home),#0088cc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 20px var(--home-glow))}
+.away-team .team-code{background:linear-gradient(135deg,var(--away),#cc4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 20px var(--away-glow))}
+.team-fullname{font-size:1.1rem;font-weight:700;letter-spacing:.02em}
+.team-meta-row{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center}
+.team-badge{font-size:.68rem;border:1px solid var(--border);color:var(--dim);padding:.2rem .55rem;border-radius:10px;background:rgba(255,255,255,.03)}
+.team-badge.elo{border-color:rgba(0,212,255,.3);color:var(--home)}
+.away-team .team-badge.elo{border-color:rgba(255,107,107,.3);color:var(--away)}
+.vs-center{text-align:center}
+.vs-text{font-family:'Orbitron',sans-serif;font-size:2rem;font-weight:900;color:rgba(255,215,0,.7);text-shadow:0 0 30px rgba(255,215,0,.4);display:block;margin-bottom:.5rem}
+.vs-date{font-size:.78rem;color:var(--dim);display:block}
+.prob-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border-radius:var(--r16);overflow:hidden;border:1px solid var(--border)}
+.prob-cell{background:var(--bg3);padding:1.2rem;text-align:center}
+.prob-cell:first-child{border-radius:var(--r16) 0 0 var(--r16)}
+.prob-cell:last-child{border-radius:0 var(--r16) var(--r16) 0}
+.prob-pct{font-family:'Orbitron',sans-serif;font-size:2.2rem;font-weight:900;line-height:1;display:block;margin-bottom:.3rem}
+.prob-cell.home-win .prob-pct{color:var(--home);text-shadow:0 0 20px var(--home-glow)}
+.prob-cell.draw .prob-pct{color:var(--gold);text-shadow:0 0 20px rgba(255,215,0,.4)}
+.prob-cell.away-win .prob-pct{color:var(--away);text-shadow:0 0 20px var(--away-glow)}
+.prob-label{font-size:.72rem;color:var(--dim);letter-spacing:1px;text-transform:uppercase}
+.prob-bar-thin{height:3px;border-radius:2px;margin-top:.7rem;transition:width 1s ease}
+.home-win .prob-bar-thin{background:linear-gradient(90deg,var(--home),rgba(0,212,255,0))}
+.draw .prob-bar-thin{background:linear-gradient(90deg,var(--gold),rgba(255,215,0,0))}
+.away-win .prob-bar-thin{background:linear-gradient(90deg,var(--away),rgba(255,107,107,0))}
+
+/* MAIN */
+.main{max-width:1200px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.section{margin-bottom:2rem}
+.section-title{font-size:.68rem;letter-spacing:3px;color:var(--dim);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+.section-title::before{content:'';display:block;width:3px;height:14px;border-radius:2px;background:linear-gradient(180deg,var(--home),var(--gold))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r20);padding:1.5rem;overflow:hidden}
+.card-glow-home{box-shadow:0 0 40px rgba(0,212,255,.06)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2rem}
+.charts-row{display:grid;grid-template-columns:280px 1fr 1fr;gap:1.2rem;align-items:start}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r20);padding:1.4rem}
+.chart-title{font-size:.72rem;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:1rem;text-align:center}
+.chart-wrap{position:relative}
+.chart-center-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.chart-center-val{font-family:'Orbitron',sans-serif;font-size:1.1rem;font-weight:900;color:var(--text)}
+.chart-center-sub{font-size:.62rem;color:var(--dim)}
+.heatmap-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--r20);padding:1.4rem}
+.heatmap-title{font-size:.72rem;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:1rem;text-align:center}
+.heatmap-grid{display:grid;grid-template-columns:28px repeat(6,1fr);grid-template-rows:28px repeat(6,1fr);gap:3px}
+.hm-corner{background:transparent}
+.hm-axis-home,.hm-axis-away{font-size:.62rem;color:var(--dim);display:flex;align-items:center;justify-content:center}
+.hm-cell{border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:600;cursor:pointer;transition:transform .15s;min-height:44px}
+.hm-cell:hover{transform:scale(1.12);z-index:10}
+.hm-cell .hm-score{font-family:'Orbitron',sans-serif;font-size:.7rem;font-weight:700}
+.hm-cell .hm-pct{font-size:.55rem;color:rgba(255,255,255,.7);display:block;margin-top:.1rem}
+.hm-axis-label{font-size:.6rem;letter-spacing:1.5px;color:var(--dim2);text-transform:uppercase;text-align:center}
+.top10-list{display:flex;flex-direction:column;gap:.45rem}
+.score-item{display:grid;grid-template-columns:24px 80px 1fr auto;align-items:center;gap:.8rem;padding:.6rem .9rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r12);transition:border-color .2s,background .2s}
+.score-item:hover{background:var(--card2);border-color:var(--border2)}
+.score-item.home-result{border-left:3px solid var(--home)}
+.score-item.away-result{border-left:3px solid var(--away)}
+.score-item.draw-result{border-left:3px solid var(--gold)}
+.score-rank{font-size:.65rem;color:var(--dim2);font-weight:600}
+.score-scoreline{font-family:'Orbitron',sans-serif;font-size:.95rem;font-weight:700;white-space:nowrap}
+.score-item.home-result .score-scoreline{color:var(--home)}
+.score-item.away-result .score-scoreline{color:var(--away)}
+.score-item.draw-result .score-scoreline{color:var(--gold)}
+.score-bar-wrap{height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
+.score-bar-fill{height:100%;border-radius:2px;transition:width 1s ease}
+.score-item.home-result .score-bar-fill{background:var(--home)}
+.score-item.away-result .score-bar-fill{background:var(--away)}
+.score-item.draw-result .score-bar-fill{background:var(--gold)}
+.score-pct{font-size:.7rem;color:var(--dim);font-weight:600;white-space:nowrap}
+.stat-row{display:grid;grid-template-columns:1fr 90px 1fr;align-items:center;gap:.5rem;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.stat-row:last-child{border-bottom:none}
+.stat-label{font-size:.72rem;color:var(--dim);text-align:center;letter-spacing:.5px}
+.stat-val-home{font-size:.82rem;font-weight:700;color:var(--home);text-align:right}
+.stat-val-away{font-size:.82rem;font-weight:700;color:var(--away)}
+.model-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.model-table th{font-size:.65rem;letter-spacing:2px;color:var(--dim);text-transform:uppercase;padding:.6rem .8rem;text-align:left;border-bottom:1px solid var(--border)}
+.model-table td{padding:.65rem .8rem;border-bottom:1px solid rgba(255,255,255,.04)}
+.model-table tr:last-child td{border-bottom:none}
+.model-table tr:hover td{background:var(--card2)}
+.model-table .ensemble-row td{background:rgba(255,215,0,.05);border-top:1px solid rgba(255,215,0,.2)}
+.model-name{font-weight:600}
+.p-home-val{color:var(--home);font-weight:700}
+.p-draw-val{color:var(--gold);font-weight:700}
+.p-away-val{color:var(--away);font-weight:700}
+.lam-val{font-family:'Orbitron',sans-serif;font-size:.7rem;color:var(--dim)}
+.btts-row{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border-radius:var(--r16);overflow:hidden;border:1px solid var(--border)}
+.btts-cell{background:var(--bg3);padding:1.2rem;text-align:center}
+.btts-pct{font-family:'Orbitron',sans-serif;font-size:2rem;font-weight:900;display:block;margin-bottom:.3rem}
+.btts-yes .btts-pct{color:var(--green)}
+.btts-no .btts-pct{color:var(--red)}
+.btts-label{font-size:.72rem;color:var(--dim);letter-spacing:1px;text-transform:uppercase}
+.cold-item{background:var(--card);border:1px solid rgba(255,215,0,.15);border-radius:var(--r12);padding:1rem 1.2rem;display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center}
+.cold-score{font-family:'Orbitron',sans-serif;font-size:1.4rem;font-weight:900;color:var(--gold);text-shadow:0 0 20px rgba(255,215,0,.4)}
+.cold-info{font-size:.75rem;color:var(--dim)}
+.cold-info strong{color:var(--text);display:block;font-size:.85rem;margin-bottom:.2rem}
+.cold-odds{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:var(--gold);background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:8px;padding:.3rem .7rem;text-align:center}
+.bet-row{display:grid;grid-template-columns:1.4fr .9fr .9fr .9fr auto;align-items:center;gap:.5rem;padding:.7rem .9rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r12);margin-bottom:.4rem;transition:border-color .2s}
+.bet-row:hover{border-color:var(--border2)}
+.bet-label{font-size:.82rem;font-weight:600}
+.bet-num{font-family:'Orbitron',sans-serif;font-size:.82rem;color:var(--dim);text-align:center}
+.edge-badge{font-size:.7rem;font-weight:700;padding:.2rem .55rem;border-radius:8px;white-space:nowrap}
+.edge-good{background:rgba(0,230,118,.12);color:var(--green);border:1px solid rgba(0,230,118,.2)}
+.edge-ok{background:rgba(255,179,0,.1);color:var(--yellow);border:1px solid rgba(255,179,0,.2)}
+.edge-bad{background:var(--red-dim);color:#ff8888;border:1px solid rgba(255,68,68,.2)}
+.players-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.7rem}
+.player-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r16);padding:1rem 1.1rem;transition:border-color .2s,transform .15s}
+.player-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.player-card.injured{border-color:rgba(255,68,68,.3);background:rgba(255,68,68,.04)}
+.player-card.suspended{border-color:rgba(255,179,0,.3);background:rgba(255,179,0,.04)}
+.player-name{font-weight:700;font-size:.9rem;margin-bottom:.25rem;display:flex;align-items:center;gap:.4rem}
+.player-pos{font-size:.62rem;font-weight:700;padding:.15rem .4rem;border-radius:5px;letter-spacing:.5px}
+.pos-GK{background:rgba(255,179,0,.15);color:var(--yellow)}
+.pos-DEF{background:rgba(0,230,118,.12);color:var(--green)}
+.pos-MID{background:rgba(0,212,255,.12);color:var(--home)}
+.pos-FWD{background:rgba(255,107,107,.12);color:var(--away)}
+.player-club{font-size:.72rem;color:var(--dim);margin-bottom:.4rem}
+.player-stats{display:flex;gap:.6rem;font-size:.72rem}
+.p-stat{background:rgba(255,255,255,.05);border-radius:6px;padding:.15rem .45rem;color:var(--text)}
+.player-status{font-size:.68rem;margin-top:.4rem;font-weight:600}
+.status-ok{color:var(--green)}.status-inj{color:var(--red)}.status-sus{color:var(--yellow)}
+.form-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:2px}
+.form-W{background:var(--green)}.form-D{background:var(--yellow)}.form-L{background:var(--red)}
+.tactic-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.tactic-row:last-child{border-bottom:none}
+.tactic-label{font-size:.72rem;color:var(--dim)}
+.tactic-val{font-size:.82rem;font-weight:600}
+.risk-list{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.risk-item{display:flex;gap:.7rem;align-items:flex-start;background:rgba(255,68,68,.04);border:1px solid rgba(255,68,68,.1);border-radius:var(--r12);padding:.75rem 1rem;font-size:.82rem}
+.confidence-card{background:var(--gold-dim);border:1px solid rgba(255,215,0,.2);border-radius:var(--r20);padding:1.5rem;text-align:center}
+.conf-level{font-family:'Orbitron',sans-serif;font-size:3rem;font-weight:900;color:var(--gold);text-shadow:0 0 30px rgba(255,215,0,.5);display:block;line-height:1}
+.conf-label{font-size:.75rem;letter-spacing:2px;color:var(--dim);text-transform:uppercase;display:block;margin-top:.4rem}
+.conf-stars{font-size:1.4rem;display:block;margin-top:.7rem;letter-spacing:2px}
+.conf-stars .star-filled{color:var(--gold)}.conf-stars .star-empty{color:rgba(255,255,255,.15)}
+.final-box{background:linear-gradient(135deg,rgba(0,212,255,.07),rgba(255,215,0,.07));border:1px solid rgba(255,215,0,.2);border-radius:var(--r24);padding:2rem;text-align:center;position:relative;overflow:hidden}
+.final-title{font-size:.68rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:1.2rem}
+.final-scores{display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.final-score-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--r16);padding:.9rem 1.5rem;text-align:center}
+.final-score-item:first-child{border-color:rgba(255,215,0,.3);background:rgba(255,215,0,.06)}
+.score-number{font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;display:block;color:var(--gold)}
+.score-rank-label{font-size:.65rem;color:var(--dim);letter-spacing:1px;margin-top:.2rem}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .6s ease both}
+.delay-1{animation-delay:.1s}.delay-2{animation-delay:.2s}.delay-3{animation-delay:.3s}.delay-4{animation-delay:.4s}.delay-5{animation-delay:.5s}
+@media(max-width:900px){.charts-row{grid-template-columns:1fr 1fr}.charts-row>*:first-child{grid-column:span 2}.two-col,.three-col{grid-template-columns:1fr}.matchup{grid-template-columns:1fr auto 1fr}}
+@media(max-width:640px){.charts-row{grid-template-columns:1fr}.matchup{grid-template-columns:1fr;gap:1rem}.vs-center{order:-1}.team-code{font-size:2.2rem}.prob-pct{font-size:1.6rem}.hero{padding:1.5rem 1rem 1.5rem}.main{padding:1rem 1rem 3rem}.bet-row{grid-template-columns:1fr 1fr}.nav-tabs{display:none}}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading" id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loading-text">載入預測資料中…</div>
+</div>
+
+<!-- ERROR -->
+<div class="error-screen" id="error-screen">
+  <h2>⚠ 無法載入資料</h2>
+  <p id="error-msg">找不到此對戰的預測資料。請先執行 GitHub Actions workflow 生成資料。</p>
+  <a href="index.html">← 返回首頁</a>
+</div>
+
+<!-- MAIN CONTENT (hidden until data loaded) -->
+<div id="main-content" style="display:none">
+
+<nav>
+  <a href="index.html" class="nav-back">← 返回</a>
+  <span class="nav-logo">WC2026</span>
+  <span class="nav-spacer"></span>
+  <div class="nav-tabs">
+    <button class="nav-tab" onclick="scrollSec('prob')">機率</button>
+    <button class="nav-tab" onclick="scrollSec('scores')">比分</button>
+    <button class="nav-tab" onclick="scrollSec('stats')">數據</button>
+    <button class="nav-tab" onclick="scrollSec('betting')">投注</button>
+    <button class="nav-tab" onclick="scrollSec('players')">球員</button>
+  </div>
+  <span class="nav-pill" id="nav-comp"></span>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="match-meta fade-up">
+      <span class="meta-pill comp">⚽ <span id="meta-comp"></span></span>
+      <span class="meta-pill" id="meta-stage"></span>
+      <span class="meta-pill" id="meta-date"></span>
+      <span class="meta-pill" id="meta-venue"></span>
+    </div>
+    <div class="matchup fade-up delay-1">
+      <div class="team-side home-team">
+        <span class="team-code" id="home-code"></span>
+        <span class="team-fullname" id="home-name"></span>
+        <div class="team-meta-row">
+          <span class="team-badge" id="home-rank"></span>
+          <span class="team-badge elo" id="home-elo"></span>
+          <span class="team-badge" id="home-spi"></span>
+        </div>
+        <div class="team-meta-row">
+          <span class="team-badge" id="home-formation"></span>
+          <span class="team-badge" id="home-coach"></span>
+        </div>
+      </div>
+      <div class="vs-center">
+        <span class="vs-text">VS</span>
+        <span class="vs-date" id="vs-stage"></span>
+      </div>
+      <div class="team-side away-team">
+        <span class="team-code" id="away-code"></span>
+        <span class="team-fullname" id="away-name"></span>
+        <div class="team-meta-row">
+          <span class="team-badge" id="away-rank"></span>
+          <span class="team-badge elo" id="away-elo"></span>
+          <span class="team-badge" id="away-spi"></span>
+        </div>
+        <div class="team-meta-row">
+          <span class="team-badge" id="away-formation"></span>
+          <span class="team-badge" id="away-coach"></span>
+        </div>
+      </div>
+    </div>
+    <div class="prob-summary fade-up delay-2" id="prob">
+      <div class="prob-cell home-win">
+        <span class="prob-pct" id="prob-home"></span>
+        <span class="prob-label" id="prob-home-label"></span>
+        <div class="prob-bar-thin" id="bar-home" style="width:0"></div>
+      </div>
+      <div class="prob-cell draw">
+        <span class="prob-pct" id="prob-draw"></span>
+        <span class="prob-label">平局</span>
+        <div class="prob-bar-thin" id="bar-draw" style="width:0"></div>
+      </div>
+      <div class="prob-cell away-win">
+        <span class="prob-pct" id="prob-away"></span>
+        <span class="prob-label" id="prob-away-label"></span>
+        <div class="prob-bar-thin" id="bar-away" style="width:0"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+
+<div class="section fade-up delay-3">
+  <div class="section-title">預測概覽</div>
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="chart-title">勝負平 機率</div>
+      <div class="chart-wrap" style="height:230px">
+        <canvas id="donutChart"></canvas>
+        <div class="chart-center-label">
+          <div class="chart-center-val" id="xg-center"></div>
+          <div class="chart-center-sub">xG 主 / 客</div>
+        </div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">總進球數分佈</div>
+      <div class="chart-wrap" style="height:230px"><canvas id="goalChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">BTTS · 信心等級</div>
+      <div class="btts-row" style="margin-bottom:1rem">
+        <div class="btts-cell btts-yes"><span class="btts-pct" id="btts-yes"></span><span class="btts-label">BTTS YES</span></div>
+        <div class="btts-cell btts-no"><span class="btts-pct" id="btts-no"></span><span class="btts-label">BTTS NO</span></div>
+      </div>
+      <div class="confidence-card">
+        <span class="conf-level" id="conf-level"></span>
+        <span class="conf-label" id="conf-label-text"></span>
+        <span class="conf-stars" id="conf-stars"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section fade-up" id="scores">
+  <div class="section-title">比分預測</div>
+  <div class="two-col">
+    <div class="heatmap-wrap">
+      <div class="heatmap-title">比分機率熱力圖（主隊↓ × 客隊→）</div>
+      <div class="hm-axis-label" style="text-align:right;margin-bottom:.3rem;font-size:.6rem;color:var(--away)">← 客隊進球 →</div>
+      <div class="heatmap-grid" id="heatmap-grid"></div>
+      <div style="display:flex;gap:1rem;margin-top:.8rem;justify-content:center">
+        <span style="font-size:.62rem;color:var(--home)">■ 主隊優勢</span>
+        <span style="font-size:.62rem;color:var(--gold)">■ 平局</span>
+        <span style="font-size:.62rem;color:var(--away)">■ 客隊優勢</span>
+      </div>
+    </div>
+    <div>
+      <div class="section-title" style="margin-bottom:.8rem">最可能比分 Top 10</div>
+      <div class="top10-list" id="top10-list"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section fade-up">
+  <div class="section-title">冷門比分（高賠率 · 合理機率）</div>
+  <div class="three-col" id="cold-scores"></div>
+</div>
+
+<div class="section fade-up" id="stats">
+  <div class="section-title">數據比較</div>
+  <div class="two-col">
+    <div class="card card-glow-home"><div class="section-title" style="margin-bottom:1rem">⚽ 進攻數據</div><div id="attack-stats"></div></div>
+    <div class="card"><div class="section-title" style="margin-bottom:1rem">🛡 防守數據</div><div id="defense-stats"></div></div>
+  </div>
+  <div class="two-col" style="margin-top:1.2rem">
+    <div class="card"><div class="section-title" style="margin-bottom:1rem">📊 進階數據</div><div id="advanced-stats"></div></div>
+    <div class="card"><div class="section-title" style="margin-bottom:1rem">🎯 戰術分析</div><div id="tactics-compare"></div></div>
+  </div>
+</div>
+
+<div class="section fade-up">
+  <div class="section-title">七大模型預測結果</div>
+  <div class="card">
+    <table class="model-table">
+      <thead>
+        <tr>
+          <th>模型</th>
+          <th style="color:var(--home)"><span id="model-th-home"></span></th>
+          <th style="color:var(--gold)">平局</th>
+          <th style="color:var(--away)"><span id="model-th-away"></span></th>
+          <th>λ 主 / λ 客</th>
+        </tr>
+      </thead>
+      <tbody id="models-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section fade-up" id="betting" style="display:none">
+  <div class="section-title">投注價值分析</div>
+  <div id="betting-rows"></div>
+  <div style="margin-top:.8rem;padding:.7rem 1rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r12);font-size:.78rem;color:var(--dim)">
+    亞洲讓球盤：<strong style="color:var(--text)" id="ah-line"></strong> 球 &nbsp;|&nbsp;
+    主隊賠率 <strong style="color:var(--home)" id="ah-home-odds"></strong> &nbsp;|&nbsp;
+    客隊賠率 <strong style="color:var(--away)" id="ah-away-odds"></strong>
+  </div>
+</div>
+
+<div class="section fade-up" id="players">
+  <div class="section-title">球員分析</div>
+  <div class="two-col">
+    <div>
+      <div style="font-size:.8rem;font-weight:700;color:var(--home);margin-bottom:.8rem;letter-spacing:1px" id="home-players-title"></div>
+      <div class="players-grid" id="home-players"></div>
+      <div id="home-injured-wrap"></div>
+    </div>
+    <div>
+      <div style="font-size:.8rem;font-weight:700;color:var(--away);margin-bottom:.8rem;letter-spacing:1px" id="away-players-title"></div>
+      <div class="players-grid" id="away-players"></div>
+      <div id="away-injured-wrap"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section fade-up">
+  <div class="section-title">近期狀態（最近 10 場）</div>
+  <div class="two-col">
+    <div class="card" style="padding:1.2rem">
+      <div style="font-size:.78rem;color:var(--home);margin-bottom:.8rem;font-weight:700" id="home-form-title"></div>
+      <div id="home-form" style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.6rem"></div>
+      <div style="font-size:.72rem;color:var(--dim);display:flex;gap:1.5rem;flex-wrap:wrap">
+        <span>近5場積分/場 <strong style="color:var(--text)" id="home-form-pts5"></strong></span>
+        <span>勝率(10) <strong style="color:var(--text)" id="home-winrate"></strong></span>
+        <span>場均進球 <strong style="color:var(--home)" id="home-gf"></strong></span>
+        <span>場均失球 <strong style="color:var(--red)" id="home-ga"></strong></span>
+      </div>
+    </div>
+    <div class="card" style="padding:1.2rem">
+      <div style="font-size:.78rem;color:var(--away);margin-bottom:.8rem;font-weight:700" id="away-form-title"></div>
+      <div id="away-form" style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.6rem"></div>
+      <div style="font-size:.72rem;color:var(--dim);display:flex;gap:1.5rem;flex-wrap:wrap">
+        <span>近5場積分/場 <strong style="color:var(--text)" id="away-form-pts5"></strong></span>
+        <span>勝率(10) <strong style="color:var(--text)" id="away-winrate"></strong></span>
+        <span>場均進球 <strong style="color:var(--away)" id="away-gf"></strong></span>
+        <span>場均失球 <strong style="color:var(--red)" id="away-ga"></strong></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section fade-up">
+  <div class="section-title">最終預測</div>
+  <div class="final-box">
+    <div class="final-title">★ 推薦比分</div>
+    <div class="final-scores" id="final-scores"></div>
+    <div style="font-size:.82rem;color:var(--dim);margin-top:.5rem">
+      預期進球：<strong style="color:var(--home)" id="final-home"></strong> <span id="final-lam-home"></span>
+      &nbsp;/&nbsp; <strong style="color:var(--away)" id="final-away"></strong> <span id="final-lam-away"></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp; BTTS <span id="final-btts"></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp; 信心 <strong style="color:var(--gold)" id="final-conf"></strong>
+    </div>
+  </div>
+</div>
+
+<div class="section fade-up">
+  <div class="section-title">風險因素</div>
+  <ul class="risk-list" id="risk-list"></ul>
+</div>
+
+<div style="text-align:center;padding:2rem 0 1rem;font-size:.72rem;color:var(--dim2)">
+  Football Prediction System v1.0 · WC2026 · 統計模型預測僅供參考
+</div>
+
+</main>
+</div><!-- /main-content -->
+
+<script>
+const C_HOME='#00d4ff', C_AWAY='#ff6b6b', C_GOLD='#ffd700', C_GREEN='#00e676';
+
+function scrollSec(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'}); }
+function fill(id, text){ const el=document.getElementById(id); if(el) el.textContent=text; }
+
+// ── URL params ────────────────────────────────────────────────────────────────
+const P = new URLSearchParams(window.location.search);
+const HC = (P.get('home')||'ARG').toUpperCase();
+const AC = (P.get('away')||'BRA').toUpperCase();
+const MATCH_DATE  = P.get('date')  || '2026-06-14';
+const MATCH_STAGE = P.get('stage') || 'Group Stage';
+const MATCH_VENUE = P.get('venue') || 'MetLife Stadium, East Rutherford, NJ';
+
+document.getElementById('loading-text').textContent = `載入 ${HC} vs ${AC} 預測資料…`;
+
+// ── Fetch & init ──────────────────────────────────────────────────────────────
+fetch(`data/matches/${HC}_vs_${AC}.json`)
+  .then(r=>{ if(!r.ok) throw new Error(`尚無 ${HC} vs ${AC} 的預測資料（404）`); return r.json(); })
+  .then(data=>{
+    data.match.date  = MATCH_DATE;
+    data.match.stage = MATCH_STAGE;
+    data.match.venue = MATCH_VENUE;
+    initReport(data);
+  })
+  .catch(err=>{
+    document.getElementById('loading').style.display='none';
+    document.getElementById('error-msg').textContent = err.message;
+    document.getElementById('error-screen').style.display='flex';
+  });
+
+function initReport(data){
+  const HOME=data.home, AWAY=data.away, R=data.result, CONF=data.conf_level, MATCH=data.match;
+
+  // Title
+  document.title = `${HOME.name} vs ${AWAY.name} · WC2026 Prediction`;
+
+  // Nav + meta
+  fill('nav-comp', MATCH.comp); fill('meta-comp', MATCH.comp);
+  fill('meta-stage', MATCH.stage); fill('vs-stage', MATCH.stage);
+  fill('meta-date', '📅 '+MATCH.date); fill('meta-venue', '📍 '+MATCH.venue);
+
+  // Home team
+  fill('home-code', HOME.code); fill('home-name', HOME.name);
+  fill('home-rank', 'FIFA #'+HOME.fifa_ranking); fill('home-elo', 'ELO '+HOME.elo_rating);
+  fill('home-spi', 'SPI '+HOME.spi_rating); fill('home-formation', HOME.tactics.primary_formation);
+  fill('home-coach', HOME.coach);
+
+  // Away team
+  fill('away-code', AWAY.code); fill('away-name', AWAY.name);
+  fill('away-rank', 'FIFA #'+AWAY.fifa_ranking); fill('away-elo', 'ELO '+AWAY.elo_rating);
+  fill('away-spi', 'SPI '+AWAY.spi_rating); fill('away-formation', AWAY.tactics.primary_formation);
+  fill('away-coach', AWAY.coach);
+
+  // Win probs
+  fill('prob-home', R.p_home+'%'); fill('prob-home-label', HOME.name+' 勝');
+  fill('prob-draw', R.p_draw+'%');
+  fill('prob-away', R.p_away+'%'); fill('prob-away-label', AWAY.name+' 勝');
+
+  // Charts area
+  fill('xg-center', R.lambda_home+' / '+R.lambda_away);
+  fill('btts-yes', R.btts_yes+'%'); fill('btts-no', R.btts_no+'%');
+
+  // Confidence
+  fill('conf-level', CONF+'/10'); fill('conf-label-text', data.conf_label);
+  const starsEl=document.getElementById('conf-stars');
+  starsEl.innerHTML='<span class="star-filled">★</span>'.repeat(CONF)+'<span class="star-empty">★</span>'.repeat(10-CONF);
+
+  // Model table headers
+  fill('model-th-home', HOME.code+' 勝'); fill('model-th-away', AWAY.code+' 勝');
+
+  // Players
+  fill('home-players-title', HOME.name+' 關鍵球員');
+  fill('away-players-title', AWAY.name+' 關鍵球員');
+
+  // Form
+  fill('home-form-title', HOME.name); fill('away-form-title', AWAY.name);
+  fill('home-form-pts5', HOME.form_pts_5); fill('away-form-pts5', AWAY.form_pts_5);
+  fill('home-winrate', HOME.win_rate_10+'%'); fill('away-winrate', AWAY.win_rate_10+'%');
+  fill('home-gf', HOME.goals_scored_10); fill('home-ga', HOME.goals_conceded_10);
+  fill('away-gf', AWAY.goals_scored_10); fill('away-ga', AWAY.goals_conceded_10);
+
+  // Final box
+  fill('final-home', HOME.name); fill('final-lam-home', R.lambda_home);
+  fill('final-away', AWAY.name); fill('final-lam-away', R.lambda_away);
+  fill('final-btts', R.btts_yes+'%'); fill('final-conf', CONF+'/10');
+
+  // Betting section
+  if(R.betting){
+    document.getElementById('betting').style.display='block';
+    fill('ah-line', R.betting.ah_line); fill('ah-home-odds', R.betting.ah_home_odds);
+    fill('ah-away-odds', R.betting.ah_away_odds);
+    buildBetting(HOME, AWAY, R);
+  }
+
+  // Build dynamic sections
+  buildCharts(HOME, AWAY, R);
+  buildHeatmap(R);
+  buildTop10(HOME, AWAY, R);
+  buildCold(HOME, AWAY, R);
+  buildStats(HOME, AWAY, R);
+  buildTactics(HOME, AWAY);
+  buildModels(R);
+  buildPlayers('home-players', HOME.key_players);
+  buildPlayers('away-players', AWAY.key_players);
+  buildInjured('home-injured-wrap', HOME.injured_players, HOME.name);
+  buildInjured('away-injured-wrap', AWAY.injured_players, AWAY.name);
+  buildForm('home-form', HOME.recent_form);
+  buildForm('away-form', AWAY.recent_form);
+  buildFinalScores(R);
+  buildRisks(HOME, AWAY);
+
+  // Prob bars animation
+  setTimeout(()=>{
+    document.getElementById('bar-home').style.width=R.p_home+'%';
+    document.getElementById('bar-draw').style.width=R.p_draw+'%';
+    document.getElementById('bar-away').style.width=R.p_away+'%';
+  }, 400);
+
+  // Stat bars animation
+  setTimeout(()=>{ document.querySelectorAll('[data-w]').forEach(el=>{ el.style.width=el.dataset.w+'%'; el.style.transition='width 1s ease'; }); }, 500);
+
+  // Reveal content
+  document.getElementById('loading').style.display='none';
+  document.getElementById('main-content').style.display='block';
+
+  // Scroll animations
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});},{threshold:.05});
+  document.querySelectorAll('.fade-up').forEach(el=>{el.style.cssText+=';opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease';obs.observe(el);});
+}
+
+// ── Charts ────────────────────────────────────────────────────────────────────
+function buildCharts(HOME, AWAY, R){
+  new Chart(document.getElementById('donutChart'),{type:'doughnut',data:{labels:[HOME.name+' 勝','平局',AWAY.name+' 勝'],datasets:[{data:[R.p_home,R.p_draw,R.p_away],backgroundColor:[C_HOME,C_GOLD,C_AWAY],borderColor:'#09101f',borderWidth:3,hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{position:'bottom',labels:{color:'rgba(240,244,255,.55)',font:{size:11},padding:12}},tooltip:{callbacks:{label:ctx=>`  ${ctx.label}: ${ctx.parsed}%`}}}}});
+  new Chart(document.getElementById('goalChart'),{type:'bar',data:{labels:R.goal_dist.map(d=>d.label),datasets:[{label:'機率 %',data:R.goal_dist.map(d=>d.prob),backgroundColor:R.goal_dist.map((d,i)=>i<=1?'rgba(0,212,255,0.25)':i<=3?'rgba(255,215,0,0.35)':'rgba(255,107,107,0.25)'),borderColor:R.goal_dist.map((d,i)=>i<=1?C_HOME:i<=3?C_GOLD:C_AWAY),borderWidth:2,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(240,244,255,.5)'}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(240,244,255,.5)'},title:{display:true,text:'%',color:'rgba(240,244,255,.35)',font:{size:10}}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`  ${ctx.parsed.y}%`}}}}});
+}
+
+// ── Heatmap ───────────────────────────────────────────────────────────────────
+function buildHeatmap(R){
+  const grid=document.getElementById('heatmap-grid');
+  const matrix=R.score_matrix;
+  let maxP=0; matrix.forEach(row=>row.forEach(v=>{if(v>maxP)maxP=v;}));
+  grid.innerHTML='';
+  const corner=document.createElement('div'); corner.className='hm-corner'; grid.appendChild(corner);
+  for(let a=0;a<6;a++){const el=document.createElement('div');el.className='hm-axis-away';el.style.cssText='font-size:.6rem;color:var(--away);font-weight:700;text-align:center';el.textContent=a;grid.appendChild(el);}
+  for(let h=0;h<6;h++){
+    const hl=document.createElement('div');hl.className='hm-axis-home';hl.style.cssText='font-size:.6rem;color:var(--home);font-weight:700';hl.textContent=h;grid.appendChild(hl);
+    for(let a=0;a<6;a++){
+      const p=matrix[h][a]; const norm=p/maxP;
+      let bg,color;
+      if(h>a){bg=`rgba(0,212,255,${0.08+norm*0.55})`;color=`rgba(0,212,255,${0.6+norm*0.4})`;}
+      else if(h<a){bg=`rgba(255,107,107,${0.08+norm*0.55})`;color=`rgba(255,107,107,${0.6+norm*0.4})`;}
+      else{bg=`rgba(255,215,0,${0.08+norm*0.55})`;color=`rgba(255,215,0,${0.6+norm*0.4})`;}
+      const cell=document.createElement('div');cell.className='hm-cell';cell.style.background=bg;cell.title=`${h}-${a}: ${p}%`;
+      cell.innerHTML=`<div><span class="hm-score" style="color:${color}">${h}-${a}</span><span class="hm-pct" style="color:${color}">${p}%</span></div>`;
+      grid.appendChild(cell);
+    }
+  }
+}
+
+// ── Top 10 ────────────────────────────────────────────────────────────────────
+function buildTop10(HOME, AWAY, R){
+  const container=document.getElementById('top10-list');
+  const maxP=R.top10[0]?.prob||1;
+  R.top10.forEach((s,i)=>{
+    const teamLabel=s.type==='home'?HOME.name:s.type==='away'?AWAY.name:'平局';
+    const el=document.createElement('div'); el.className=`score-item ${s.type}-result fade-up`; el.style.animationDelay=(i*0.04)+'s';
+    el.innerHTML=`<span class="score-rank">#${i+1}</span><span class="score-scoreline">${s.home} - ${s.away}</span><div class="score-bar-wrap"><div class="score-bar-fill" data-w="${(s.prob/maxP*100).toFixed(1)}"></div></div><span class="score-pct">${s.prob}%</span>`;
+    container.appendChild(el);
+  });
+  setTimeout(()=>{ document.querySelectorAll('.score-bar-fill').forEach(el=>{el.style.width=el.dataset.w+'%';}); }, 300);
+}
+
+// ── Cold scores ───────────────────────────────────────────────────────────────
+function buildCold(HOME, AWAY, R){
+  const container=document.getElementById('cold-scores');
+  R.cold.forEach((s,i)=>{
+    const typeLabel=s.home>s.away?HOME.name+' 勝':s.away>s.home?AWAY.name+' 勝':'平局';
+    const el=document.createElement('div'); el.className='cold-item fade-up'; el.style.animationDelay=(i*.1)+'s';
+    el.innerHTML=`<div class="cold-score">${s.home}-${s.away}</div><div class="cold-info"><strong>${typeLabel}</strong>發生機率 ${s.prob}%</div><div class="cold-odds">${s.odds}x</div>`;
+    container.appendChild(el);
+  });
+}
+
+// ── Stat comparison ───────────────────────────────────────────────────────────
+function buildStatRow(container, label, hv, av, max, fmt){
+  const hw=Math.min((hv/max)*100,100), aw=Math.min((av/max)*100,100);
+  const d=fmt||(v=>v);
+  const row=document.createElement('div'); row.className='stat-row';
+  row.innerHTML=`<div style="display:flex;align-items:center;gap:.4rem;justify-content:flex-end"><span class="stat-val-home">${d(hv)}</span><div style="width:60px;display:flex;justify-content:flex-end"><div data-w="${hw}" style="width:0;height:6px;border-radius:3px 0 0 3px;background:linear-gradient(90deg,transparent,var(--home))"></div></div></div><div class="stat-label">${label}</div><div style="display:flex;align-items:center;gap:.4rem"><div style="width:60px"><div data-w="${aw}" style="width:0;height:6px;border-radius:0 3px 3px 0;background:linear-gradient(90deg,var(--away),transparent)"></div></div><span class="stat-val-away">${d(av)}</span></div>`;
+  container.appendChild(row);
+}
+
+function buildStats(HOME, AWAY, R){
+  const atk=document.getElementById('attack-stats');
+  const def=document.getElementById('defense-stats');
+  const adv=document.getElementById('advanced-stats');
+  const pct=v=>v+'%';
+  [['場均進球',HOME.attack.goals_per_game,AWAY.attack.goals_per_game,4],['場均 xG',HOME.attack.xg_per_game,AWAY.attack.xg_per_game,4],['場均射門',HOME.attack.shots_per_game,AWAY.attack.shots_per_game,25],['射正/場',HOME.attack.shots_on_target_per_game,AWAY.attack.shots_on_target_per_game,10],['大好機會/場',HOME.attack.big_chances_per_game,AWAY.attack.big_chances_per_game,6],['轉化率%',HOME.attack.conversion_rate,AWAY.attack.conversion_rate,25,pct],['控球率%',HOME.attack.possession_pct,AWAY.attack.possession_pct,80,pct],['傳球成功率',HOME.attack.pass_accuracy_pct,AWAY.attack.pass_accuracy_pct,100,pct],['關鍵傳球/場',HOME.attack.key_passes_per_game,AWAY.attack.key_passes_per_game,8]].forEach(([l,h,a,m,f])=>buildStatRow(atk,l,h,a,m||10,f));
+  [['場均失球',HOME.defense.goals_against_per_game,AWAY.defense.goals_against_per_game,4],['場均 xGA',HOME.defense.xga_per_game,AWAY.defense.xga_per_game,4],['零封率%',HOME.defense.clean_sheet_pct,AWAY.defense.clean_sheet_pct,80,pct],['搶截成功%',HOME.defense.tackle_success_pct,AWAY.defense.tackle_success_pct,90,pct],['攔截/場',HOME.defense.interceptions_per_game,AWAY.defense.interceptions_per_game,15],['空中對抗%',HOME.defense.aerial_success_pct,AWAY.defense.aerial_success_pct,80,pct],['門將撲救率',HOME.defense.gk_save_pct,AWAY.defense.gk_save_pct,90,pct],['PSxG-GA',HOME.defense.gk_psxg_ga,AWAY.defense.gk_psxg_ga,1]].forEach(([l,h,a,m,f])=>buildStatRow(def,l,h,a,m||10,f));
+  [['PPDA(低=佳)',HOME.advanced.ppda,AWAY.advanced.ppda,15],['Field Tilt%',HOME.advanced.field_tilt,AWAY.advanced.field_tilt,80,pct],['Deep Comp/場',HOME.advanced.deep_completion_per_game,AWAY.advanced.deep_completion_per_game,10],['Prog Pass/場',HOME.advanced.progressive_passes,AWAY.advanced.progressive_passes,90],['Prog Carry/場',HOME.advanced.progressive_carries,AWAY.advanced.progressive_carries,45],['SCA/場',HOME.advanced.shot_creating_actions,AWAY.advanced.shot_creating_actions,30],['GCA/場',HOME.advanced.goal_creating_actions,AWAY.advanced.goal_creating_actions,6],['xPTS/場',HOME.advanced.xpts_per_game,AWAY.advanced.xpts_per_game,3]].forEach(([l,h,a,m,f])=>buildStatRow(adv,l,h,a,m||10,f));
+}
+
+// ── Tactics ───────────────────────────────────────────────────────────────────
+function buildTactics(HOME, AWAY){
+  const c=document.getElementById('tactics-compare');
+  [['主要陣型',HOME.tactics.primary_formation,AWAY.tactics.primary_formation],['打法風格',HOME.tactics.possession_style?'控球':'反擊',AWAY.tactics.possession_style?'控球':'反擊'],['高位逼搶',HOME.tactics.high_press?'✓ 是':'✗ 否',AWAY.tactics.high_press?'✓ 是':'✗ 否'],['逼搶強度',HOME.tactics.press_intensity+'/10',AWAY.tactics.press_intensity+'/10'],['防線高度',HOME.tactics.defensive_line,AWAY.tactics.defensive_line],['定位球品質',HOME.tactics.set_piece_quality+'/10',AWAY.tactics.set_piece_quality+'/10'],['臨場調整',HOME.tactics.tactical_flexibility+'/10',AWAY.tactics.tactical_flexibility+'/10']].forEach(([label,hv,av])=>{
+    const row=document.createElement('div'); row.className='tactic-row';
+    row.innerHTML=`<span style="font-size:.7rem;color:var(--dim)">${label}</span><div style="display:flex;gap:1rem;font-size:.78rem"><span style="color:var(--home)">${hv}</span><span style="color:var(--dim2)">|</span><span style="color:var(--away)">${av}</span></div>`;
+    c.appendChild(row);
+  });
+}
+
+// ── Models table ──────────────────────────────────────────────────────────────
+function buildModels(R){
+  const tbody=document.getElementById('models-tbody');
+  R.models.forEach(m=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td class="model-name">${m.name}</td><td class="p-home-val"><span style="display:inline-block;width:${m.p_home*0.5}px;height:3px;background:var(--home);border-radius:2px;margin-right:4px;vertical-align:middle"></span>${m.p_home}%</td><td class="p-draw-val"><span style="display:inline-block;width:${m.p_draw*0.5}px;height:3px;background:var(--gold);border-radius:2px;margin-right:4px;vertical-align:middle"></span>${m.p_draw}%</td><td class="p-away-val"><span style="display:inline-block;width:${m.p_away*0.5}px;height:3px;background:var(--away);border-radius:2px;margin-right:4px;vertical-align:middle"></span>${m.p_away}%</td><td class="lam-val">${m.lam_home} / ${m.lam_away}</td>`;
+    tbody.appendChild(tr);
+  });
+  const tr=document.createElement('tr'); tr.className='ensemble-row';
+  tr.innerHTML=`<td class="model-name" style="color:var(--gold)">★ Ensemble</td><td class="p-home-val" style="font-size:.95rem">${R.p_home}%</td><td class="p-draw-val" style="font-size:.95rem">${R.p_draw}%</td><td class="p-away-val" style="font-size:.95rem">${R.p_away}%</td><td class="lam-val">${R.lambda_home} / ${R.lambda_away}</td>`;
+  tbody.appendChild(tr);
+}
+
+// ── Betting ───────────────────────────────────────────────────────────────────
+function buildBetting(HOME, AWAY, R){
+  const c=document.getElementById('betting-rows'); const b=R.betting;
+  const items=[[HOME.name+' 勝 (1)',b.home,'var(--home)'],[`平局 (X)`,b.draw,'var(--gold)'],[AWAY.name+' 勝 (2)',b.away,'var(--away)'],[`大球 Over ${b.over.line}`,b.over,'var(--green)'],[`小球 Under ${b.under.line}`,b.under,'var(--dim)']];
+  items.forEach(([label,info,color])=>{
+    const edgeClass=info.edge>3?'edge-good':info.edge>0?'edge-ok':'edge-bad';
+    const edgeSign=info.edge>0?'+':'';
+    const row=document.createElement('div'); row.className='bet-row';
+    row.innerHTML=`<span class="bet-label" style="color:${color}">${label}</span><span class="bet-num">${info.odds}</span><span class="bet-num" style="color:var(--dim2)">${info.implied}%</span><span class="bet-num" style="color:${color}">${info.model}%</span><span class="edge-badge ${edgeClass}">${edgeSign}${info.edge}%</span>`;
+    c.appendChild(row);
+  });
+}
+
+// ── Players ───────────────────────────────────────────────────────────────────
+function buildPlayers(containerId, players){
+  const c=document.getElementById(containerId);
+  players.forEach(p=>{
+    const cls=p.is_injured?'injured':p.is_suspended?'suspended':'';
+    const statusHtml=p.is_injured?`<div class="player-status status-inj">🚑 ${p.injury_detail||'傷病缺席'}</div>`:p.is_suspended?'<div class="player-status status-sus">🟨 停賽</div>':'<div class="player-status status-ok">✓ 可上場</div>';
+    const card=document.createElement('div'); card.className=`player-card ${cls}`;
+    card.innerHTML=`<div class="player-name"><span>${p.name}</span><span class="player-pos pos-${p.position}">${p.position}</span></div><div class="player-club">${p.club} · ${p.age}歲</div><div class="player-stats"><span class="p-stat">⚽ ${p.goals_season}G</span><span class="p-stat">🎯 ${p.assists_season}A</span><span class="p-stat">★ ${p.form_rating}</span></div>${statusHtml}`;
+    c.appendChild(card);
+  });
+}
+
+function buildInjured(wrapId, injured, teamName){
+  if(!injured||!injured.length) return;
+  const wrap=document.getElementById(wrapId);
+  const div=document.createElement('div');
+  div.style.cssText='margin-top:.8rem;padding:.7rem 1rem;background:var(--red-dim);border:1px solid rgba(255,68,68,.2);border-radius:var(--r12);font-size:.78rem';
+  div.innerHTML='⚠ 傷病名單：'+injured.map(p=>`<strong>${p.name}</strong>${p.detail?` (${p.detail})`:''}`).join(', ');
+  wrap.appendChild(div);
+}
+
+// ── Form dots ────────────────────────────────────────────────────────────────
+function buildForm(containerId, form){
+  const c=document.getElementById(containerId);
+  form.forEach(r=>{const dot=document.createElement('span');dot.className=`form-dot form-${r}`;dot.title=r==='W'?'勝':r==='D'?'平':'負';c.appendChild(dot);});
+}
+
+// ── Final scores ──────────────────────────────────────────────────────────────
+function buildFinalScores(R){
+  const c=document.getElementById('final-scores');
+  R.top10.slice(0,3).forEach((s,i)=>{
+    const el=document.createElement('div'); el.className='final-score-item';
+    el.innerHTML=`<span class="score-number">${s.home}–${s.away}</span><div class="score-rank-label">#${i+1} · ${s.prob}%</div>`;
+    c.appendChild(el);
+  });
+}
+
+// ── Risks ────────────────────────────────────────────────────────────────────
+function buildRisks(HOME, AWAY){
+  const c=document.getElementById('risk-list');
+  const risks=[];
+  const inj=[...HOME.injured_players,...AWAY.injured_players];
+  if(inj.length) risks.push('⚠',`傷病球員（${inj.map(p=>p.name).join('、')}）確定出賽情況將影響預測。`);
+  risks.push(
+    '💨','氣候因素：高溫或強風可能使比賽強度下降，低分結果機率升高。',
+    '🟨','早紅牌將徹底推翻戰術部署，使統計預測失效。',
+    '🧠','世界盃淘汰賽心理壓力估計佔 20–30%，超出純統計範疇。',
+    '📊','市場流動性低時賠率波動大，市場模型可信度下降。'
+  );
+  for(let i=0;i<risks.length;i+=2){
+    const li=document.createElement('li'); li.className='risk-item';
+    li.innerHTML=`<span class="risk-icon">${risks[i]}</span><span>${risks[i+1]}</span>`;
+    c.appendChild(li);
+  }
+}
+</script>
+</body>
+</html>

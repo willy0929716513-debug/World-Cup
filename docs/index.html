@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WC2026 · Football Prediction System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05080f;--bg2:#0b1022;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);--home:#00d4ff;--away:#ff6b6b;--gold:#ffd700;--green:#00e676;--text:rgba(255,255,255,0.92);--dim:rgba(255,255,255,0.45)}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+#stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.star{position:absolute;border-radius:50%;animation:twinkle var(--d,3s) infinite alternate}
+@keyframes twinkle{from{opacity:.1;transform:scale(.8)}to{opacity:.8;transform:scale(1.2)}}
+nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(5,8,15,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;gap:1rem}
+.nav-logo{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:900;background:linear-gradient(90deg,var(--home),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px}
+.nav-tag{font-size:.7rem;color:var(--dim);border:1px solid var(--border);padding:.2rem .5rem;border-radius:20px}
+.nav-spacer{flex:1}
+.nav-link{color:var(--dim);font-size:.85rem;text-decoration:none;transition:color .2s;padding:.25rem .6rem;border-radius:8px;border:1px solid transparent}
+.nav-link:hover{color:var(--text);border-color:var(--border)}
+.nav-link.gold{color:var(--gold);border-color:rgba(255,215,0,.3)}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 2rem 4rem;z-index:1}
+.hero-badge{font-size:.75rem;letter-spacing:4px;color:var(--gold);border:1px solid rgba(255,215,0,.3);padding:.4rem 1.2rem;border-radius:20px;background:rgba(255,215,0,.05);margin-bottom:1.5rem;text-transform:uppercase}
+.hero-title{font-family:'Orbitron',sans-serif;font-size:clamp(2.2rem,6vw,4.5rem);font-weight:900;text-align:center;line-height:1.1;background:linear-gradient(135deg,#fff 30%,var(--home) 60%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.8rem}
+.hero-sub{color:var(--dim);font-size:1.05rem;text-align:center;margin-bottom:3rem}
+.selector-card{background:rgba(11,16,34,.7);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:2.5rem;width:100%;max-width:780px;box-shadow:0 0 60px rgba(0,212,255,.08),0 0 120px rgba(0,0,0,.5)}
+.selector-title{font-size:.75rem;letter-spacing:3px;color:var(--dim);text-transform:uppercase;margin-bottom:1.5rem;text-align:center}
+.teams-row{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;margin-bottom:1.5rem}
+.vs-badge{font-family:'Orbitron',sans-serif;font-size:1.4rem;font-weight:900;color:var(--gold);text-align:center;text-shadow:0 0 20px rgba(255,215,0,.5)}
+.team-select-wrap label{display:block;font-size:.72rem;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:.5rem}
+.team-select{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text);font-family:'Inter',sans-serif;font-size:.95rem;padding:.75rem 1rem;border-radius:12px;appearance:none;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.team-select:focus{outline:none;border-color:var(--home);box-shadow:0 0 0 3px rgba(0,212,255,.15)}
+.away-wrap .team-select:focus{border-color:var(--away)}
+.details-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.detail-field label{display:block;font-size:.72rem;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:.5rem}
+.detail-field input,.detail-field select{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;padding:.65rem 1rem;border-radius:12px;transition:border-color .2s}
+.detail-field input:focus,.detail-field select:focus{outline:none;border-color:var(--gold)}
+.predict-btn{width:100%;padding:1.1rem;border:none;border-radius:14px;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;letter-spacing:2px;background:linear-gradient(135deg,#0070ff,#00d4ff);color:#fff;box-shadow:0 0 30px rgba(0,212,255,.35);transition:transform .2s,box-shadow .2s}
+.predict-btn:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(0,212,255,.55)}
+.predict-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.teams-section{max-width:900px;width:100%;margin-top:3rem}
+.teams-section-title{font-size:.72rem;letter-spacing:3px;color:var(--dim);text-transform:uppercase;text-align:center;margin-bottom:1.2rem}
+.teams-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.6rem}
+.team-chip{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.6rem .8rem;cursor:pointer;transition:all .2s;text-align:center}
+.team-chip:hover{border-color:var(--home);background:rgba(0,212,255,.07);box-shadow:0 0 16px rgba(0,212,255,.15)}
+.chip-code{font-family:'Orbitron',sans-serif;font-size:.95rem;font-weight:700;color:var(--home);display:block}
+.chip-name{font-size:.7rem;color:var(--dim);display:block;margin-top:.2rem}
+.chip-rank{font-size:.65rem;color:var(--gold)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero-badge{animation:fadeUp .6s ease both}.hero-title{animation:fadeUp .6s .1s ease both}.hero-sub{animation:fadeUp .6s .2s ease both}.selector-card{animation:fadeUp .7s .3s ease both}.teams-section{animation:fadeUp .7s .5s ease both}
+.home-wrap .team-select{border-color:rgba(0,212,255,.3)}.away-wrap .team-select{border-color:rgba(255,107,107,.3)}
+@media(max-width:600px){.teams-row{grid-template-columns:1fr;gap:.5rem}.vs-badge{display:none}.details-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<nav>
+  <span class="nav-logo">WC2026</span>
+  <span class="nav-tag">PREDICTION SYSTEM</span>
+  <span class="nav-spacer"></span>
+  <a href="index.html" class="nav-link">首頁</a>
+  <a href="groups.html" class="nav-link">小組賽</a>
+  <a href="bracket.html" class="nav-link gold">淘汰賽</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">⚽ FIFA WORLD CUP 2026 · USA / CANADA / MEXICO</div>
+  <h1 class="hero-title">Football<br>Prediction System</h1>
+  <p class="hero-sub">7 統計模型 · 14 分析維度 · 100,000 次 Monte Carlo 模擬</p>
+
+  <form class="selector-card" id="predict-form">
+    <p class="selector-title">選擇對戰球隊</p>
+    <div class="teams-row">
+      <div class="team-select-wrap home-wrap">
+        <label>主隊 / Home Team</label>
+        <select name="home" id="home-sel" class="team-select" required></select>
+      </div>
+      <div class="vs-badge">VS</div>
+      <div class="team-select-wrap away-wrap">
+        <label>客隊 / Away Team</label>
+        <select name="away" id="away-sel" class="team-select" required></select>
+      </div>
+    </div>
+    <div class="details-grid">
+      <div class="detail-field">
+        <label>比賽日期</label>
+        <input type="date" name="date" id="inp-date" value="2026-06-14">
+      </div>
+      <div class="detail-field">
+        <label>賽制階段</label>
+        <select name="stage" id="inp-stage">
+          <option>Group Stage</option><option>Round of 32</option><option>Round of 16</option>
+          <option>Quarter-Final</option><option>Semi-Final</option>
+          <option>3rd Place Play-off</option><option>Final</option>
+        </select>
+      </div>
+      <div class="detail-field" style="grid-column:span 2">
+        <label>場地</label>
+        <input type="text" name="venue" id="inp-venue" value="MetLife Stadium, East Rutherford, NJ">
+      </div>
+    </div>
+    <button type="submit" class="predict-btn" id="predict-btn">⚡ 開始預測分析</button>
+  </form>
+
+  <div class="teams-section">
+    <p class="teams-section-title">點擊快速選擇球隊</p>
+    <div class="teams-grid" id="teams-grid"></div>
+  </div>
+</section>
+
+<script>
+const starsEl = document.getElementById('stars');
+for(let i=0;i<120;i++){
+  const s=document.createElement('div'); s.className='star';
+  const sz=Math.random()*2.5+0.5;
+  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:rgba(255,255,255,${Math.random()*.6+.2});--d:${Math.random()*4+2}s;animation-delay:${Math.random()*4}s`;
+  starsEl.appendChild(s);
+}
+
+let clickCount = 0;
+function quickSelect(code){
+  const sel = clickCount%2===0 ? document.getElementById('home-sel') : document.getElementById('away-sel');
+  sel.value = code;
+  const c = clickCount%2===0 ? 'var(--home)' : 'var(--away)';
+  const glow = clickCount%2===0 ? 'rgba(0,212,255,.2)' : 'rgba(255,107,107,.2)';
+  sel.style.borderColor=c; sel.style.boxShadow=`0 0 0 3px ${glow}`;
+  setTimeout(()=>{ sel.style.boxShadow=''; },600);
+  clickCount++;
+}
+
+// Load teams
+fetch('data/teams.json')
+  .then(r=>r.json())
+  .then(({teams})=>{
+    const homeSel = document.getElementById('home-sel');
+    const awaySel = document.getElementById('away-sel');
+    const grid    = document.getElementById('teams-grid');
+    teams.forEach(t=>{
+      const opt1 = new Option(`${t.code} — ${t.name} (#${t.rank})`, t.code);
+      const opt2 = new Option(`${t.code} — ${t.name} (#${t.rank})`, t.code);
+      if(t.code==='ARG') opt1.selected=true;
+      if(t.code==='BRA') opt2.selected=true;
+      homeSel.appendChild(opt1);
+      awaySel.appendChild(opt2);
+      const chip = document.createElement('div');
+      chip.className='team-chip';
+      chip.onclick=()=>quickSelect(t.code);
+      chip.innerHTML=`<span class="chip-code">${t.code}</span><span class="chip-name">${t.name}</span><span class="chip-rank">#${t.rank} FIFA</span>`;
+      grid.appendChild(chip);
+    });
+  })
+  .catch(()=>{
+    // Fallback: show message if data not generated yet
+    document.getElementById('teams-grid').innerHTML =
+      '<p style="color:rgba(255,255,255,.4);font-size:.8rem;grid-column:1/-1;text-align:center">資料尚未生成，請先執行 GitHub Actions workflow</p>';
+  });
+
+document.getElementById('predict-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  const home  = document.getElementById('home-sel').value;
+  const away  = document.getElementById('away-sel').value;
+  const date  = document.getElementById('inp-date').value;
+  const stage = document.getElementById('inp-stage').value;
+  const venue = document.getElementById('inp-venue').value;
+  if(!home || !away || home===away){ alert('請選擇兩支不同球隊'); return; }
+  const btn = document.getElementById('predict-btn');
+  btn.textContent='⏳ 載入中...'; btn.disabled=true;
+  window.location.href = `report.html?home=${home}&away=${away}&date=${encodeURIComponent(date)}&stage=${encodeURIComponent(stage)}&venue=${encodeURIComponent(venue)}`;
+});
+</script>
+</body>
+</html>

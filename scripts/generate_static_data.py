@@ -137,6 +137,58 @@ def _team_to_dict(team) -> dict:
     }
 
 
+def _compute_fair_ah(score_probs: dict) -> tuple[float, float, float]:
+    """
+    Derive the Asian Handicap line and odds for THIS matchup from the
+    ensemble score probability matrix.
+
+    Searches standard AH lines (-2.5 … +2.5, in 0.25 steps) for the one
+    that gives closest to 50% coverage for each side, then prices both
+    sides with a 4% vig (typical Asian market).
+
+    Convention: negative line = home gives goals (home stronger).
+    """
+    import math
+
+    LINES = [x * 0.25 for x in range(-10, 11)]   # -2.5 … +2.5
+
+    def _cov(margin: int, line: float) -> float:
+        """Coverage fraction (1=win, 0.5=push, 0=lose) for a single AH line."""
+        # Quarter-ball: recurse on two flanking lines
+        if abs((line * 2) % 1) > 0.001:          # e.g. ±0.25, ±0.75
+            lo = math.floor(line * 2) / 2
+            hi = math.ceil(line * 2) / 2
+            return 0.5 * _cov(margin, lo) + 0.5 * _cov(margin, hi)
+        net = margin + line
+        # Half-ball (±0.5, ±1.5 …): strict win/lose, no push
+        if abs(line % 1) > 0.001:
+            return 1.0 if net > 0 else 0.0
+        # Whole-ball (0, ±1, ±2 …): push when net == 0
+        if net > 0:  return 1.0
+        if net == 0: return 0.5
+        return 0.0
+
+    def p_ah_home(line: float) -> float:
+        return sum(prob * _cov(h - a, line) for (h, a), prob in score_probs.items())
+
+    # Find the line where P(home covers) is nearest to 0.50
+    best_line = 0.0
+    best_p    = p_ah_home(0.0)
+    for line in LINES:
+        pc = p_ah_home(line)
+        if abs(pc - 0.50) < abs(best_p - 0.50):
+            best_line, best_p = line, pc
+
+    # Price both sides with 4% combined vig
+    vig  = 0.04
+    p_h  = max(0.40, min(0.60, best_p))        # clamp to sensible range
+    p_a  = 1.0 - p_h
+    ah_h = round(min(2.10, max(1.75, (1.0 - vig / 2) / p_h)), 2)
+    ah_a = round(min(2.10, max(1.75, (1.0 - vig / 2) / p_a)), 2)
+
+    return best_line, ah_h, ah_a
+
+
 def _result_to_dict(result, market=None) -> dict:
     score_matrix = [
         [round(result.score_probs.get((h, a), 0.0) * 100, 2) for a in range(6)]
@@ -196,9 +248,11 @@ def _result_to_dict(result, market=None) -> dict:
             "under": {"line": market.ou_line, "odds": market.under_odds,
                       "implied": round(100/market.under_odds, 1),
                       "model": round(p_under*100, 1), "edge": edge(p_under, market.under_odds)},
-            "ah_line":      market.asian_handicap_line,
-            "ah_home_odds": market.asian_handicap_home_odds,
-            "ah_away_odds": market.asian_handicap_away_odds,
+            # AH line + odds derived from this specific matchup's score matrix
+            **dict(zip(
+                ("ah_line", "ah_home_odds", "ah_away_odds"),
+                _compute_fair_ah(result.score_probs)
+            )),
         }
     return {
         "p_home":       round(result.p_home * 100, 1),

@@ -3,18 +3,18 @@
 'use strict';
 
 const SCHEDULE = [
-  {grp:'A',teams:'USA · POL · SEN · QAT',         md1:'6/11',md2:'6/17',md3:'6/23'},
-  {grp:'B',teams:'MEX · BEL · JPN · ECU',          md1:'6/11',md2:'6/17',md3:'6/23'},
-  {grp:'C',teams:'CAN · CRO · KOR · IRQ',           md1:'6/12',md2:'6/18',md3:'6/24'},
-  {grp:'D',teams:'ARG · AUT · NGA · VEN',           md1:'6/12',md2:'6/18',md3:'6/24'},
-  {grp:'E',teams:'BRA · DEN · COL · AUS',           md1:'6/13',md2:'6/19',md3:'6/25'},
-  {grp:'F',teams:'FRA · SCO · EGY · HON',           md1:'6/13',md2:'6/19',md3:'6/25'},
-  {grp:'G',teams:'ESP · TUR · KSA · CIV',           md1:'6/14',md2:'6/20',md3:'6/25'},
-  {grp:'H',teams:'ENG · SRB · MAR · IRN',           md1:'6/14',md2:'6/20',md3:'6/26'},
-  {grp:'I',teams:'GER · ITA · ALG · JAM',           md1:'6/15',md2:'6/21',md3:'6/26'},
-  {grp:'J',teams:'POR · SUI · TUN · UZB',           md1:'6/15',md2:'6/21',md3:'6/26'},
-  {grp:'K',teams:'NED · URU · CMR · NZL',           md1:'6/16',md2:'6/22',md3:'6/26'},
-  {grp:'L',teams:'PAR · RSA · PAN · IDN',           md1:'6/16',md2:'6/22',md3:'6/26'},
+  {grp:'A',teams:'MEX · RSA · KOR · CZE',  md1:'6/11',md2:'6/17',md3:'6/23'},
+  {grp:'B',teams:'CAN · SUI · QAT · BIH',  md1:'6/11',md2:'6/17',md3:'6/23'},
+  {grp:'C',teams:'BRA · MAR · SCO · HAI',  md1:'6/12',md2:'6/18',md3:'6/24'},
+  {grp:'D',teams:'USA · PAR · AUS · TUR',  md1:'6/12',md2:'6/18',md3:'6/24'},
+  {grp:'E',teams:'GER · CUW · CIV · ECU',  md1:'6/13',md2:'6/19',md3:'6/25'},
+  {grp:'F',teams:'NED · JPN · SWE · TUN',  md1:'6/13',md2:'6/19',md3:'6/25'},
+  {grp:'G',teams:'BEL · EGY · IRN · NZL',  md1:'6/14',md2:'6/20',md3:'6/25'},
+  {grp:'H',teams:'ESP · CPV · KSA · URU',  md1:'6/14',md2:'6/20',md3:'6/26'},
+  {grp:'I',teams:'FRA · SEN · IRQ · NOR',  md1:'6/15',md2:'6/21',md3:'6/26'},
+  {grp:'J',teams:'ARG · ALG · AUT · JOR',  md1:'6/15',md2:'6/21',md3:'6/26'},
+  {grp:'K',teams:'POR · COD · UZB · COL',  md1:'6/16',md2:'6/22',md3:'6/26'},
+  {grp:'L',teams:'ENG · CRO · GHA · PAN',  md1:'6/16',md2:'6/22',md3:'6/26'},
 ];
 
 const TABS = [
@@ -24,6 +24,7 @@ const TABS = [
   {id:'bracket',label:'淘汰賽'},
   {id:'models', label:'預測模型'},
   {id:'schedule',label:'比賽日程'},
+  {id:'settings',label:'⚙️ 設定'},
 ];
 
 const CSS = `
@@ -155,6 +156,20 @@ const CSS = `
 .wc-note{background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.15);
   border-radius:10px;padding:.7rem 1rem;font-size:.78rem;color:rgba(240,244,255,.65);line-height:1.55}
 .wc-note strong{color:#ffd700}
+
+/* Settings form */
+.wc-settings-row{margin-bottom:1.4rem}
+.wc-settings-label{font-size:.72rem;letter-spacing:1.5px;color:rgba(255,255,255,.45);text-transform:uppercase;margin-bottom:.5rem;display:block}
+.wc-settings-input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.9);font-family:'Inter',sans-serif;font-size:.85rem;padding:.65rem 1rem;border-radius:10px;outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none}
+.wc-settings-input:focus{border-color:rgba(0,212,255,.5)}
+.wc-btn-row{display:flex;gap:.6rem;margin-top:.6rem;flex-wrap:wrap}
+.wc-save-btn{background:linear-gradient(135deg,#0070ff,#00d4ff);border:none;color:#fff;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:700;padding:.55rem 1.2rem;border-radius:10px;cursor:pointer;transition:opacity .2s;-webkit-tap-highlight-color:transparent}
+.wc-save-btn:hover{opacity:.85}
+.wc-clear-btn{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.25);color:#ff6b6b;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:600;padding:.55rem 1.2rem;border-radius:10px;cursor:pointer;transition:opacity .2s;-webkit-tap-highlight-color:transparent}
+.wc-clear-btn:hover{opacity:.75}
+.wc-api-status{font-size:.77rem;margin-top:.55rem;min-height:1.1rem}
+.wc-step-link{color:#00d4ff;text-decoration:none}
+.wc-step-link:hover{text-decoration:underline}
 `;
 
 const PANELS = {
@@ -336,6 +351,31 @@ ${SCHEDULE.map(s=>`<tr>
   <li><strong>決賽：</strong> 2026 年 7 月 19 日（MetLife Stadium, NJ）</li>
 </ul>
 <div class="wc-note"><strong>日程為系統預設值，</strong>實際 FIFA 官方場次安排請以官網公告為準。</div>
+`,
+
+settings: `
+<h3 class="wc-h2">⚙️ 即時賠率設定</h3>
+<p class="wc-p">設定 <strong>The Odds API</strong> 金鑰後，預測報告的投注分析區塊將自動更新為 Pinnacle、Bet365 等主流莊家的即時賠率（取代模型估計值）。</p>
+
+<div class="wc-settings-row">
+  <label class="wc-settings-label" for="wc-odds-api-key">API 金鑰</label>
+  <input type="text" id="wc-odds-api-key" class="wc-settings-input" placeholder="貼入您的 The Odds API 金鑰..." autocomplete="off" spellcheck="false">
+  <div class="wc-btn-row">
+    <button class="wc-save-btn" id="wc-save-api-key">💾 儲存金鑰</button>
+    <button class="wc-clear-btn" id="wc-clear-api-key">🗑 清除</button>
+  </div>
+  <div id="wc-api-key-status" class="wc-api-status"></div>
+</div>
+
+<hr class="wc-divider">
+<h3 class="wc-h2">如何取得免費 API 金鑰</h3>
+<div class="wc-step"><div class="wc-step-num">1</div><div class="wc-step-text">前往 <strong>the-odds-api.com</strong> 免費注冊帳號（每月 500 次免費請求）</div></div>
+<div class="wc-step"><div class="wc-step-num">2</div><div class="wc-step-text">登入後在 <strong>Dashboard</strong> 頁面複製您的 API Key</div></div>
+<div class="wc-step"><div class="wc-step-num">3</div><div class="wc-step-text">貼入上方欄位並點擊「儲存金鑰」，之後每次查看比賽報告都會自動套用即時賠率</div></div>
+
+<div class="wc-note" style="margin-top:1rem">
+  <strong>注意：</strong>API 金鑰僅儲存於您的本地瀏覽器（localStorage），不會上傳至任何伺服器。每次載入報告頁時會消耗 1 次 API 請求，結果快取 5 分鐘。若賽前無即時賠率，系統自動回退為模型估計值。
+</div>
 `
 };
 
@@ -390,6 +430,27 @@ function build(){
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
 
+  // Load saved API key into settings input
+  const savedApiKey = (typeof localStorage !== 'undefined' && localStorage.getItem('wc_odds_api_key')) || '';
+  const apiKeyInput = document.getElementById('wc-odds-api-key');
+  if(apiKeyInput) {
+    apiKeyInput.value = savedApiKey;
+    _updateApiStatus(savedApiKey ? 'saved' : '');
+  }
+
+  document.getElementById('wc-save-api-key').addEventListener('click', function(){
+    const key = (document.getElementById('wc-odds-api-key').value || '').trim();
+    if(!key){ _updateApiStatus('empty'); return; }
+    try{ localStorage.setItem('wc_odds_api_key', key); }catch(e){}
+    _updateApiStatus('saved');
+  });
+
+  document.getElementById('wc-clear-api-key').addEventListener('click', function(){
+    try{ localStorage.removeItem('wc_odds_api_key'); }catch(e){}
+    document.getElementById('wc-odds-api-key').value = '';
+    _updateApiStatus('cleared');
+  });
+
   // Events
   btn.addEventListener('click', open);
   document.getElementById('wc-help-close').addEventListener('click', close);
@@ -407,6 +468,27 @@ function build(){
   document.addEventListener('keydown', function(e){
     if(e.key==='Escape' && overlay.classList.contains('open')) close();
   });
+
+  // Expose for external use (e.g. report.html opens settings tab directly)
+  window.WCHelp = {
+    open: open,
+    openTab: function(tabId){
+      open();
+      setTimeout(function(){
+        const tb = tabBar.querySelector('[data-tab="'+tabId+'"]');
+        if(tb) tb.click();
+      }, 60);
+    }
+  };
+}
+
+function _updateApiStatus(state){
+  const el = document.getElementById('wc-api-key-status');
+  if(!el) return;
+  if(state==='saved')   el.innerHTML = '<span style="color:#00e676">✓ 已儲存 — 下次查看報告頁時將自動載入即時賠率</span>';
+  else if(state==='empty')   el.innerHTML = '<span style="color:#ff6b6b">請輸入 API 金鑰</span>';
+  else if(state==='cleared') el.innerHTML = '<span style="color:#ff6b6b">已清除 — 將使用模型估計賠率</span>';
+  else el.innerHTML = '<span style="color:rgba(255,255,255,.35)">尚未設定 — 將使用模型估計賠率</span>';
 }
 
 function open(){

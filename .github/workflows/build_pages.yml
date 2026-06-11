@@ -1,0 +1,56 @@
+name: Build — Generate Static Pages Data
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      n_sim:
+        description: "Tournament Monte Carlo simulations (default 10000)"
+        required: false
+        default: "10000"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Generate data & deploy pages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate static JSON data
+        run: python scripts/generate_static_data.py
+
+      - name: List generated files
+        run: |
+          echo "=== docs/data/ ==="
+          find docs/data -name "*.json" | sort | head -30
+          echo "Total JSON files: $(find docs/data -name '*.json' | wc -l)"
+
+      - name: Commit generated data to repo
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/data/
+          if git diff --staged --quiet; then
+            echo "No data changes to commit."
+          else
+            git commit -m "chore: regenerate static prediction data [skip ci]"
+            git pull --rebase origin ${{ github.ref_name }}
+            git push origin ${{ github.ref_name }}
+          fi

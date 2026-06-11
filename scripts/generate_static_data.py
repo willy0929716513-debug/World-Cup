@@ -276,11 +276,12 @@ with open(DOCS_DATA / "tournament.json", "w", encoding="utf-8") as f:
 print("  ✅ docs/data/tournament.json")
 
 
-# ── 2. Teams list (detailed teams from data/teams.json) ────────────────────────
+# ── 2. Teams list — only the 48 WC2026 teams ─────────────────────────────────
 
 print("▶ Building teams list…")
+wc_codes = sorted({t for grp in GROUPS.values() for t in grp})
 teams_list = []
-for code in list_teams():
+for code in wc_codes:
     try:
         t = get_team(code)
         teams_list.append({"code": code, "name": t.name,

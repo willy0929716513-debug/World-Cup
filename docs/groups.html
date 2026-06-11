@@ -401,6 +401,7 @@ function render(data) {
     div.innerHTML = `
       <div>
         <span class="third-code">${item.code}</span>
+        <span style="font-size:.62rem;color:var(--dim);display:block;margin-top:1px">${team_names[item.code]||''}</span>
         <span class="conf-badge conf-${item.conf}" style="display:block;margin-top:2px">${item.conf}</span>
       </div>
       <span class="third-pct">${item.pct.toFixed(1)}%</span>`;

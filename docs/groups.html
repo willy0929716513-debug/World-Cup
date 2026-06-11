@@ -156,16 +156,21 @@ a.nav-btn.gold:hover{background:rgba(255,215,0,.07)}
 .matches-btn:hover{color:var(--text);border-color:var(--border2)}
 .matches-list{display:none;margin-top:.6rem}
 .matches-list.open{display:block}
-.match-item{display:grid;grid-template-columns:1fr auto 1fr;
+.match-item{display:flex;gap:.4rem;
   align-items:center;gap:.3rem;padding:.35rem .2rem;font-size:.7rem;
   border-bottom:1px solid rgba(255,255,255,.04)}
 .match-item:last-child{border-bottom:none}
-.m-team{font-weight:600;font-size:.68rem}
+.m-team{font-weight:600;font-size:.68rem;flex:1}
 .m-team.home{text-align:right;color:var(--blue)}
 .m-team.away{text-align:left;color:rgba(255,107,107,0.9)}
-.m-score{font-family:'Orbitron',sans-serif;font-size:.72rem;
-  color:var(--dim);background:rgba(255,255,255,.06);
-  border-radius:6px;padding:.1rem .4rem;white-space:nowrap}
+.m-center{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:70px}
+.m-score{font-family:'Orbitron',sans-serif;font-size:.65rem;
+  color:rgba(255,255,255,.55);background:rgba(255,255,255,.05);
+  border-radius:6px;padding:.1rem .4rem;white-space:nowrap;letter-spacing:.5px}
+.m-score::after{content:' xG';font-size:.5rem;opacity:.5}
+.m-prob-bar{display:flex;height:3px;width:100%;border-radius:2px;overflow:hidden;gap:1px}
+.m-prob-bar div{height:100%;border-radius:2px}
+.m-probs{display:flex;gap:.3rem;font-size:.58rem;font-family:'Orbitron',sans-serif}
 
 /* Group stage legend */
 .legend{display:flex;gap:1.2rem;flex-wrap:wrap;margin-bottom:1.2rem;
@@ -456,13 +461,32 @@ function render(data) {
         </div>`;
     }).join('');
 
-    // Match rows
-    const matchRowsHTML = matches.map(m => `
-      <div class="match-item">
-        <span class="m-team home">${m.t1}</span>
-        <span class="m-score">${m.score}</span>
-        <span class="m-team away">${m.t2}</span>
-      </div>`).join('');
+    // Match rows — show xG and win probability bar
+    const matchRowsHTML = matches.map(m => {
+      const ph = m.p_home || 0, pd = m.p_draw || 0, pa = m.p_away || 0;
+      const xgH = m.xg_home != null ? m.xg_home.toFixed(2) : '—';
+      const xgA = m.xg_away != null ? m.xg_away.toFixed(2) : '—';
+      // Color the team names based on who's favored
+      const homeColor = ph > pa ? 'var(--blue)' : ph < pa ? 'rgba(255,107,107,.6)' : 'var(--dim)';
+      const awayColor = pa > ph ? 'rgba(255,107,107,.9)' : pa < ph ? 'rgba(0,212,255,.6)' : 'var(--dim)';
+      return `<div class="match-item">
+        <span class="m-team home" style="color:${homeColor}">${m.t1}</span>
+        <div class="m-center">
+          <span class="m-score">${xgH} – ${xgA}</span>
+          <div class="m-prob-bar">
+            <div style="width:${ph}%;background:var(--blue);opacity:.8"></div>
+            <div style="width:${pd}%;background:rgba(255,215,0,.6)"></div>
+            <div style="width:${pa}%;background:rgba(255,107,107,.8)"></div>
+          </div>
+          <div class="m-probs">
+            <span style="color:var(--blue)">${ph}%</span>
+            <span style="color:rgba(255,215,0,.8)">${pd}%</span>
+            <span style="color:rgba(255,107,107,.9)">${pa}%</span>
+          </div>
+        </div>
+        <span class="m-team away" style="color:${awayColor}">${m.t2}</span>
+      </div>`;
+    }).join('');
 
     card.innerHTML = `
       <div class="group-header">

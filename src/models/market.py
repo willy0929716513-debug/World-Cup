@@ -21,21 +21,56 @@ def _remove_overround(odds_h: float, odds_d: float, odds_a: float
     return raw_h / total, raw_d / total, raw_a / total
 
 
+def _poisson_pmf(k: int, lam: float) -> float:
+    return math.exp(-lam) * (lam ** k) / math.factorial(k)
+
+
 def _lambda_from_probs(p_home: float, p_draw: float) -> tuple[float, float]:
     """
-    Approximate lambdas from win/draw probabilities using the
-    relationship: lambda ≈ -log(P_draw + P_away) for one side.
-    A simple search approach is used.
+    Iteratively find Poisson lambdas that match market-implied 1X2 probabilities.
+
+    Two decoupled adjustments per iteration:
+    - Scale (lam_h + lam_a): controls draw probability.
+    - Ratio (lam_h / lam_a): controls home vs away win probability.
+    Converges in ~15 steps for typical football odds.
     """
-    # Rough inversion: use P_draw ≈ e^(-(lh+la)) * sum of equal terms
-    # Approximate: total expected goals = -2 * log(P_draw) (crude)
-    total_goals = max(0.5, -2.0 * math.log(max(p_draw, 0.10)))
-    # Allocate proportionally to P_home vs P_away
-    p_away = 1.0 - p_home - p_draw
-    ratio = p_home / max(p_away, 0.01)
-    # lh/la ≈ ratio^0.5 (rough calibration from historical data)
-    lam_h = total_goals * (ratio ** 0.4) / (1.0 + ratio ** 0.4)
-    lam_a = total_goals - lam_h
+    p_away = max(0.05, 1.0 - p_home - p_draw)
+
+    # Initial guess via crude approximation
+    total = max(0.8, -2.0 * math.log(max(p_draw, 0.05)))
+    ratio = math.sqrt(max(p_home / p_away, 0.04))
+    lam_h = total * ratio / (1.0 + ratio)
+    lam_a = max(0.25, total - lam_h)
+
+    n_pmf = 9   # truncate at 8 goals (residual <0.2% for typical lambdas)
+    for _ in range(15):
+        phv = [_poisson_pmf(k, lam_h) for k in range(n_pmf)]
+        pav = [_poisson_pmf(k, lam_a) for k in range(n_pmf)]
+
+        act_h = sum(phv[h] * pav[a] for h in range(n_pmf) for a in range(h))
+        act_d = sum(phv[k] * pav[k] for k in range(n_pmf))
+        norm = act_h + act_d + sum(phv[a] * pav[h] for h in range(n_pmf) for a in range(h))
+        if norm > 0:
+            act_h /= norm
+            act_d /= norm
+
+        # Adjust scale to match draw probability
+        err_d = act_d - p_draw
+        if abs(err_d) > 0.003:
+            scale = max(0.80, min(1.20, 1.0 + 0.35 * err_d / max(p_draw, 0.05)))
+            lam_h *= scale
+            lam_a *= scale
+
+        # Adjust ratio to match home win probability
+        err_h = act_h - p_home
+        if abs(err_h) > 0.004:
+            adj = max(0.80, min(1.20, 1.0 - 0.40 * err_h / max(p_home, 0.05)))
+            lam_h *= adj
+            lam_a /= adj
+
+        lam_h = max(0.25, lam_h)
+        lam_a = max(0.25, lam_a)
+
     return max(0.30, lam_h), max(0.30, lam_a)
 
 

@@ -25,9 +25,20 @@ def _compute_lambdas(home: TeamData, away: TeamData) -> tuple[float, float]:
     lam_home = INT_AVG_GOALS_HOME * home_att * away_def
     lam_away = INT_AVG_GOALS_AWAY * away_att * home_def
 
-    # Blend with recent form (last-10 actual goals)
-    recent_home_scored = home.goals_scored_avg(10)
-    recent_away_scored = away.goals_scored_avg(10)
+    # Blend with exponentially-weighted recent form (last 10 matches)
+    matches_h = home.recent_matches[-10:]
+    matches_a = away.recent_matches[-10:]
+
+    def _exp_goals(matches, fallback):
+        if not matches:
+            return fallback
+        n = len(matches)
+        weights = [1.6 ** i for i in range(n)]
+        total_w = sum(weights)
+        return sum(w * m.goals_for for w, m in zip(weights, matches)) / total_w
+
+    recent_home_scored = _exp_goals(matches_h, home.attack.goals_per_game)
+    recent_away_scored = _exp_goals(matches_a, away.attack.goals_per_game)
     lam_home = 0.65 * lam_home + 0.35 * recent_home_scored
     lam_away = 0.65 * lam_away + 0.35 * recent_away_scored
 

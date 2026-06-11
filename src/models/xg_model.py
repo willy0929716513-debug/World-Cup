@@ -1,10 +1,17 @@
 """
 Expected Goals (xG) model.
 
-Uses xG and xGA data to compute lambdas, then applies a Dixon-Coles score
-matrix.  Also factors in form and player availability modifiers.
+Factors applied:
+  - xG/xGA base (blended with actual goals via XG_REGRESSION_WEIGHT)
+  - Opponent defence quality
+  - Player availability (injuries/suspensions), partially offset by squad depth
+  - Exponentially-weighted recent form (last 10 matches)
+  - Coach rating modifier (±3%)
+  - Set-piece quality differential (±6%)
+  - Press-intensity vs PPDA matchup (≤+4%)
 """
 from __future__ import annotations
+import math
 import numpy as np
 from config.settings import XG_REGRESSION_WEIGHT, MAX_GOALS_MATRIX
 from src.data.structures import TeamData, ModelResult
@@ -12,19 +19,63 @@ from .dixon_coles import score_matrix as dc_matrix
 
 
 def _availability_modifier(team: TeamData) -> float:
-    """Return a multiplier < 1.0 if key attackers are absent."""
+    """Multiplier for absent FWD/MID, partially offset by squad depth."""
     injured_fwd = sum(
         1 for p in team.injured_players + team.suspended_players
         if p.position in ("FWD", "MID")
     )
-    return max(0.75, 1.0 - 0.06 * injured_fwd)
+    if injured_fwd == 0:
+        return 1.0
+    base = max(0.75, 1.0 - 0.06 * injured_fwd)
+    # Deeper squads cover absences better (squad_depth 0–10, neutral ≈ 5)
+    depth_bonus = (team.squad_depth - 5.0) * 0.005 * injured_fwd
+    return min(1.0, max(0.72, base + depth_bonus))
 
 
 def _form_modifier(team: TeamData) -> float:
-    """Scale between 0.85–1.15 based on recent form vs. expected."""
-    pts = team.form_pts(5)          # pts per game, max=3
-    neutral_pts = 1.5
-    return 0.85 + 0.30 * (pts / 3.0)
+    """
+    Scale 0.85–1.15 using exponentially-weighted recent form (last 10 matches).
+    Most recent match has the highest weight (decay base 1.6).
+    """
+    matches = team.recent_matches[-10:]
+    if not matches:
+        return 1.0
+    n = len(matches)
+    # weights[0] = oldest, weights[-1] = newest
+    weights = [1.6 ** i for i in range(n)]
+    total_w = sum(weights)
+    pts_norm = sum(
+        w * (3 if m.outcome == "W" else 1 if m.outcome == "D" else 0)
+        for w, m in zip(weights, matches)
+    ) / (total_w * 3.0)     # normalise to [0, 1]
+    return 0.85 + 0.30 * pts_norm
+
+
+def _coach_modifier(team: TeamData) -> float:
+    """Small boost/penalty from coach quality. ±3% (neutral at 7.0)."""
+    return max(0.93, min(1.07, 1.0 + 0.015 * (team.coach_rating - 7.0)))
+
+
+def _tactical_modifier(home: TeamData, away: TeamData) -> tuple[float, float]:
+    """
+    Two tactical effects:
+    1. Set-piece quality differential: ±6% max.
+    2. High press vs passive opponent (PPDA > 10): up to +4%.
+    """
+    # Set-piece quality gap [-10, +10] → ±6%
+    sp_gap = home.tactics.set_piece_quality - away.tactics.set_piece_quality
+    h_sp = 1.0 + 0.006 * sp_gap
+    a_sp = 1.0 - 0.006 * sp_gap
+
+    # Press intensity [0-10] vs PPDA: lower PPDA = opponent presses hard → harder to exploit
+    # Benefit only when pressing hard (>6) against passive defence (PPDA>10)
+    h_press = 1.0 + max(0.0, home.tactics.press_intensity - 6.0) * max(0.0, away.advanced.ppda - 10.0) * 0.0015
+    a_press = 1.0 + max(0.0, away.tactics.press_intensity - 6.0) * max(0.0, home.advanced.ppda - 10.0) * 0.0015
+
+    return (
+        max(0.90, min(1.10, h_sp * h_press)),
+        max(0.90, min(1.10, a_sp * a_press)),
+    )
 
 
 def _compute_xg_lambdas(home: TeamData, away: TeamData) -> tuple[float, float]:
@@ -34,20 +85,28 @@ def _compute_xg_lambdas(home: TeamData, away: TeamData) -> tuple[float, float]:
     lam_a = (XG_REGRESSION_WEIGHT * away.attack.xg_per_game +
              (1 - XG_REGRESSION_WEIGHT) * away.attack.goals_per_game)
 
-    # Adjust for opponent defense quality
-    # high xGA opponent = easier to score; low xGA = harder
+    # Adjust for opponent defence quality vs international average
     away_def_factor = away.defense.xga_per_game / 1.10
     home_def_factor = home.defense.xga_per_game / 1.10
     lam_h *= away_def_factor
     lam_a *= home_def_factor
 
-    # Player availability
+    # Player availability (injuries / suspensions)
     lam_h *= _availability_modifier(home)
     lam_a *= _availability_modifier(away)
 
-    # Form modifier
+    # Exponentially-weighted form
     lam_h *= _form_modifier(home)
     lam_a *= _form_modifier(away)
+
+    # Coach quality
+    lam_h *= _coach_modifier(home)
+    lam_a *= _coach_modifier(away)
+
+    # Tactical matchup (set pieces + press vs PPDA)
+    tac_h, tac_a = _tactical_modifier(home, away)
+    lam_h *= tac_h
+    lam_a *= tac_a
 
     return max(0.30, lam_h), max(0.30, lam_a)
 

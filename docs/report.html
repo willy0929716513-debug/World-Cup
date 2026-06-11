@@ -388,7 +388,10 @@ nav{position:sticky;top:0;z-index:200;background:rgba(5,8,15,.9);backdrop-filter
 </div>
 
 <div class="section fade-up" id="betting" style="display:none">
-  <div class="section-title">投注價值分析</div>
+  <div class="section-title">
+    投注價值分析
+    <span id="odds-source-badge" onclick="typeof WCHelp!=='undefined'&&WCHelp.openTab('settings')" style="font-size:.68rem;padding:.15rem .65rem;border-radius:20px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.38);cursor:pointer;transition:all .2s;white-space:nowrap;margin-left:.4rem">📊 模型估計</span>
+  </div>
   <div id="betting-rows"></div>
   <div style="margin-top:.8rem;padding:.7rem 1rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r12);font-size:.78rem;color:var(--dim)">
     亞洲讓球盤：<strong style="color:var(--text)" id="ah-line"></strong> 球 &nbsp;|&nbsp;
@@ -489,6 +492,7 @@ fetch(`data/matches/${HC}_vs_${AC}.json`)
     data.match.stage = MATCH_STAGE;
     data.match.venue = MATCH_VENUE;
     initReport(data);
+    if(data.result.betting) fetchLiveOdds(data.home, data.away, data.result);
   })
   .catch(err=>{
     document.getElementById('loading').style.display='none';
@@ -741,7 +745,129 @@ function buildFinalScores(R){
   });
 }
 
-// ── Risks ────────────────────────────────────────────────────────────────────
+// ── Live odds ─────────────────────────────────────────────────────────────────
+const ODDS_NAMES = {
+  ARG:'Argentina',BRA:'Brazil',FRA:'France',ENG:'England',ESP:'Spain',
+  GER:'Germany',POR:'Portugal',NED:'Netherlands',BEL:'Belgium',URU:'Uruguay',
+  MEX:'Mexico',USA:'United States',CAN:'Canada',AUT:'Austria',SUI:'Switzerland',
+  CRO:'Croatia',JPN:'Japan',KOR:'South Korea',SEN:'Senegal',MAR:'Morocco',
+  TUN:'Tunisia',EGY:'Egypt',KSA:'Saudi Arabia',IRN:'Iran',AUS:'Australia',
+  NZL:'New Zealand',QAT:'Qatar',IRQ:'Iraq',PAR:'Paraguay',COL:'Colombia',
+  ECU:'Ecuador',RSA:'South Africa',GHA:'Ghana',COD:'DR Congo',CIV:'Ivory Coast',
+  SCO:'Scotland',CZE:'Czech Republic',BIH:'Bosnia and Herzegovina',
+  SWE:'Sweden',NOR:'Norway',CPV:'Cape Verde',JOR:'Jordan',
+  CUW:'Curaçao',HAI:'Haiti',TUR:'Turkey',PAN:'Panama',UZB:'Uzbekistan',ALG:'Algeria',
+};
+
+function _calcEdge(modelProb, decimalOdds){
+  return Math.round((modelProb - 1.0/decimalOdds)*1000)/10;
+}
+function _r1(x){ return Math.round(x*10)/10; }
+
+function _setOddsSourceBadge(label, isLive){
+  const el = document.getElementById('odds-source-badge');
+  if(!el) return;
+  el.textContent = label;
+  if(isLive){
+    el.style.borderColor='rgba(0,230,118,.4)';
+    el.style.color='#00e676';
+    el.style.background='rgba(0,230,118,.07)';
+  } else {
+    el.style.borderColor='rgba(255,255,255,.15)';
+    el.style.color='rgba(255,255,255,.38)';
+    el.style.background='transparent';
+  }
+}
+
+async function fetchLiveOdds(HOME, AWAY, R){
+  let apiKey;
+  try{ apiKey = localStorage.getItem('wc_odds_api_key'); }catch(e){}
+  if(!apiKey){ _setOddsSourceBadge('📊 模型估計', false); return; }
+
+  const homeName = ODDS_NAMES[HC];
+  const awayName = ODDS_NAMES[AC];
+  if(!homeName || !awayName){ _setOddsSourceBadge('📊 模型估計', false); return; }
+
+  // Session cache to avoid burning API quota
+  const cacheKey = 'wc_odds_cache_'+HC+'_'+AC;
+  let oddsArr = null;
+  try{
+    const cached = sessionStorage.getItem(cacheKey);
+    if(cached){
+      const obj = JSON.parse(cached);
+      if(Date.now() - obj.ts < 5*60*1000) oddsArr = obj.data;
+    }
+  }catch(e){}
+
+  if(!oddsArr){
+    try{
+      const url = 'https://api.the-odds-api.com/v4/sports/soccer_fifa_world_cup/odds/?apiKey='+apiKey+'&regions=eu&markets=h2h,totals&oddsFormat=decimal';
+      const resp = await fetch(url);
+      if(!resp.ok){
+        const msgs = {401:'API 金鑰無效', 422:'API 請求錯誤', 429:'請求配額已用完'};
+        _setOddsSourceBadge('⚠ '+(msgs[resp.status]||'API 錯誤'), false);
+        return;
+      }
+      oddsArr = await resp.json();
+      try{ sessionStorage.setItem(cacheKey, JSON.stringify({ts:Date.now(), data:oddsArr})); }catch(e){}
+    }catch(e){ _setOddsSourceBadge('📊 模型估計', false); return; }
+  }
+
+  // Find matching game (fuzzy name match)
+  function nameMatch(a, b){
+    a=(a||'').toLowerCase(); b=(b||'').toLowerCase();
+    return a===b || a.includes(b) || b.includes(a);
+  }
+  const game = oddsArr.find(g=>
+    nameMatch(g.home_team, homeName) && nameMatch(g.away_team, awayName)
+  );
+
+  if(!game){ _setOddsSourceBadge('📅 賽前無即時賠率', false); return; }
+
+  // Pick best bookmaker: prefer pinnacle, then bet365, else first
+  const book = game.bookmakers?.find(b=>b.key==='pinnacle')
+              || game.bookmakers?.find(b=>b.key==='bet365')
+              || game.bookmakers?.[0];
+  if(!book) return;
+
+  const h2hMkt = book.markets?.find(m=>m.key==='h2h');
+  if(!h2hMkt) return;
+
+  const homeOdds = h2hMkt.outcomes?.find(o=>nameMatch(o.name, homeName))?.price;
+  const awayOdds = h2hMkt.outcomes?.find(o=>nameMatch(o.name, awayName))?.price;
+  const drawOdds = h2hMkt.outcomes?.find(o=>o.name==='Draw')?.price;
+  if(!homeOdds || !awayOdds || !drawOdds) return;
+
+  const totalsMkt = book.markets?.find(m=>m.key==='totals');
+  let ouLine = R.betting.over.line;
+  let overOdds = R.betting.over.odds;
+  let underOdds = R.betting.under.odds;
+  if(totalsMkt){
+    const ov = totalsMkt.outcomes?.find(o=>o.name==='Over');
+    const un = totalsMkt.outcomes?.find(o=>o.name==='Under');
+    if(ov && un){ ouLine=ov.point||ouLine; overOdds=ov.price; underOdds=un.price; }
+  }
+
+  // Rebuild betting rows with live odds
+  const liveB = {
+    home:  {odds:homeOdds, implied:_r1(100/homeOdds), model:R.betting.home.model, edge:_calcEdge(R.p_home/100, homeOdds)},
+    draw:  {odds:drawOdds, implied:_r1(100/drawOdds), model:R.betting.draw.model, edge:_calcEdge(R.p_draw/100, drawOdds)},
+    away:  {odds:awayOdds, implied:_r1(100/awayOdds), model:R.betting.away.model, edge:_calcEdge(R.p_away/100, awayOdds)},
+    over:  {line:ouLine, odds:overOdds,  implied:_r1(100/overOdds),  model:R.betting.over.model,  edge:_calcEdge(R.betting.over.model/100, overOdds)},
+    under: {line:ouLine, odds:underOdds, implied:_r1(100/underOdds), model:R.betting.under.model, edge:_calcEdge(R.betting.under.model/100, underOdds)},
+    ah_line: R.betting.ah_line,
+    ah_home_odds: R.betting.ah_home_odds,
+    ah_away_odds: R.betting.ah_away_odds,
+  };
+  const liveR = Object.assign({}, R, {betting: liveB});
+  document.getElementById('betting-rows').innerHTML = '';
+  buildBetting(HOME, AWAY, liveR);
+
+  const bookLabel = book.title || book.key || 'Live';
+  _setOddsSourceBadge('📡 即時賠率 · '+bookLabel, true);
+}
+
+// ── Risks ─────────────────────────────────────────────────────────────────────
 function buildRisks(HOME, AWAY){
   const c=document.getElementById('risk-list');
   const risks=[];

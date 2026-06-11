@@ -12,6 +12,7 @@ from src.data.loader import get_team, get_market_data, list_teams
 from src.models import ensemble
 
 app = Flask(__name__)
+app.jinja_env.globals.update(enumerate=enumerate)
 
 
 # ── Serialisation helpers ─────────────────────────────────────────────────────
@@ -289,6 +290,82 @@ def api_predict():
         "away":   _team_to_dict(away_team),
         "result": _result_to_dict(res, market),
     })
+
+
+@app.route("/groups")
+def groups():
+    from itertools import combinations as _comb
+    from src.tournament.simulator import (
+        simulate_tournament, GROUPS, TEAM_NAMES, CONFEDERATIONS,
+        ALL_ELOS, GROUP_LIST, elo_to_lambdas,
+    )
+
+    N_SIM = 10_000
+    sim   = simulate_tournament(n=N_SIM)
+    gprob = sim["group_probs"]
+    pred  = sim["predicted_group_standings"]
+
+    HOSTS      = {"USA", "CAN", "MEX"}
+    HOST_LABEL = {"USA": "美國", "CAN": "加拿大", "MEX": "墨西哥"}
+
+    groups_ctx = {}
+    for grp in GROUP_LIST:
+        teams     = GROUPS[grp]
+        pred_ord  = pred[grp]
+        matches   = []
+        for t1, t2 in _comb(teams, 2):
+            lh, la = elo_to_lambdas(ALL_ELOS[t1], ALL_ELOS[t2])
+            matches.append({"t1": t1, "score": f"{round(lh)}-{round(la)}", "t2": t2})
+        groups_ctx[grp] = {
+            "teams":           teams,
+            "predicted_order": pred_ord,
+            "probs":           gprob[grp],
+            "hosts":           [HOST_LABEL[t] for t in teams if t in HOSTS],
+            "confs":           {t: CONFEDERATIONS.get(t, "INT") for t in teams},
+            "matches":         matches,
+        }
+
+    # Best-thirds: all 12 predicted 3rd-place teams, sorted by best_third prob
+    thirds = []
+    for grp in GROUP_LIST:
+        if len(pred[grp]) >= 3:
+            team = pred[grp][2]
+            thirds.append({
+                "code": team,
+                "conf": CONFEDERATIONS.get(team, "INT"),
+                "pct":  gprob[grp][team]["best_third"],
+            })
+    thirds.sort(key=lambda x: -x["pct"])
+
+    confs_json = json.dumps({t: CONFEDERATIONS.get(t, "INT") for t in ALL_ELOS})
+
+    return render_template(
+        "groups.html",
+        groups     = groups_ctx,
+        best_thirds= thirds[:12],
+        team_names = TEAM_NAMES,
+        confs_json = confs_json,
+        n_sim      = N_SIM,
+    )
+
+
+@app.route("/bracket")
+def bracket():
+    from src.tournament.simulator import (
+        simulate_tournament, TEAM_NAMES, ALL_ELOS, CONFEDERATIONS,
+    )
+
+    N_SIM = 10_000
+    sim   = simulate_tournament(n=N_SIM)
+
+    return render_template(
+        "bracket.html",
+        bracket_json         = json.dumps(sim["expected_bracket"]),
+        tournament_probs_json= json.dumps(sim["tournament_probs"]),
+        team_names_json      = json.dumps(TEAM_NAMES),
+        confs_json           = json.dumps({t: CONFEDERATIONS.get(t, "INT") for t in ALL_ELOS}),
+        n_sim                = N_SIM,
+    )
 
 
 if __name__ == "__main__":

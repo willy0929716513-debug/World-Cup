@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026 World Cup — Knockout Bracket</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080f;--bg2:#090d1c;--bg3:#0c1128;
+  --card:rgba(255,255,255,0.035);--card2:rgba(255,255,255,0.06);
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
+  --gold:#ffd700;--green:#00e676;--blue:#00d4ff;--red:#ff4444;--orange:#ff9500;
+  --text:rgba(240,244,255,0.92);--dim:rgba(240,244,255,0.45);--dim2:rgba(240,244,255,0.22);
+  --conf-UEFA:#4488ff;--conf-CONMEBOL:#00cc77;--conf-CAF:#ff8844;
+  --conf-AFC:#cc44ff;--conf-CONCACAF:#ffcc00;--conf-OFC:#44dddd;--conf-INT:#aaaaaa;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:rgba(0,212,255,.3);border-radius:3px}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(5,8,15,.92);
+  backdrop-filter:blur(16px);border-bottom:1px solid var(--border);
+  padding:0 1.5rem;height:56px;display:flex;align-items:center;gap:.8rem}
+.nav-logo{font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:900;
+  background:linear-gradient(90deg,var(--blue),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-spacer{flex:1}
+a.nav-btn{color:var(--dim);text-decoration:none;font-size:.78rem;
+  padding:.3rem .7rem;border-radius:8px;border:1px solid var(--border);
+  transition:all .2s}
+a.nav-btn:hover,a.nav-btn.active{color:var(--text);border-color:var(--blue);background:rgba(0,212,255,.07)}
+a.nav-btn.gold{border-color:rgba(255,215,0,.3);color:var(--gold)}
+a.nav-btn.gold.active,a.nav-btn.gold:hover{background:rgba(255,215,0,.07);border-color:var(--gold)}
+
+/* HERO */
+.hero{background:linear-gradient(180deg,rgba(255,215,0,.04) 0%,transparent 100%);
+  border-bottom:1px solid var(--border);padding:2.5rem 2rem 2rem;text-align:center}
+.hero-eyebrow{font-size:.65rem;letter-spacing:4px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:.8rem}
+.hero-title{font-family:'Orbitron',sans-serif;font-size:clamp(1.6rem,4vw,2.8rem);
+  font-weight:900;margin-bottom:.5rem;
+  background:linear-gradient(135deg,#fff 30%,var(--gold) 70%,var(--orange) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{color:var(--dim);font-size:.88rem}
+
+/* MAIN */
+.main{max-width:1400px;margin:0 auto;padding:2rem 1.5rem}
+.section-title{font-size:.65rem;letter-spacing:3px;color:var(--dim2);
+  text-transform:uppercase;margin-bottom:1rem}
+
+/* PODIUM */
+.podium-wrap{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:1rem;
+  max-width:760px;margin:0 auto 2.5rem;align-items:end}
+.podium-card{background:var(--card);border:1px solid var(--border);
+  border-radius:20px;padding:1.4rem 1rem 1rem;text-align:center;
+  position:relative;overflow:hidden;transition:box-shadow .2s}
+.podium-card.p1{border-color:rgba(255,215,0,.25);background:rgba(255,215,0,.04);
+  box-shadow:0 0 40px rgba(255,215,0,.1)}
+.podium-card.p2{border-color:rgba(192,192,192,.2);background:rgba(192,192,192,.02)}
+.podium-card.p3{border-color:rgba(205,127,50,.2);background:rgba(205,127,50,.02)}
+.podium-medal{font-size:1.5rem;margin-bottom:.5rem;display:block}
+.podium-code{font-family:'Orbitron',sans-serif;font-size:1.4rem;font-weight:900;
+  display:block;margin-bottom:.2rem}
+.podium-card.p1 .podium-code{color:var(--gold)}
+.podium-card.p2 .podium-code{color:#c0c0c0}
+.podium-card.p3 .podium-code{color:#cd7f32}
+.podium-name{font-size:.7rem;color:var(--dim);display:block;margin-bottom:.8rem}
+.podium-pct{font-family:'Orbitron',sans-serif;font-size:1.6rem;font-weight:900;
+  display:block;line-height:1}
+.podium-card.p1 .podium-pct{color:var(--gold)}
+.podium-card.p2 .podium-pct{color:#c0c0c0}
+.podium-card.p3 .podium-pct{color:#cd7f32}
+.podium-lbl{font-size:.58rem;letter-spacing:1.5px;color:var(--dim2);
+  text-transform:uppercase;margin-top:.3rem;display:block}
+.podium-bar{height:4px;border-radius:2px;margin-top:.8rem;
+  background:linear-gradient(90deg,var(--gold),transparent)}
+.podium-card.p1 .podium-bar{background:linear-gradient(90deg,var(--gold),rgba(255,215,0,.1))}
+.podium-card.p2 .podium-bar{background:linear-gradient(90deg,#c0c0c0,rgba(192,192,192,.1))}
+.podium-card.p3 .podium-bar{background:linear-gradient(90deg,#cd7f32,rgba(205,127,50,.1))}
+
+/* CHAMP BARS */
+.champ-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:.5rem;margin-bottom:2.5rem}
+.champ-item{display:grid;grid-template-columns:32px 1fr auto;
+  align-items:center;gap:.7rem;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:.55rem .8rem;
+  transition:border-color .15s}
+.champ-item:hover{border-color:var(--border2)}
+.champ-rank{font-family:'Orbitron',sans-serif;font-size:.62rem;color:var(--dim2);
+  text-align:center}
+.champ-body{min-width:0}
+.champ-code{font-family:'Orbitron',sans-serif;font-size:.78rem;font-weight:700;
+  color:var(--text);display:block}
+.champ-bar-wrap{height:4px;background:rgba(255,255,255,.06);border-radius:2px;
+  margin-top:4px;overflow:hidden}
+.champ-bar{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--gold),var(--orange));
+  transition:width 1.2s ease}
+.champ-pct{font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:700;
+  color:var(--gold);white-space:nowrap}
+
+/* PROGRESSION TABLE */
+.prog-wrap{overflow-x:auto;margin-bottom:2.5rem;
+  background:var(--card);border:1px solid var(--border);border-radius:16px}
+.prog-table{width:100%;border-collapse:collapse;min-width:700px;font-size:.78rem}
+.prog-table thead th{padding:.7rem 1rem;text-align:center;font-size:.6rem;
+  letter-spacing:1.5px;color:var(--dim2);text-transform:uppercase;
+  border-bottom:1px solid var(--border);font-weight:600;white-space:nowrap}
+.prog-table thead th:first-child{text-align:left}
+.prog-table tbody tr{border-bottom:1px solid rgba(255,255,255,.04);
+  transition:background .15s}
+.prog-table tbody tr:hover{background:rgba(255,255,255,.03)}
+.prog-table tbody tr:last-child{border-bottom:none}
+.prog-table td{padding:.5rem 1rem;text-align:center;vertical-align:middle}
+.prog-table td:first-child{text-align:left}
+.prog-team-cell{display:flex;align-items:center;gap:.6rem}
+.prog-code{font-family:'Orbitron',sans-serif;font-size:.72rem;font-weight:700}
+.prog-name{font-size:.65rem;color:var(--dim)}
+.prog-pct{font-size:.72rem;font-weight:600}
+.prog-pct.high{color:var(--green)}
+.prog-pct.med{color:var(--gold)}
+.prog-pct.low{color:var(--orange)}
+.prog-pct.zero{color:var(--dim2)}
+.prog-champ{font-family:'Orbitron',sans-serif;font-size:.78rem;font-weight:700;color:var(--gold)}
+.conf-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ROUND TABS */
+.tab-row{display:flex;gap:.4rem;margin-bottom:1rem;flex-wrap:wrap}
+.tab-btn{font-size:.7rem;padding:.3rem .8rem;border-radius:8px;
+  border:1px solid var(--border);background:transparent;color:var(--dim);
+  cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.tab-btn.active,.tab-btn:hover{color:var(--gold);border-color:rgba(255,215,0,.3);
+  background:rgba(255,215,0,.05)}
+
+/* BRACKET */
+.bracket-section-wrap{overflow-x:auto;
+  border:1px solid var(--border);border-radius:16px;
+  background:var(--card);padding:1rem}
+.bracket-outer{min-width:960px}
+.round-headers{display:flex;margin-bottom:.5rem}
+.round-hdr-cell{flex:1;text-align:center;font-size:.6rem;letter-spacing:2px;
+  color:var(--dim);text-transform:uppercase;padding:.3rem 0;
+  border-bottom:1px solid var(--border)}
+.bracket-columns{display:flex;height:860px}
+.bround{flex:1;display:flex;flex-direction:column;padding:0 4px;border-right:1px solid rgba(255,255,255,.03)}
+.bround:last-child{border-right:none}
+.bround-inner{flex:1;display:flex;flex-direction:column;justify-content:space-around}
+.b-match{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);
+  border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.b-match:hover{border-color:rgba(255,215,0,.25);box-shadow:0 0 16px rgba(255,215,0,.06)}
+.b-match.final{border-color:rgba(255,215,0,.3);background:rgba(255,215,0,.04);
+  box-shadow:0 0 30px rgba(255,215,0,.08)}
+.b-team{display:flex;justify-content:space-between;align-items:center;
+  padding:4px 7px;font-size:.66rem;border-bottom:1px solid rgba(255,255,255,.04)}
+.b-team:last-child{border-bottom:none}
+.b-team.fav{background:rgba(255,215,0,.06)}
+.b-team.fav .b-code{color:var(--gold)}
+.b-code{font-family:'Orbitron',sans-serif;font-size:.62rem;font-weight:700;color:var(--text)}
+.b-prob{font-size:.55rem;color:var(--dim)}
+.b-score{font-size:.58rem;color:var(--dim2);padding:2px 7px;
+  font-family:'Orbitron',sans-serif;letter-spacing:.5px;
+  border-top:1px solid rgba(255,255,255,.04);text-align:center}
+.b-trophy{font-size:1.2rem;text-align:center;padding:.4rem 0}
+
+/* Conf colors (for dots) */
+.UEFA{background:var(--conf-UEFA)}
+.CONMEBOL{background:var(--conf-CONMEBOL)}
+.CAF{background:var(--conf-CAF)}
+.AFC{background:var(--conf-AFC)}
+.CONCACAF{background:var(--conf-CONCACAF)}
+.OFC{background:var(--conf-OFC)}
+.INT{background:var(--conf-INT)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .5s ease both}
+
+@media(max-width:768px){
+  nav .nav-btn:not(.nav-btn:last-child):not(.nav-btn:first-child){display:none}
+  .podium-wrap{grid-template-columns:1fr 1fr 1fr;max-width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-btn">← 返回</a>
+  <span class="nav-logo">WC2026</span>
+  <span class="nav-spacer"></span>
+  <a href="/groups" class="nav-btn">小組賽</a>
+  <a href="/bracket" class="nav-btn gold active">淘汰賽 ★</a>
+  <a href="/predict?home=ARG&away=BRA" class="nav-btn">比賽預測</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">⚽ FIFA 2026 WORLD CUP · USA / CANADA / MEXICO</div>
+  <h1 class="hero-title">淘汰賽預測</h1>
+  <p class="hero-sub" style="margin-bottom:0">32 強 · ELO 預測對陣 · Monte Carlo 冠軍機率（{{ '{:,}'.format(n_sim) }} 次模擬）</p>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- Podium: top 3 champion picks -->
+  <p class="section-title fade-up">🏆 冠軍熱門排行</p>
+  <div class="podium-wrap fade-up" id="podium"></div>
+
+  <!-- Remaining champ probabilities -->
+  <div class="champ-list fade-up" id="champ-bars"></div>
+
+  <!-- Round progression table -->
+  <p class="section-title fade-up">📊 各輪晉級機率（前 {{ n_sim|int // 1000 }}K 次模擬）</p>
+  <div class="prog-wrap fade-up">
+    <table class="prog-table">
+      <thead>
+        <tr>
+          <th>球隊</th>
+          <th>晉 32 強</th>
+          <th>16 強</th>
+          <th>8 強</th>
+          <th>4 強</th>
+          <th>決賽</th>
+          <th>★ 冠軍</th>
+        </tr>
+      </thead>
+      <tbody id="prog-tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- Visual bracket -->
+  <p class="section-title fade-up">🗺 ELO 預測對陣表</p>
+  <div class="bracket-section-wrap fade-up">
+    <div class="bracket-outer">
+      <div class="round-headers" id="round-headers"></div>
+      <div class="bracket-columns" id="bracket-cols"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<div style="text-align:center;padding:2rem 1rem;font-size:.72rem;color:rgba(240,244,255,.2)">
+  WC2026 Prediction System · Monte Carlo {{ '{:,}'.format(n_sim) }} 次模擬 · 僅供參考
+  &nbsp;|&nbsp; <a href="/groups" style="color:var(--blue);text-decoration:none">← 查看小組賽</a>
+</div>
+
+<script>
+const BRACKET = {{ bracket_json | safe }};
+const PROBS   = {{ tournament_probs_json | safe }};
+const NAMES   = {{ team_names_json | safe }};
+const CONFS   = {{ confs_json | safe }};
+
+const CONF_COLOR = {
+  UEFA:'#4488ff', CONMEBOL:'#00cc77', CAF:'#ff8844',
+  AFC:'#cc44ff',  CONCACAF:'#ffcc00', OFC:'#44dddd', INT:'#aaaaaa'
+};
+
+// ── Sort all teams by champ probability ──────────────────────────────────────
+const champRanked = Object.entries(PROBS)
+  .filter(([,p])=>p.champ>0 || p.qual>0)
+  .sort((a,b)=>b[1].champ - a[1].champ);
+
+const maxChamp = champRanked[0][1].champ;
+
+// ── Podium (top 3) ──────────────────────────────────────────────────────────
+const podiumEl = document.getElementById('podium');
+const medals = ['🥈','🥇','🥉'];
+const podiumOrder = [1, 0, 2]; // 2nd, 1st, 3rd left-to-right
+const podiumClass = ['p2','p1','p3'];
+
+podiumOrder.forEach((rank, slot) => {
+  const [code, probs] = champRanked[rank];
+  const conf = CONFS[code] || 'INT';
+  podiumEl.innerHTML += `
+    <div class="podium-card ${podiumClass[slot]}">
+      <span class="podium-medal">${medals[rank]}</span>
+      <span class="podium-code">${code}</span>
+      <span class="podium-name">${NAMES[code]||code}</span>
+      <span class="podium-pct">${probs.champ.toFixed(1)}%</span>
+      <span class="podium-lbl">冠軍機率</span>
+      <div class="podium-bar" style="width:${probs.champ/maxChamp*100}%"></div>
+      <div style="display:flex;justify-content:space-between;margin-top:.8rem;font-size:.6rem;color:rgba(240,244,255,.35)">
+        <span>決賽 ${probs.final.toFixed(0)}%</span>
+        <span>四強 ${probs.sf.toFixed(0)}%</span>
+        <span><span class="conf-dot ${conf}" style="width:6px;height:6px;border-radius:50%;display:inline-block"></span> ${conf}</span>
+      </div>
+    </div>`;
+});
+
+// ── Champ bars (4th onwards) ─────────────────────────────────────────────────
+const barsEl = document.getElementById('champ-bars');
+champRanked.slice(3, 20).forEach(([code, probs], i) => {
+  const conf = CONFS[code] || 'INT';
+  const color = CONF_COLOR[conf] || '#aaa';
+  barsEl.innerHTML += `
+    <div class="champ-item">
+      <span class="champ-rank">#${i+4}</span>
+      <div class="champ-body">
+        <span class="champ-code" style="color:${color}">${code} <span style="font-family:Inter,sans-serif;font-size:.6rem;color:var(--dim);font-weight:400">${NAMES[code]||''}</span></span>
+        <div class="champ-bar-wrap"><div class="champ-bar" data-w="${probs.champ/maxChamp*100}" style="width:0%;background:linear-gradient(90deg,${color},rgba(0,0,0,0))"></div></div>
+      </div>
+      <span class="champ-pct">${probs.champ.toFixed(1)}%</span>
+    </div>`;
+});
+
+// ── Progression table ────────────────────────────────────────────────────────
+function pctClass(v) {
+  if(v>=50) return 'high';
+  if(v>=20) return 'med';
+  if(v>=5)  return 'low';
+  if(v>0)   return 'low';
+  return 'zero';
+}
+
+const tbody = document.getElementById('prog-tbody');
+champRanked.filter(([,p])=>p.qual>0).slice(0,32).forEach(([code, probs]) => {
+  const conf = CONFS[code] || 'INT';
+  const color = CONF_COLOR[conf] || '#aaa';
+  tbody.innerHTML += `<tr>
+    <td>
+      <div class="prog-team-cell">
+        <div class="conf-dot" style="background:${color}"></div>
+        <div>
+          <div class="prog-code" style="color:${color}">${code}</div>
+          <div class="prog-name">${NAMES[code]||''}</div>
+        </div>
+      </div>
+    </td>
+    <td><span class="prog-pct ${pctClass(probs.qual)}">${probs.qual.toFixed(1)}%</span></td>
+    <td><span class="prog-pct ${pctClass(probs.r16)}">${probs.r16>0?probs.r16.toFixed(1)+'%':'—'}</span></td>
+    <td><span class="prog-pct ${pctClass(probs.qf)}">${probs.qf>0?probs.qf.toFixed(1)+'%':'—'}</span></td>
+    <td><span class="prog-pct ${pctClass(probs.sf)}">${probs.sf>0?probs.sf.toFixed(1)+'%':'—'}</span></td>
+    <td><span class="prog-pct ${pctClass(probs.final)}">${probs.final>0?probs.final.toFixed(1)+'%':'—'}</span></td>
+    <td><span class="prog-champ">${probs.champ>0?probs.champ.toFixed(1)+'%':'—'}</span></td>
+  </tr>`;
+});
+
+// ── Visual bracket ───────────────────────────────────────────────────────────
+const ROUNDS = [
+  { key:'r32',   label:'32 強', isList:true  },
+  { key:'r16',   label:'16 強', isList:true  },
+  { key:'qf',    label:'8 強',  isList:true  },
+  { key:'sf',    label:'4 強',  isList:true  },
+  { key:'final', label:'決賽',  isList:false },
+];
+
+const headersEl = document.getElementById('round-headers');
+const colsEl    = document.getElementById('bracket-cols');
+
+ROUNDS.forEach(rnd => {
+  // Header
+  const hdr = document.createElement('div');
+  hdr.className = 'round-hdr-cell';
+  hdr.textContent = rnd.label;
+  headersEl.appendChild(hdr);
+
+  // Column
+  const col = document.createElement('div');
+  col.className = 'bround';
+  const inner = document.createElement('div');
+  inner.className = 'bround-inner';
+  col.appendChild(inner);
+  colsEl.appendChild(col);
+
+  const matches = rnd.isList ? BRACKET[rnd.key] : [BRACKET[rnd.key]];
+  if(!matches) return;
+
+  matches.forEach(m => {
+    const p2 = parseFloat((100 - m.p1).toFixed(1));
+    const conf1 = CONFS[m.team1] || 'INT';
+    const conf2 = CONFS[m.team2] || 'INT';
+    const c1 = CONF_COLOR[conf1] || '#aaa';
+    const c2 = CONF_COLOR[conf2] || '#aaa';
+    const fav1 = m.p1 >= 50;
+    const isFinal = rnd.key === 'final';
+
+    const card = document.createElement('div');
+    card.className = `b-match${isFinal?' final':''}`;
+    card.innerHTML = `
+      <div class="b-team${fav1?' fav':''}">
+        <span class="b-code" style="color:${c1}">${m.team1}</span>
+        <span class="b-prob">${m.p1.toFixed(0)}%</span>
+      </div>
+      <div class="b-team${!fav1?' fav':''}">
+        <span class="b-code" style="color:${c2}">${m.team2}</span>
+        <span class="b-prob">${p2.toFixed(0)}%</span>
+      </div>
+      <div class="b-score">${m.score}</div>
+      ${isFinal?'<div class="b-trophy">🏆</div>':''}
+    `;
+    inner.appendChild(card);
+  });
+});
+
+// ── Animate bars & fade-ups ─────────────────────────────────────────────────
+setTimeout(() => {
+  document.querySelectorAll('.champ-bar[data-w]').forEach(el => {
+    el.style.width = Math.min(el.dataset.w, 100) + '%';
+  });
+}, 400);
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, {threshold:.05});
+
+document.querySelectorAll('.fade-up').forEach(el => {
+  el.style.cssText += ';opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>

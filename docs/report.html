@@ -184,6 +184,10 @@ nav{position:sticky;top:0;z-index:200;background:rgba(5,8,15,.9);backdrop-filter
 .final-score-item.secondary .score-number{font-size:1.3rem}
 .score-number{font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;display:block;color:var(--gold)}
 .score-rank-label{font-size:.65rem;color:var(--dim);letter-spacing:1px;margin-top:.2rem}
+.score-team-row{display:flex;align-items:center;justify-content:center;gap:.45rem;margin-bottom:.1rem}
+.score-tc{font-family:'Orbitron',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:1.5px}
+.score-tc.tc-home{color:var(--home)}.score-tc.tc-away{color:var(--away)}
+.final-score-item.secondary .score-tc{font-size:.52rem}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .fade-up{animation:fadeUp .6s ease both}
 .delay-1{animation-delay:.1s}.delay-2{animation-delay:.2s}.delay-3{animation-delay:.3s}.delay-4{animation-delay:.4s}.delay-5{animation-delay:.5s}
@@ -580,7 +584,7 @@ function initReport(data){
   buildInjured('away-injured-wrap', AWAY.injured_players, AWAY.name);
   buildForm('home-form', HOME.recent_form);
   buildForm('away-form', AWAY.recent_form);
-  buildFinalScores(R);
+  buildFinalScores(R, HOME, AWAY);
   buildRisks(HOME, AWAY);
 
   // Prob bars animation
@@ -738,12 +742,12 @@ function buildForm(containerId, form){
 }
 
 // ── Final scores ──────────────────────────────────────────────────────────────
-function buildFinalScores(R){
+function buildFinalScores(R, HOME, AWAY){
   const c=document.getElementById('final-scores');
   R.top10.slice(0,5).forEach((s,i)=>{
     const el=document.createElement('div');
     el.className='final-score-item'+(i>=3?' secondary':'');
-    el.innerHTML=`<span class="score-number">${s.home}–${s.away}</span><div class="score-rank-label">#${i+1} · ${s.prob}%</div>`;
+    el.innerHTML=`<div class="score-team-row"><span class="score-tc tc-home">${HOME.code}</span><span class="score-number">${s.home}–${s.away}</span><span class="score-tc tc-away">${AWAY.code}</span></div><div class="score-rank-label">#${i+1} · ${s.prob}%</div>`;
     c.appendChild(el);
   });
 }

@@ -56,6 +56,19 @@ def run(
         lam_h *= alt_factor
         lam_a *= alt_factor
 
+    # ── ELO-gap dominance adjustment ─────────────────────────────────────────
+    # Large ELO gaps mean the favourite wins more cleanly (fewer draws,
+    # more clean sheets).  Scales from 0 % at 200-point gap to 10 % at 600+.
+    elo_gap = home.elo_rating - away.elo_rating
+    if abs(elo_gap) > 200:
+        adj = min(0.10, (abs(elo_gap) - 200) * 0.00025)
+        if elo_gap > 0:
+            lam_h *= (1.0 + adj)
+            lam_a *= max(0.70, 1.0 - adj)
+        else:
+            lam_a *= (1.0 + adj)
+            lam_h *= max(0.70, 1.0 - adj)
+
     # ── Monte Carlo with ensemble lambdas ────────────────────────────────────
     r_mc = monte_carlo.simulate(lam_h, lam_a, n=MONTE_CARLO_SIMULATIONS)
 

@@ -16,40 +16,53 @@ def _elo_to_lambda(elo_diff: float, base_goals: float = 1.25) -> float:
     return base_goals * math.exp(elo_diff / 1000.0)
 
 
-def predict(home: TeamData, away: TeamData, neutral: bool = True) -> ModelResult:
+def _composite_diff(home: TeamData, away: TeamData, neutral: bool) -> float:
     """
-    Produce 3-way probabilities from ELO ratings.
+    Blend ELO + SPI + FIFA ranking into a single composite strength difference.
 
-    The approach:
-      1. Adjust home ELO by HFA if not neutral.
-      2. Compute raw head-to-head win probability.
-      3. Estimate lambdas from ELO gap and base rates.
-      4. Compute P(draw) from league-calibrated Poisson approximation.
+    Weights: 60 % ELO · 25 % SPI (FiveThirtyEight) · 15 % FIFA ranking.
+    SPI and FIFA are converted to an ELO-equivalent scale before blending.
     """
     home_elo = home.elo_rating + (0 if neutral else ELO_HOME_ADVANTAGE)
-    away_elo = away.elo_rating
+    elo_diff = home_elo - away.elo_rating
 
-    elo_diff = home_elo - away_elo                  # positive = home stronger
+    # SPI: higher = stronger; ~8 ELO pts per SPI point (empirical)
+    spi_diff = (home.spi_rating - away.spi_rating) * 8.0
 
-    # Raw P(home win, ignoring draw)
-    p_home_raw = _elo_win_prob(home_elo, away_elo)
+    # FIFA ranking: lower = better; 2.5 ELO pts per rank position
+    fifa_diff = (away.fifa_ranking - home.fifa_ranking) * 2.5
 
-    # Convert ELO difference to expected goals
+    return 0.60 * elo_diff + 0.25 * spi_diff + 0.15 * fifa_diff
+
+
+def predict(home: TeamData, away: TeamData, neutral: bool = True) -> ModelResult:
+    """
+    Produce 3-way probabilities from a composite ELO + SPI + FIFA rating.
+    """
+    home_elo = home.elo_rating + (0 if neutral else ELO_HOME_ADVANTAGE)
+    elo_diff = home_elo - away.elo_rating
+    composite_diff = _composite_diff(home, away, neutral)
+
+    # Raw P(home win) using composite-adjusted effective ELO
+    away_elo_adj = away.elo_rating - (composite_diff - elo_diff)
+    p_home_raw = _elo_win_prob(home_elo, away_elo_adj)
+
+    # Convert composite difference to expected goals
     base_h, base_a = 1.40, 1.10
-    lam_home = _elo_to_lambda(elo_diff, base_h)
-    lam_away = _elo_to_lambda(-elo_diff, base_a)
+    lam_home = _elo_to_lambda(composite_diff, base_h)
+    lam_away = _elo_to_lambda(-composite_diff, base_a)
 
     # Cap lambdas to sensible range
     lam_home = max(0.40, min(lam_home, 4.00))
     lam_away = max(0.40, min(lam_away, 4.00))
 
-    # Poisson draw probability: P(X=Y), summed up to 8
+    # Poisson draw probability: P(X=Y), summed to 5 (k>5 negligible in WC)
     p_draw = sum(
         math.exp(-lam_home) * (lam_home ** k) / math.factorial(k) *
         math.exp(-lam_away) * (lam_away ** k) / math.factorial(k)
-        for k in range(9)
+        for k in range(6)
     )
-    p_draw = min(p_draw, 0.35)  # international matches rarely draw more than 35%
+    p_draw = min(p_draw, 0.32)  # WC group stage draw rate peaks ~30%
 
     # Distribute remaining probability between home/away win
     remaining = 1.0 - p_draw

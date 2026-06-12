@@ -17,7 +17,7 @@ ELO_HOME_ADVANTAGE = 100        # ELO points added for true home team
 ELO_SCALE = 400                 # Standard ELO scale factor
 
 # ── Dixon-Coles ───────────────────────────────────────────────────────────────
-DC_RHO = -0.10                  # Correlation correction (typical: -0.08 to -0.15)
+DC_RHO = -0.04                  # WC-calibrated: domestic -0.10 inflates 1-1 too much
 
 # ── Poisson Base Rates (international / neutral) ──────────────────────────────
 INT_AVG_GOALS_HOME = 1.40       # Average goals per game by "home" side (neutral)

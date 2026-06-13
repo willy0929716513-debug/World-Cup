@@ -307,6 +307,31 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
 .group-header{border-bottom:1px solid hsla(var(--ghue,200),60%,50%,.2)}
 /* Third row safe vivid */
 @keyframes safeRowGlow{0%,100%{box-shadow:none}50%{box-shadow:0 0 12px rgba(0,230,118,.14)}}
+/* Champion prediction panel */
+.champ-panel{margin-bottom:1.5rem;padding:1.2rem;background:linear-gradient(135deg,rgba(255,215,0,.04),rgba(255,150,0,.02));border:1px solid rgba(255,215,0,.22);border-radius:16px;position:relative;overflow:hidden}
+.champ-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(255,215,0,.6),rgba(255,150,0,.5),transparent)}
+.champ-panel-title{font-family:'Orbitron',sans-serif;font-size:.9rem;font-weight:900;color:var(--gold);display:flex;align-items:center;gap:.4rem;margin-bottom:.2rem}
+.champ-panel-sub{font-size:.62rem;color:var(--dim2);margin-bottom:1rem}
+.champ-podium{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:.5rem;margin-bottom:.9rem;align-items:end}
+.champ-pod{background:rgba(255,255,255,.03);border-radius:12px;padding:.8rem .6rem;text-align:center;border:1px solid transparent}
+.champ-pod.p1{background:rgba(255,215,0,.06);border-color:rgba(255,215,0,.28);animation:champGlow 3s ease-in-out infinite}
+.champ-pod.p2{background:rgba(192,192,192,.04);border-color:rgba(192,192,192,.2)}
+.champ-pod.p3{background:rgba(205,127,50,.04);border-color:rgba(205,127,50,.18)}
+@keyframes champGlow{0%,100%{box-shadow:0 0 10px rgba(255,215,0,.1)}50%{box-shadow:0 0 28px rgba(255,215,0,.3),inset 0 0 14px rgba(255,215,0,.05)}}
+.champ-pod-medal{font-size:1.3rem;display:block;margin-bottom:.2rem}
+.champ-pod-code{font-family:'Orbitron',sans-serif;font-size:1.1rem;font-weight:900;display:block}
+.champ-pod.p1 .champ-pod-code{color:var(--gold)}.champ-pod.p2 .champ-pod-code{color:#c0c0c0}.champ-pod.p3 .champ-pod-code{color:#cd7f32}
+.champ-pod-name{font-size:.58rem;color:var(--dim);display:block;margin:.15rem 0 .3rem}
+.champ-pod-pct{font-family:'Orbitron',sans-serif;font-size:1.3rem;font-weight:900;display:block}
+.champ-pod.p1 .champ-pod-pct{color:var(--gold)}.champ-pod.p2 .champ-pod-pct{color:#c0c0c0}.champ-pod.p3 .champ-pod-pct{color:#cd7f32}
+.champ-pod-lbl{font-size:.5rem;color:var(--dim2);display:block;margin-top:.1rem}
+.champ-bars-grid{display:grid;grid-template-columns:1fr 1fr;gap:.25rem}
+.champ-bar-row{display:flex;align-items:center;gap:.4rem;padding:.25rem .4rem;border-radius:7px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05)}
+.champ-bar-rank{font-family:'Orbitron',sans-serif;font-size:.55rem;color:var(--dim2);min-width:16px}
+.champ-bar-code{font-family:'Orbitron',sans-serif;font-size:.68rem;font-weight:700;color:var(--text);min-width:28px}
+.champ-bar-wrap{flex:1;height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
+.champ-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--gold),rgba(255,215,0,.3));width:0%;transition:width 1s ease}
+.champ-bar-pct{font-size:.62rem;color:var(--gold);font-weight:600;min-width:30px;text-align:right}
 </style>
 </head>
 <body>
@@ -393,6 +418,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
       <button class="filter-btn" onclick="highlightFavourites()">⭐ 熱門強隊</button>
     </div>
 
+    <!-- Champion prediction panel -->
+    <div class="champ-panel fade-up" id="champ-panel" style="display:none"></div>
+
     <!-- Best thirds panel -->
     <div class="thirds-panel fade-up">
       <div class="thirds-title">🏅 最佳第 3 名競爭</div>
@@ -463,7 +491,7 @@ function highlightFavourites() {
 // ── Render ───────────────────────────────────────────────────────────────────
 function render(data) {
   const { group_probs, predicted_group_standings, group_matches,
-          team_names, confederations, groups, n_sim } = data;
+          team_names, confederations, groups, n_sim, tournament_probs } = data;
 
   // Update hero subtitle
   const nSimFmt = n_sim ? n_sim.toLocaleString() : '?';
@@ -474,6 +502,9 @@ function render(data) {
   document.getElementById('footer').innerHTML =
     `WC2026 Prediction System · Monte Carlo ${nSimFmt} 次模擬 · 僅供參考
     &nbsp;|&nbsp; <a href="bracket.html" style="color:var(--gold);text-decoration:none">查看淘汰賽預測 →</a>`;
+
+  // ── Champion prediction ────────────────────────────────────────────────────
+  if (tournament_probs) renderChampions(tournament_probs, team_names);
 
   // ── Best thirds ────────────────────────────────────────────────────────────
   // Collect all pos3 teams with their best_third probability
@@ -649,6 +680,51 @@ function render(data) {
     el.style.cssText += ';opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease';
     obs.observe(el);
   });
+}
+
+// ── Champion prediction ───────────────────────────────────────────────────────
+function renderChampions(probs, names) {
+  const panel = document.getElementById('champ-panel');
+  if (!probs || !panel) return;
+  const ranked = Object.entries(probs)
+    .filter(([, p]) => p.champ > 0)
+    .sort((a, b) => b[1].champ - a[1].champ)
+    .slice(0, 12);
+  if (!ranked.length) return;
+  const max = ranked[0][1].champ;
+  const podiumOrder = [1, 0, 2];
+  const podiumClass = ['p2', 'p1', 'p3'];
+  const medals = ['🥈', '🥇', '🥉'];
+  const podiumHTML = podiumOrder.map((rank, slot) => {
+    if (rank >= ranked.length) return '<div></div>';
+    const [code, p] = ranked[rank];
+    return `<div class="champ-pod ${podiumClass[slot]}">
+      <span class="champ-pod-medal">${medals[rank]}</span>
+      <span class="champ-pod-code">${code}</span>
+      <span class="champ-pod-name">${names[code] || ''}</span>
+      <span class="champ-pod-pct">${p.champ.toFixed(1)}%</span>
+      <span class="champ-pod-lbl">冠軍機率</span>
+    </div>`;
+  }).join('');
+  const barsHTML = ranked.slice(3).map(([code, p], i) =>
+    `<div class="champ-bar-row">
+      <span class="champ-bar-rank">#${i + 4}</span>
+      <span class="champ-bar-code">${code}</span>
+      <div class="champ-bar-wrap"><div class="champ-bar-fill" data-w="${(p.champ / max * 100).toFixed(1)}"></div></div>
+      <span class="champ-bar-pct">${p.champ.toFixed(1)}%</span>
+    </div>`
+  ).join('');
+  panel.innerHTML = `
+    <div class="champ-panel-title">🏆 總冠軍預測</div>
+    <div class="champ-panel-sub">Monte Carlo 模擬最終奪冠機率排名</div>
+    <div class="champ-podium">${podiumHTML}</div>
+    <div class="champ-bars-grid">${barsHTML}</div>`;
+  panel.style.display = 'block';
+  requestAnimationFrame(() => setTimeout(() => {
+    panel.querySelectorAll('.champ-bar-fill[data-w]').forEach(el => {
+      el.style.width = parseFloat(el.dataset.w) + '%';
+    });
+  }, 400));
 }
 
 // ── Fetch ─────────────────────────────────────────────────────────────────────

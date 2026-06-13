@@ -247,6 +247,39 @@ nav{position:sticky;top:0;z-index:200;background:rgba(5,8,15,.9);backdrop-filter
 /* Confidence level glow */
 .conf-level{animation:confGlow 3s ease-in-out infinite}
 @keyframes confGlow{0%,100%{text-shadow:0 0 30px rgba(255,215,0,.5)}50%{text-shadow:0 0 50px rgba(255,215,0,.85),0 0 80px rgba(255,215,0,.2)}}
+/* ── V2: Scanline + Sonar + Drama ────────────────────────────────────────── */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.05) 0,rgba(0,0,0,.05) 1px,transparent 1px,transparent 4px)}
+/* VS center sonar ping rings */
+.vs-center{position:relative}
+.vs-center::before,.vs-center::after{
+  content:'';position:absolute;top:30px;left:50%;
+  border-radius:50%;border:1px solid rgba(255,215,0,.5);
+  pointer-events:none;transform:translateX(-50%)}
+.vs-center::before{animation:sonarPing 3s ease-out infinite}
+.vs-center::after{animation:sonarPing 3s ease-out 1.5s infinite}
+@keyframes sonarPing{
+  from{width:20px;height:20px;opacity:.8;margin-top:-10px}
+  to{width:180px;height:180px;opacity:0;margin-top:-90px}}
+/* Prob cells colored backgrounds */
+.prob-cell.home-win{background:linear-gradient(160deg,rgba(0,212,255,.1),rgba(0,212,255,.03),var(--bg3))}
+.prob-cell.draw{background:linear-gradient(160deg,rgba(255,215,0,.1),rgba(255,215,0,.03),var(--bg3))}
+.prob-cell.away-win{background:linear-gradient(160deg,rgba(255,107,107,.1),rgba(255,107,107,.03),var(--bg3))}
+/* Section title more vivid */
+.section-title::before{width:4px;height:18px;background:linear-gradient(180deg,var(--home),var(--gold),var(--away))}
+/* Final box more dramatic */
+.final-box{background:linear-gradient(135deg,rgba(0,212,255,.09),rgba(255,215,0,.09),rgba(255,107,107,.05));border-color:rgba(255,215,0,.35)}
+/* Score items bigger rank */
+.score-rank{font-size:.75rem;font-weight:700;color:var(--dim);min-width:28px}
+.score-item:first-child .score-rank{color:var(--gold)}
+/* Nav logo neon */
+@keyframes navLogoPulse{0%,100%{filter:drop-shadow(0 0 5px rgba(0,212,255,.35))}50%{filter:drop-shadow(0 0 14px rgba(0,212,255,.75))}}
+.nav-logo{animation:navLogoPulse 3s ease-in-out infinite}
+/* Hero glitch on team codes */
+@keyframes homeGlitch{0%,92%,100%{transform:none}93%{transform:translate(-2px,0) skewX(1deg)}94%{transform:translate(2px,0)}95%{transform:none}}
+@keyframes awayGlitch{0%,92%,100%{transform:none}93%{transform:translate(2px,0) skewX(-1deg)}94%{transform:translate(-2px,0)}95%{transform:none}}
+.home-team .team-code{animation:homeCodePulse 3s ease-in-out infinite,homeGlitch 15s steps(1) 5s infinite}
+.away-team .team-code{animation:awayCodePulse 3s ease-in-out infinite,awayGlitch 15s steps(1) 7s infinite}
 </style>
 </head>
 <body>

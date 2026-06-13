@@ -234,6 +234,35 @@ a.nav-btn.gold.active,a.nav-btn.gold:hover{background:rgba(255,215,0,.07);border
 .podium-card.p3:hover{box-shadow:0 0 30px rgba(205,127,50,.12)}
 /* Loading spinner glow */
 .spinner{box-shadow:0 0 20px rgba(255,215,0,.15)}
+/* ── V2: Scanline + Champion Drama ───────────────────────────────────────── */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.05) 0,rgba(0,0,0,.05) 1px,transparent 1px,transparent 4px)}
+.aurora-orb{filter:blur(70px)}
+/* Champion medal bounce */
+.podium-card.p1 .podium-medal{font-size:2.5rem;display:block;animation:medalBounce 2.5s ease-in-out infinite}
+@keyframes medalBounce{0%,100%{transform:translateY(0) rotate(-5deg) scale(1)}50%{transform:translateY(-6px) rotate(5deg) scale(1.1)}}
+/* Silver/bronze glow */
+.podium-card.p2{animation:silverGlow 4s ease-in-out infinite}
+@keyframes silverGlow{0%,100%{box-shadow:none}50%{box-shadow:0 0 30px rgba(192,192,192,.15)}}
+.podium-card.p3{animation:bronzeGlow 4.5s ease-in-out 1s infinite}
+@keyframes bronzeGlow{0%,100%{box-shadow:none}50%{box-shadow:0 0 30px rgba(205,127,50,.15)}}
+/* Champ bar shimmer sweep */
+.champ-bar{position:relative;overflow:hidden}
+.champ-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transform:translateX(-100%);animation:barShimmer 3s ease-in-out infinite}
+@keyframes barShimmer{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+/* Prog champ column pulse */
+.prog-champ{animation:champColGlow 2.5s ease-in-out infinite}
+@keyframes champColGlow{0%,100%{text-shadow:0 0 8px rgba(255,215,0,.3)}50%{text-shadow:0 0 20px rgba(255,215,0,.65)}}
+/* Champ pct rank text */
+.champ-pct{font-size:.9rem}
+/* Nav logo neon */
+@keyframes navLogoPulse{0%,100%{filter:drop-shadow(0 0 5px rgba(0,212,255,.35))}50%{filter:drop-shadow(0 0 14px rgba(0,212,255,.75))}}
+.nav-logo{animation:navLogoPulse 3s ease-in-out infinite}
+/* Hero section glow */
+.hero{position:relative}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(255,215,0,.04),transparent);pointer-events:none}
+/* Final match champion glow stronger */
+@keyframes finalGlow{0%,100%{box-shadow:0 0 30px rgba(255,215,0,.08)}50%{box-shadow:0 0 70px rgba(255,215,0,.3),0 0 120px rgba(255,215,0,.1)}}
 </style>
 </head>
 <body>

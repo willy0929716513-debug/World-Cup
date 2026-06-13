@@ -280,6 +280,33 @@ a.nav-btn.gold:hover{background:rgba(255,215,0,.07)}
 /* Hero title gradient sweep */
 .hero-title{background:linear-gradient(135deg,#fff 15%,var(--blue) 40%,var(--gold) 65%,#fff 90%);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:titleFlow 6s ease-in-out infinite}
 @keyframes titleFlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+/* ── V2: Scanline + Group Colors + Drama ─────────────────────────────────── */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.05) 0,rgba(0,0,0,.05) 1px,transparent 1px,transparent 4px)}
+.aurora-orb{filter:blur(70px)}
+/* Group letter dramatically bigger + per-group hue */
+.group-letter{font-size:2.4rem;color:hsla(var(--ghue,48),90%,60%,1);
+  text-shadow:0 0 20px hsla(var(--ghue,48),90%,60%,.4)}
+@keyframes letterPulse{
+  0%,100%{text-shadow:0 0 20px hsla(var(--ghue,48),90%,60%,.3)}
+  50%{text-shadow:0 0 40px hsla(var(--ghue,48),90%,60%,.8),0 0 70px hsla(var(--ghue,48),90%,60%,.2)}}
+/* Group card per-hue accent */
+.group-card::before{background:linear-gradient(90deg,transparent,hsla(var(--ghue,200),75%,55%,.5),transparent);animation:accentPulse 3s ease-in-out infinite alternate}
+@keyframes accentPulse{from{opacity:.4}to{opacity:1}}
+/* Filter bar active more dramatic */
+.filter-btn.active{box-shadow:0 0 20px rgba(0,212,255,.3),inset 0 0 12px rgba(0,212,255,.05);font-weight:700}
+/* Stat values bigger + vivid */
+.stat-val{font-size:1.8rem}
+.stat-lbl{font-size:.65rem}
+/* Format pill highlighted glow */
+.format-pill.hl{box-shadow:0 0 16px rgba(255,215,0,.15),inset 0 0 10px rgba(255,215,0,.04)}
+/* Nav logo neon */
+@keyframes navLogoPulse{0%,100%{filter:drop-shadow(0 0 5px rgba(0,212,255,.35))}50%{filter:drop-shadow(0 0 14px rgba(0,212,255,.75))}}
+.nav-logo{animation:navLogoPulse 3s ease-in-out infinite}
+/* Group header border glow */
+.group-header{border-bottom:1px solid hsla(var(--ghue,200),60%,50%,.2)}
+/* Third row safe vivid */
+@keyframes safeRowGlow{0%,100%{box-shadow:none}50%{box-shadow:0 0 12px rgba(0,230,118,.14)}}
 </style>
 </head>
 <body>
@@ -510,6 +537,8 @@ function render(data) {
     card.id        = `group-${gLetter}`;
     card.dataset.group = gLetter;
     card.style.animationDelay = `${idx * 0.04}s`;
+    const GROUP_HUES=[200,270,150,0,45,315,120,30,225,330,90,185];
+    card.style.setProperty('--ghue', GROUP_HUES[idx] ?? idx * 30);
 
     // Header confs chips
     const confChips = teamCodes.map(code => {

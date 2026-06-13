@@ -67,9 +67,42 @@ nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(5,8,15,.85);back
   .detail-field input[type=date]{font-size:.82rem}
   .detail-field select{font-size:.82rem}
 }
+/* ── 炫砲 Visual Enhancement ─────────────────────────────────────────────── */
+.aurora-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.aurora-orb{position:absolute;border-radius:50%;filter:blur(90px);animation:auroraFloat ease-in-out infinite alternate}
+@keyframes auroraFloat{from{transform:translate(0,0) scale(1)}to{transform:translate(var(--tx,60px),var(--ty,40px)) scale(1.06)}}
+/* VS badge rotating rings */
+.vs-badge{position:relative}
+.vs-badge::before,.vs-badge::after{content:'';position:absolute;inset:-10px;border-radius:50%;pointer-events:none}
+.vs-badge::before{border:1.5px solid rgba(255,215,0,.25);animation:vsRing 8s linear infinite}
+.vs-badge::after{border:1.5px solid transparent;border-top-color:rgba(255,215,0,.8);animation:vsRing 4s linear infinite reverse;filter:drop-shadow(0 0 4px rgba(255,215,0,.5))}
+@keyframes vsRing{to{transform:rotate(360deg)}}
+/* Predict button shimmer sweep */
+.predict-btn{position:relative;overflow:hidden}
+.predict-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.2) 50%,transparent 65%);animation:btnShimmer 3.5s infinite}
+@keyframes btnShimmer{0%{transform:translateX(-200%)}100%{transform:translateX(200%)}}
+/* Hero badge glow pulse */
+.hero-badge{animation:fadeUp .6s ease both,badgePulse 3s ease-in-out 1s infinite}
+@keyframes badgePulse{0%,100%{border-color:rgba(255,215,0,.3);box-shadow:none}50%{border-color:rgba(255,215,0,.65);box-shadow:0 0 22px rgba(255,215,0,.18)}}
+/* Hero title gradient sweep */
+.hero-title{background:linear-gradient(135deg,#fff 15%,var(--home) 40%,var(--gold) 65%,#fff 90%);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:fadeUp .6s .1s ease both,titleFlow 6s ease-in-out .1s infinite}
+@keyframes titleFlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+/* Selector card breathing glow */
+.selector-card{animation:fadeUp .7s .3s ease both,cardGlow 5s ease-in-out .3s infinite}
+@keyframes cardGlow{0%,100%{box-shadow:0 0 60px rgba(0,212,255,.08),0 0 120px rgba(0,0,0,.5)}50%{box-shadow:0 0 90px rgba(0,212,255,.22),0 0 50px rgba(255,215,0,.08),0 0 120px rgba(0,0,0,.5)}}
+/* Team chip enhanced hover */
+.team-chip{transition:all .25s}
+.team-chip:hover{border-color:var(--home);background:rgba(0,212,255,.09);box-shadow:0 0 20px rgba(0,212,255,.22);transform:translateY(-2px) scale(1.02)}
 </style>
 </head>
 <body>
+<div class="aurora-bg">
+  <div class="aurora-orb" style="width:520px;height:520px;left:15%;top:8%;background:rgba(0,212,255,.10);--tx:-70px;--ty:80px;animation-duration:18s"></div>
+  <div class="aurora-orb" style="width:580px;height:580px;left:70%;top:55%;background:rgba(255,107,107,.08);--tx:80px;--ty:-50px;animation-duration:22s"></div>
+  <div class="aurora-orb" style="width:380px;height:380px;left:8%;top:65%;background:rgba(255,215,0,.07);--tx:-60px;--ty:70px;animation-duration:16s"></div>
+  <div class="aurora-orb" style="width:440px;height:440px;left:88%;top:20%;background:rgba(0,230,118,.06);--tx:55px;--ty:65px;animation-duration:20s"></div>
+  <div class="aurora-orb" style="width:500px;height:500px;left:50%;top:88%;background:rgba(147,51,234,.08);--tx:-45px;--ty:-75px;animation-duration:24s"></div>
+</div>
 <div id="stars"></div>
 <nav>
   <span class="nav-logo">WC2026</span>

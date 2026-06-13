@@ -220,10 +220,46 @@ a.nav-btn.gold:hover{background:rgba(255,215,0,.07)}
   .group-card{padding:1rem .9rem}
   .third-grid{grid-template-columns:1fr 1fr}
 }
+/* ── 炫砲 Visual Enhancement ─────────────────────────────────────────────── */
+.aurora-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.aurora-orb{position:absolute;border-radius:50%;filter:blur(90px);animation:auroraFloat ease-in-out infinite alternate}
+@keyframes auroraFloat{from{transform:translate(0,0) scale(1)}to{transform:translate(var(--tx,60px),var(--ty,40px)) scale(1.06)}}
+/* Group letter neon pulse */
+.group-letter{animation:letterPulse 3.5s ease-in-out infinite}
+@keyframes letterPulse{0%,100%{text-shadow:0 0 20px rgba(255,215,0,.3)}50%{text-shadow:0 0 35px rgba(255,215,0,.65),0 0 60px rgba(255,215,0,.18)}}
+/* Group card glowing top accent + hover */
+.group-card{position:relative}
+.group-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,212,255,.5),rgba(255,215,0,.4),transparent);opacity:0;transition:opacity .35s;border-radius:20px 20px 0 0}
+.group-card:hover{border-color:rgba(0,212,255,.25);box-shadow:0 0 40px rgba(0,212,255,.1),0 4px 24px rgba(0,0,0,.4)}
+.group-card:hover::before{opacity:1}
+/* Stats strip number glow */
+.stat-val{animation:statGlow 2.8s ease-in-out infinite}
+@keyframes statGlow{0%,100%{text-shadow:0 0 10px rgba(255,215,0,.25)}50%{text-shadow:0 0 22px rgba(255,215,0,.55)}}
+/* mc-link shimmer */
+.mc-link{position:relative;overflow:hidden}
+.mc-link::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 25%,rgba(0,212,255,.15) 50%,transparent 75%);transform:translateX(-100%);transition:none}
+.mc-link:hover::after{transform:translateX(100%);transition:transform .5s ease}
+/* Best-thirds item hover */
+.third-item{transition:all .2s}
+.third-item:hover{border-color:rgba(255,150,0,.35);background:rgba(255,150,0,.08);transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,150,0,.1)}
+/* Filter btn active glow */
+.filter-btn.active{color:var(--blue);border-color:rgba(0,212,255,.5);box-shadow:0 0 14px rgba(0,212,255,.18)}
+/* Match card hover glow */
+.match-card{transition:border-color .2s,box-shadow .2s}
+.match-card:hover{border-color:rgba(0,212,255,.3);box-shadow:0 0 20px rgba(0,212,255,.08)}
+/* Hero title gradient sweep */
+.hero-title{background:linear-gradient(135deg,#fff 15%,var(--blue) 40%,var(--gold) 65%,#fff 90%);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:titleFlow 6s ease-in-out infinite}
+@keyframes titleFlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 </style>
 </head>
 <body>
 
+<div class="aurora-bg">
+  <div class="aurora-orb" style="width:500px;height:500px;left:10%;top:15%;background:rgba(0,212,255,.08);--tx:-60px;--ty:90px;animation-duration:20s"></div>
+  <div class="aurora-orb" style="width:550px;height:550px;left:75%;top:45%;background:rgba(255,215,0,.07);--tx:70px;--ty:-60px;animation-duration:18s"></div>
+  <div class="aurora-orb" style="width:420px;height:420px;left:45%;top:70%;background:rgba(255,107,107,.06);--tx:-50px;--ty:60px;animation-duration:22s"></div>
+  <div class="aurora-orb" style="width:480px;height:480px;left:5%;top:60%;background:rgba(0,230,118,.05);--tx:60px;--ty:-50px;animation-duration:25s"></div>
+</div>
 <!-- LOADING OVERLAY -->
 <div class="loading" id="loading-overlay">
   <div class="spinner"></div>

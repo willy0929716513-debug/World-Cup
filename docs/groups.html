@@ -307,6 +307,38 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
 .group-header{border-bottom:1px solid hsla(var(--ghue,200),60%,50%,.2)}
 /* Third row safe vivid */
 @keyframes safeRowGlow{0%,100%{box-shadow:none}50%{box-shadow:0 0 12px rgba(0,230,118,.14)}}
+/* ── World Cup Elements ──────────────────────────────────────────────────── */
+/* Floating soccer balls */
+.ball-float{position:fixed;pointer-events:none;z-index:1;opacity:.06;font-size:1.3rem;animation:ballDrift linear infinite}
+@keyframes ballDrift{0%{transform:translateY(105vh) rotate(0deg)}100%{transform:translateY(-8vh) rotate(540deg)}}
+/* Tournament progress path */
+.path-strip{display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;padding:.55rem .6rem;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:12px;overflow:hidden;position:relative}
+.path-strip::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,215,0,.03),transparent);pointer-events:none}
+.path-step{display:flex;flex-direction:column;align-items:center;gap:.1rem;padding:.3rem .5rem;flex:1;text-align:center;border-radius:8px;transition:background .2s}
+.path-step.active{background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.18)}
+.path-num{font-family:'Orbitron',sans-serif;font-size:.82rem;font-weight:900;color:var(--gold)}
+.path-lbl{font-size:.5rem;color:var(--dim);letter-spacing:.8px;text-transform:uppercase;white-space:nowrap}
+.path-arrow{font-size:.7rem;color:rgba(255,215,0,.3);flex-shrink:0;padding:0 .15rem}
+/* Host nation pills in hero */
+.host-row{display:flex;align-items:center;justify-content:center;gap:.5rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.host-pill{display:flex;align-items:center;gap:.35rem;font-size:.7rem;color:var(--gold);padding:.25rem .7rem;border-radius:20px;border:1px solid rgba(255,215,0,.22);background:rgba(255,215,0,.04);font-weight:600}
+.host-pill-flag{font-size:1rem}
+/* Group of Death badge */
+.god-badge{display:inline-flex;align-items:center;gap:.2rem;font-size:.46rem;font-family:'Orbitron',sans-serif;font-weight:900;color:#ff4444;letter-spacing:1px;background:rgba(255,68,68,.1);border:1px solid rgba(255,68,68,.28);border-radius:4px;padding:.12rem .32rem;animation:godPulse 2s ease-in-out infinite;vertical-align:middle;margin-left:.35rem}
+@keyframes godPulse{0%,100%{box-shadow:none}50%{box-shadow:0 0 9px rgba(255,68,68,.35)}}
+/* Hot badge for second toughest */
+.hot-badge{display:inline-flex;align-items:center;gap:.2rem;font-size:.46rem;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--orange);letter-spacing:1px;background:rgba(255,149,0,.08);border:1px solid rgba(255,149,0,.22);border-radius:4px;padding:.12rem .32rem;vertical-align:middle;margin-left:.35rem}
+/* Bottom ticker */
+.wc-ticker{position:fixed;bottom:0;left:0;right:0;z-index:50;height:26px;background:rgba(5,8,15,.94);border-top:1px solid rgba(255,215,0,.14);display:flex;align-items:center;overflow:hidden}
+.ticker-label{font-family:'Orbitron',sans-serif;font-size:.5rem;font-weight:900;color:var(--gold);padding:0 .75rem;white-space:nowrap;border-right:1px solid rgba(255,215,0,.15);background:rgba(255,215,0,.06);height:100%;display:flex;align-items:center;flex-shrink:0;letter-spacing:1.5px}
+.ticker-track{flex:1;overflow:hidden;position:relative}
+.ticker-scroll{display:flex;align-items:center;gap:2rem;white-space:nowrap;font-size:.58rem;color:var(--dim);animation:tickerMove 70s linear infinite;padding-left:3rem}
+.ticker-scroll:hover{animation-play-state:paused}
+@keyframes tickerMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.t-code{color:var(--text);font-weight:600;font-family:'Orbitron',sans-serif;font-size:.54rem}
+.t-pct{color:var(--gold);font-size:.54rem}
+.t-sep{color:rgba(255,215,0,.25)}
+body{padding-bottom:26px}
 /* Champion prediction panel */
 .champ-panel{margin-bottom:1.5rem;padding:1.2rem;background:linear-gradient(135deg,rgba(255,215,0,.04),rgba(255,150,0,.02));border:1px solid rgba(255,215,0,.22);border-radius:16px;position:relative;overflow:hidden}
 .champ-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(255,215,0,.6),rgba(255,150,0,.5),transparent)}
@@ -342,6 +374,13 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
   <div class="aurora-orb" style="width:420px;height:420px;left:45%;top:70%;background:rgba(255,107,107,.06);--tx:-50px;--ty:60px;animation-duration:22s"></div>
   <div class="aurora-orb" style="width:480px;height:480px;left:5%;top:60%;background:rgba(0,230,118,.05);--tx:60px;--ty:-50px;animation-duration:25s"></div>
 </div>
+<!-- Floating soccer balls -->
+<div class="ball-float" style="left:8%;animation-duration:18s;animation-delay:0s;font-size:1rem">⚽</div>
+<div class="ball-float" style="left:22%;animation-duration:25s;animation-delay:-7s;font-size:1.5rem">⚽</div>
+<div class="ball-float" style="left:38%;animation-duration:20s;animation-delay:-13s;font-size:.9rem">⚽</div>
+<div class="ball-float" style="left:55%;animation-duration:28s;animation-delay:-4s;font-size:1.2rem">⚽</div>
+<div class="ball-float" style="left:70%;animation-duration:22s;animation-delay:-10s;font-size:1rem">⚽</div>
+<div class="ball-float" style="left:85%;animation-duration:16s;animation-delay:-17s;font-size:1.4rem">⚽</div>
 <!-- LOADING OVERLAY -->
 <div class="loading" id="loading-overlay">
   <div class="spinner"></div>
@@ -364,12 +403,17 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
   <h1 class="hero-title">小組賽全覽</h1>
   <p class="hero-sub" id="hero-sub">12 個小組 · 48 支球隊 · Monte Carlo 模擬晉級機率</p>
 
+  <div class="host-row">
+    <div class="host-pill"><span class="host-pill-flag">🇺🇸</span> United States</div>
+    <div class="host-pill"><span class="host-pill-flag">🇨🇦</span> Canada</div>
+    <div class="host-pill"><span class="host-pill-flag">🇲🇽</span> Mexico</div>
+  </div>
+
   <div class="format-pills">
     <div class="format-pill"><strong>48</strong> 支球隊</div>
     <div class="format-pill"><strong>12</strong> 個小組 (A–L)</div>
     <div class="format-pill"><strong>每組 4 隊</strong>，踢 3 場</div>
     <div class="format-pill hl">前 2 名直接晉級 → 24 隊</div>
-    <div class="format-pill hl">最佳第 3 名（8 支）→ 8 隊</div>
     <div class="format-pill hl"><strong>共 32 隊</strong>進入淘汰賽</div>
   </div>
 
@@ -396,11 +440,26 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
   <!-- Content (hidden until data loaded) -->
   <div id="content" style="display:none">
 
+    <!-- Tournament path -->
+    <div class="path-strip fade-up">
+      <div class="path-step active"><span class="path-num">⚽ 12</span><span class="path-lbl">小組賽</span></div>
+      <span class="path-arrow">→</span>
+      <div class="path-step"><span class="path-num">32</span><span class="path-lbl">淘汰賽</span></div>
+      <span class="path-arrow">→</span>
+      <div class="path-step"><span class="path-num">16</span><span class="path-lbl">十六強</span></div>
+      <span class="path-arrow">→</span>
+      <div class="path-step"><span class="path-num">8</span><span class="path-lbl">八強</span></div>
+      <span class="path-arrow">→</span>
+      <div class="path-step"><span class="path-num">4</span><span class="path-lbl">四強</span></div>
+      <span class="path-arrow">→</span>
+      <div class="path-step"><span class="path-num">🏆</span><span class="path-lbl">冠軍</span></div>
+    </div>
+
     <!-- Legend -->
     <div class="legend fade-up">
       <span style="font-size:.65rem;letter-spacing:1.5px;color:var(--dim2);text-transform:uppercase">晉級說明</span>
       <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div><span>小組前 2 名直接晉級</span></div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div><span>第 3 名爭奪最佳第 3 名資格</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div><span>第 3 名依積分爭奪 8 席最佳第 3 名</span></div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div><span>第 4 名淘汰</span></div>
       <span style="margin-left:auto;font-size:.65rem;color:var(--dim2)">% = Monte Carlo 晉級機率</span>
     </div>
@@ -420,13 +479,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
 
     <!-- Champion prediction panel -->
     <div class="champ-panel fade-up" id="champ-panel" style="display:none"></div>
-
-    <!-- Best thirds panel -->
-    <div class="thirds-panel fade-up">
-      <div class="thirds-title">🏅 最佳第 3 名競爭</div>
-      <div class="thirds-sub">12 小組各出一支第 3 名 · 機率最高的 <strong style="color:var(--green)">8 隊</strong>晉入淘汰賽 32 強 · 下方 4 隊遭淘汰</div>
-      <div class="thirds-grid" id="thirds-grid"></div>
-    </div>
 
     <!-- Groups grid -->
     <div class="groups-grid" id="groups-grid"></div>
@@ -473,9 +525,6 @@ function filterGroups(conf, btn) {
       card.style.opacity = hasConf ? '1' : '0.25';
     }
   });
-  document.querySelectorAll('#thirds-grid .third-row').forEach(item => {
-    item.style.opacity = (conf === 'ALL' || item.dataset.conf === conf) ? '1' : '0.25';
-  });
 }
 
 function highlightFavourites() {
@@ -506,49 +555,19 @@ function render(data) {
   // ── Champion prediction ────────────────────────────────────────────────────
   if (tournament_probs) renderChampions(tournament_probs, team_names);
 
-  // ── Best thirds ────────────────────────────────────────────────────────────
-  // Collect all pos3 teams with their best_third probability
-  const thirdsArr = [];
-  Object.entries(group_probs).forEach(([grp, teamsObj]) => {
-    Object.entries(teamsObj).forEach(([code, probs]) => {
-      if (probs.best_third > 0) {
-        thirdsArr.push({ code, pct: probs.best_third, conf: confClass(confederations[code] || 'INT') });
-      }
-    });
-  });
-  thirdsArr.sort((a, b) => b.pct - a.pct);
-
-  const thirdsGrid = document.getElementById('thirds-grid');
-  const maxThirdPct = thirdsArr.length > 0 ? thirdsArr[0].pct : 1;
-  thirdsArr.forEach((item, idx) => {
-    const isSafe = idx < 8;
-    if (idx === 8) {
-      const cutoff = document.createElement('div');
-      cutoff.className = 'thirds-cutoff';
-      cutoff.innerHTML = `<div class="thirds-cutoff-line"></div><div class="thirds-cutoff-label">▼ 晉級門檻 · 以下 4 隊遭淘汰 ▼</div><div class="thirds-cutoff-line"></div>`;
-      thirdsGrid.appendChild(cutoff);
-    }
-    const div = document.createElement('div');
-    div.className = `third-row ${isSafe ? 't-safe' : 't-danger'}`;
-    div.dataset.conf = item.conf;
-    div.innerHTML = `
-      <span class="third-rank">#${idx+1}</span>
-      <div class="third-info">
-        <div class="third-hd">
-          <span class="third-code">${item.code}</span>
-          <span class="conf-badge conf-${item.conf}">${item.conf}</span>
-        </div>
-        <div class="third-name">${team_names[item.code]||''}</div>
-        <div class="third-bar-wrap">
-          <div class="third-bar" data-w="${(item.pct/maxThirdPct*100).toFixed(1)}"></div>
-        </div>
-      </div>
-      <div class="third-right">
-        <span class="third-pct">${item.pct.toFixed(1)}%</span>
-        <span class="third-status">${isSafe ? '✓ 晉級圈' : '⚠ 危險'}</span>
-      </div>`;
-    thirdsGrid.appendChild(div);
-  });
+  // ── Bottom ticker ──────────────────────────────────────────────────────────
+  if (tournament_probs) {
+    const top16 = Object.entries(tournament_probs)
+      .filter(([,p]) => p.champ > 0)
+      .sort((a,b) => b[1].champ - a[1].champ)
+      .slice(0, 16);
+    const items = top16.map(([code, p]) =>
+      `<span class="t-code">${code}</span>&nbsp;<span class="t-pct">${p.champ.toFixed(1)}%</span>&nbsp;<span class="t-sep">·</span>&nbsp;晉級：<span class="t-pct">${(p.qual||0).toFixed(0)}%</span>`
+    ).join('&emsp;<span class="t-sep">⚽</span>&emsp;');
+    const full = items + '&emsp;<span class="t-sep">⚽</span>&emsp;' + items;
+    document.getElementById('ticker-scroll').innerHTML = full;
+    document.getElementById('wc-ticker').style.display = 'flex';
+  }
 
   // ── Groups grid ────────────────────────────────────────────────────────────
   const grid = document.getElementById('groups-grid');
@@ -650,8 +669,26 @@ function render(data) {
         <div class="matches-list" id="matches-${gLetter}">${matchRowsHTML}</div>
       </div>`;
 
+    card.dataset.strength = gLetter;
     grid.appendChild(card);
   });
+
+  // ── Group of Death badges ──────────────────────────────────────────────────
+  if (tournament_probs) {
+    const groupStrength = groupLetters.map(gLetter => {
+      const codes = groups[gLetter] || [];
+      const avg = codes.reduce((s, c) => s + (tournament_probs[c]?.champ || 0), 0) / (codes.length || 1);
+      return { gLetter, avg };
+    }).sort((a, b) => b.avg - a.avg);
+    if (groupStrength.length > 0) {
+      const godEl = document.querySelector(`#group-${groupStrength[0].gLetter} .group-letter`);
+      if (godEl) godEl.insertAdjacentHTML('afterend', '<span class="god-badge">💀 DEATH GROUP</span>');
+    }
+    if (groupStrength.length > 1) {
+      const hotEl = document.querySelector(`#group-${groupStrength[1].gLetter} .group-letter`);
+      if (hotEl) hotEl.insertAdjacentHTML('afterend', '<span class="hot-badge">🔥 HOT GROUP</span>');
+    }
+  }
 
   // ── Show content ───────────────────────────────────────────────────────────
   document.getElementById('content').style.display = 'block';
@@ -659,7 +696,7 @@ function render(data) {
   // ── Animate qual bars (after DOM paint) ───────────────────────────────────
   requestAnimationFrame(() => {
     setTimeout(() => {
-      document.querySelectorAll('.qual-bar[data-w],.third-bar[data-w]').forEach(el => {
+      document.querySelectorAll('.qual-bar[data-w]').forEach(el => {
         el.style.width = Math.min(parseFloat(el.dataset.w), 100) + '%';
       });
     }, 300);
@@ -746,5 +783,13 @@ fetch('data/tournament.json')
   });
 </script>
 <script src="help.js"></script>
+
+<!-- Bottom prediction ticker (populated by JS after data loads) -->
+<div class="wc-ticker" id="wc-ticker" style="display:none">
+  <div class="ticker-label">⚽ WC2026</div>
+  <div class="ticker-track">
+    <div class="ticker-scroll" id="ticker-scroll"></div>
+  </div>
+</div>
 </body>
 </html>

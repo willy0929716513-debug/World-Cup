@@ -212,6 +212,41 @@ nav{position:sticky;top:0;z-index:200;background:rgba(5,8,15,.9);backdrop-filter
   .stat-bar-row{font-size:.75rem}
   .player-grid{grid-template-columns:1fr 1fr}
 }
+/* ── 炫砲 Visual Enhancement ─────────────────────────────────────────────── */
+/* Hero-bg animated shift */
+.hero-bg{animation:heroBgShift 8s ease-in-out infinite alternate}
+@keyframes heroBgShift{
+  0%{background:radial-gradient(ellipse 80% 60% at 20% 50%,rgba(0,212,255,.09) 0%,transparent 60%),radial-gradient(ellipse 80% 60% at 80% 50%,rgba(255,107,107,.09) 0%,transparent 60%),linear-gradient(180deg,rgba(9,13,28,.9) 0%,var(--bg) 100%)}
+  50%{background:radial-gradient(ellipse 90% 70% at 28% 42%,rgba(0,212,255,.14) 0%,transparent 60%),radial-gradient(ellipse 90% 70% at 75% 58%,rgba(255,107,107,.12) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 50% 50%,rgba(255,215,0,.04) 0%,transparent 60%),linear-gradient(180deg,rgba(9,13,28,.9) 0%,var(--bg) 100%)}
+  100%{background:radial-gradient(ellipse 80% 60% at 15% 55%,rgba(0,212,255,.08) 0%,transparent 60%),radial-gradient(ellipse 80% 60% at 85% 45%,rgba(255,107,107,.10) 0%,transparent 60%),linear-gradient(180deg,rgba(9,13,28,.9) 0%,var(--bg) 100%)}
+}
+/* Team code pulsing glow */
+.home-team .team-code{animation:homeCodePulse 3s ease-in-out infinite}
+@keyframes homeCodePulse{0%,100%{filter:drop-shadow(0 0 16px rgba(0,212,255,.4))}50%{filter:drop-shadow(0 0 36px rgba(0,212,255,.75))}}
+.away-team .team-code{animation:awayCodePulse 3s ease-in-out infinite}
+@keyframes awayCodePulse{0%,100%{filter:drop-shadow(0 0 16px rgba(255,107,107,.4))}50%{filter:drop-shadow(0 0 36px rgba(255,107,107,.75))}}
+/* VS text electric pulse */
+.vs-text{animation:vsPulse 2.2s ease-in-out infinite}
+@keyframes vsPulse{0%,100%{text-shadow:0 0 30px rgba(255,215,0,.4)}50%{text-shadow:0 0 55px rgba(255,215,0,.75),0 0 90px rgba(255,215,0,.18)}}
+/* Prob percentage numbers glow */
+.home-win .prob-pct{animation:homeNumGlow 3s ease-in-out infinite}
+@keyframes homeNumGlow{0%,100%{text-shadow:0 0 20px rgba(0,212,255,.4)}50%{text-shadow:0 0 40px rgba(0,212,255,.7)}}
+.draw .prob-pct{animation:drawNumGlow 3s ease-in-out infinite}
+@keyframes drawNumGlow{0%,100%{text-shadow:0 0 20px rgba(255,215,0,.4)}50%{text-shadow:0 0 40px rgba(255,215,0,.7)}}
+.away-win .prob-pct{animation:awayNumGlow 3s ease-in-out infinite}
+@keyframes awayNumGlow{0%,100%{text-shadow:0 0 20px rgba(255,107,107,.4)}50%{text-shadow:0 0 40px rgba(255,107,107,.7)}}
+/* Final score #1 animated gold border */
+.final-score-item:first-child{animation:goldBorderPulse 2.5s ease-in-out infinite}
+@keyframes goldBorderPulse{0%,100%{border-color:rgba(255,215,0,.3);box-shadow:none}50%{border-color:rgba(255,215,0,.75);box-shadow:0 0 24px rgba(255,215,0,.22),inset 0 0 20px rgba(255,215,0,.05)}}
+/* Final box enhanced glow */
+.final-box{animation:finalBoxGlow 4s ease-in-out infinite}
+@keyframes finalBoxGlow{0%,100%{box-shadow:none}50%{box-shadow:0 0 50px rgba(255,215,0,.08),0 0 100px rgba(0,212,255,.05)}}
+/* Section title accent bar pulse */
+.section-title::before{animation:titleBarPulse 2.5s ease-in-out infinite}
+@keyframes titleBarPulse{0%,100%{opacity:.75}50%{opacity:1;box-shadow:0 0 10px rgba(0,212,255,.45)}}
+/* Confidence level glow */
+.conf-level{animation:confGlow 3s ease-in-out infinite}
+@keyframes confGlow{0%,100%{text-shadow:0 0 30px rgba(255,215,0,.5)}50%{text-shadow:0 0 50px rgba(255,215,0,.85),0 0 80px rgba(255,215,0,.2)}}
 </style>
 </head>
 <body>

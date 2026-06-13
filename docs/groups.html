@@ -179,18 +179,48 @@ a.nav-btn.gold:hover{background:rgba(255,215,0,.07)}
 .legend-item{display:flex;align-items:center;gap:.35rem}
 .legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 
-/* Best-thirds panel */
-.thirds-panel{margin-bottom:1.5rem;padding:1rem 1.2rem;
-  background:rgba(255,150,0,.04);border:1px solid rgba(255,150,0,.15);
-  border-radius:16px}
-.thirds-title{font-size:.7rem;letter-spacing:2px;color:var(--orange);
-  text-transform:uppercase;margin-bottom:.7rem}
-.thirds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.5rem}
-.third-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,150,0,.12);
-  border-radius:10px;padding:.5rem .7rem;display:flex;justify-content:space-between;
-  align-items:center}
-.third-code{font-family:'Orbitron',sans-serif;font-size:.78rem;font-weight:700;color:var(--orange)}
-.third-pct{font-size:.7rem;color:var(--dim)}
+/* Best-thirds panel — redesigned */
+.thirds-panel{margin-bottom:1.5rem;padding:1.2rem;
+  background:linear-gradient(135deg,rgba(0,212,255,.03),rgba(255,215,0,.03));
+  border:1px solid rgba(255,215,0,.2);border-radius:16px;
+  position:relative;overflow:hidden}
+.thirds-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(0,212,255,.5),rgba(255,215,0,.5),transparent)}
+.thirds-title{font-size:.9rem;font-weight:900;color:var(--gold);margin-bottom:.2rem;
+  font-family:'Orbitron',sans-serif;display:flex;align-items:center;gap:.4rem}
+.thirds-sub{font-size:.62rem;color:var(--dim2);margin-bottom:.85rem;line-height:1.5}
+.thirds-grid{display:flex;flex-direction:column;gap:.28rem}
+.third-row{display:grid;grid-template-columns:22px 1fr auto;align-items:center;
+  gap:.55rem;padding:.42rem .55rem;border-radius:9px;border:1px solid transparent;
+  transition:background .2s,border-color .2s}
+.third-row.t-safe{background:rgba(0,230,118,.05);border-color:rgba(0,230,118,.14)}
+.third-row.t-safe:hover{background:rgba(0,230,118,.1);border-color:rgba(0,230,118,.32)}
+.third-row.t-danger{background:rgba(255,100,0,.04);border-color:rgba(255,100,0,.10)}
+.third-row.t-danger:hover{background:rgba(255,100,0,.08);border-color:rgba(255,100,0,.22)}
+.third-rank{font-family:'Orbitron',sans-serif;font-size:.6rem;font-weight:700;text-align:center}
+.third-row.t-safe .third-rank{color:var(--green)}
+.third-row.t-danger .third-rank{color:var(--orange)}
+.third-info{min-width:0}
+.third-hd{display:flex;align-items:center;gap:.35rem;margin-bottom:1px}
+.third-code{font-family:'Orbitron',sans-serif;font-size:.76rem;font-weight:700}
+.third-row.t-safe .third-code{color:var(--green)}
+.third-row.t-danger .third-code{color:var(--orange)}
+.third-name{font-size:.58rem;color:var(--dim);white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;margin-bottom:2px}
+.third-bar-wrap{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+.third-bar{height:100%;border-radius:2px;width:0%;transition:width 1s ease}
+.third-row.t-safe .third-bar{background:linear-gradient(90deg,var(--green),rgba(0,230,118,.3))}
+.third-row.t-danger .third-bar{background:linear-gradient(90deg,var(--orange),rgba(255,150,0,.3))}
+.third-right{text-align:right;min-width:54px}
+.third-pct{font-family:'Orbitron',sans-serif;font-size:.76rem;font-weight:700;display:block;line-height:1.2}
+.third-row.t-safe .third-pct{color:var(--green)}
+.third-row.t-danger .third-pct{color:var(--orange)}
+.third-status{font-size:.52rem;display:block;margin-top:1px;letter-spacing:.3px}
+.third-row.t-safe .third-status{color:rgba(0,230,118,.75)}
+.third-row.t-danger .third-status{color:rgba(255,150,0,.75)}
+.thirds-cutoff{display:flex;align-items:center;gap:.5rem;margin:.35rem 0;padding:0 .2rem}
+.thirds-cutoff-line{flex:1;height:1px;background:rgba(255,100,0,.3)}
+.thirds-cutoff-label{font-size:.58rem;color:var(--orange);letter-spacing:.5px;white-space:nowrap}
 
 /* Host badge */
 .host-badge{font-size:.56rem;color:var(--gold);margin-left:.3rem;vertical-align:middle}
@@ -239,9 +269,9 @@ a.nav-btn.gold:hover{background:rgba(255,215,0,.07)}
 .mc-link{position:relative;overflow:hidden}
 .mc-link::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 25%,rgba(0,212,255,.15) 50%,transparent 75%);transform:translateX(-100%);transition:none}
 .mc-link:hover::after{transform:translateX(100%);transition:transform .5s ease}
-/* Best-thirds item hover */
-.third-item{transition:all .2s}
-.third-item:hover{border-color:rgba(255,150,0,.35);background:rgba(255,150,0,.08);transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,150,0,.1)}
+/* third-row safe glow pulse */
+.third-row.t-safe{animation:safeRowGlow 3.5s ease-in-out infinite}
+@keyframes safeRowGlow{0%,100%{box-shadow:none}50%{box-shadow:0 0 10px rgba(0,230,118,.12)}}
 /* Filter btn active glow */
 .filter-btn.active{color:var(--blue);border-color:rgba(0,212,255,.5);box-shadow:0 0 14px rgba(0,212,255,.18)}
 /* Match card hover glow */
@@ -250,6 +280,33 @@ a.nav-btn.gold:hover{background:rgba(255,215,0,.07)}
 /* Hero title gradient sweep */
 .hero-title{background:linear-gradient(135deg,#fff 15%,var(--blue) 40%,var(--gold) 65%,#fff 90%);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:titleFlow 6s ease-in-out infinite}
 @keyframes titleFlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+/* ── V2: Scanline + Group Colors + Drama ─────────────────────────────────── */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.05) 0,rgba(0,0,0,.05) 1px,transparent 1px,transparent 4px)}
+.aurora-orb{filter:blur(70px)}
+/* Group letter dramatically bigger + per-group hue */
+.group-letter{font-size:2.4rem;color:hsla(var(--ghue,48),90%,60%,1);
+  text-shadow:0 0 20px hsla(var(--ghue,48),90%,60%,.4)}
+@keyframes letterPulse{
+  0%,100%{text-shadow:0 0 20px hsla(var(--ghue,48),90%,60%,.3)}
+  50%{text-shadow:0 0 40px hsla(var(--ghue,48),90%,60%,.8),0 0 70px hsla(var(--ghue,48),90%,60%,.2)}}
+/* Group card per-hue accent */
+.group-card::before{background:linear-gradient(90deg,transparent,hsla(var(--ghue,200),75%,55%,.5),transparent);animation:accentPulse 3s ease-in-out infinite alternate}
+@keyframes accentPulse{from{opacity:.4}to{opacity:1}}
+/* Filter bar active more dramatic */
+.filter-btn.active{box-shadow:0 0 20px rgba(0,212,255,.3),inset 0 0 12px rgba(0,212,255,.05);font-weight:700}
+/* Stat values bigger + vivid */
+.stat-val{font-size:1.8rem}
+.stat-lbl{font-size:.65rem}
+/* Format pill highlighted glow */
+.format-pill.hl{box-shadow:0 0 16px rgba(255,215,0,.15),inset 0 0 10px rgba(255,215,0,.04)}
+/* Nav logo neon */
+@keyframes navLogoPulse{0%,100%{filter:drop-shadow(0 0 5px rgba(0,212,255,.35))}50%{filter:drop-shadow(0 0 14px rgba(0,212,255,.75))}}
+.nav-logo{animation:navLogoPulse 3s ease-in-out infinite}
+/* Group header border glow */
+.group-header{border-bottom:1px solid hsla(var(--ghue,200),60%,50%,.2)}
+/* Third row safe vivid */
+@keyframes safeRowGlow{0%,100%{box-shadow:none}50%{box-shadow:0 0 12px rgba(0,230,118,.14)}}
 </style>
 </head>
 <body>
@@ -338,7 +395,8 @@ a.nav-btn.gold:hover{background:rgba(255,215,0,.07)}
 
     <!-- Best thirds panel -->
     <div class="thirds-panel fade-up">
-      <div class="thirds-title">🏅 最佳第 3 名爭奪（機率最高的 12 席）</div>
+      <div class="thirds-title">🏅 最佳第 3 名競爭</div>
+      <div class="thirds-sub">12 小組各出一支第 3 名 · 機率最高的 <strong style="color:var(--green)">8 隊</strong>晉入淘汰賽 32 強 · 下方 4 隊遭淘汰</div>
       <div class="thirds-grid" id="thirds-grid"></div>
     </div>
 
@@ -387,7 +445,7 @@ function filterGroups(conf, btn) {
       card.style.opacity = hasConf ? '1' : '0.25';
     }
   });
-  document.querySelectorAll('#thirds-grid .third-item').forEach(item => {
+  document.querySelectorAll('#thirds-grid .third-row').forEach(item => {
     item.style.opacity = (conf === 'ALL' || item.dataset.conf === conf) ? '1' : '0.25';
   });
 }
@@ -430,17 +488,34 @@ function render(data) {
   thirdsArr.sort((a, b) => b.pct - a.pct);
 
   const thirdsGrid = document.getElementById('thirds-grid');
-  thirdsArr.forEach(item => {
+  const maxThirdPct = thirdsArr.length > 0 ? thirdsArr[0].pct : 1;
+  thirdsArr.forEach((item, idx) => {
+    const isSafe = idx < 8;
+    if (idx === 8) {
+      const cutoff = document.createElement('div');
+      cutoff.className = 'thirds-cutoff';
+      cutoff.innerHTML = `<div class="thirds-cutoff-line"></div><div class="thirds-cutoff-label">▼ 晉級門檻 · 以下 4 隊遭淘汰 ▼</div><div class="thirds-cutoff-line"></div>`;
+      thirdsGrid.appendChild(cutoff);
+    }
     const div = document.createElement('div');
-    div.className = 'third-item';
+    div.className = `third-row ${isSafe ? 't-safe' : 't-danger'}`;
     div.dataset.conf = item.conf;
     div.innerHTML = `
-      <div>
-        <span class="third-code">${item.code}</span>
-        <span style="font-size:.62rem;color:var(--dim);display:block;margin-top:1px">${team_names[item.code]||''}</span>
-        <span class="conf-badge conf-${item.conf}" style="display:block;margin-top:2px">${item.conf}</span>
+      <span class="third-rank">#${idx+1}</span>
+      <div class="third-info">
+        <div class="third-hd">
+          <span class="third-code">${item.code}</span>
+          <span class="conf-badge conf-${item.conf}">${item.conf}</span>
+        </div>
+        <div class="third-name">${team_names[item.code]||''}</div>
+        <div class="third-bar-wrap">
+          <div class="third-bar" data-w="${(item.pct/maxThirdPct*100).toFixed(1)}"></div>
+        </div>
       </div>
-      <span class="third-pct">${item.pct.toFixed(1)}%</span>`;
+      <div class="third-right">
+        <span class="third-pct">${item.pct.toFixed(1)}%</span>
+        <span class="third-status">${isSafe ? '✓ 晉級圈' : '⚠ 危險'}</span>
+      </div>`;
     thirdsGrid.appendChild(div);
   });
 
@@ -462,6 +537,8 @@ function render(data) {
     card.id        = `group-${gLetter}`;
     card.dataset.group = gLetter;
     card.style.animationDelay = `${idx * 0.04}s`;
+    const GROUP_HUES=[200,270,150,0,45,315,120,30,225,330,90,185];
+    card.style.setProperty('--ghue', GROUP_HUES[idx] ?? idx * 30);
 
     // Header confs chips
     const confChips = teamCodes.map(code => {
@@ -551,7 +628,7 @@ function render(data) {
   // ── Animate qual bars (after DOM paint) ───────────────────────────────────
   requestAnimationFrame(() => {
     setTimeout(() => {
-      document.querySelectorAll('.qual-bar[data-w]').forEach(el => {
+      document.querySelectorAll('.qual-bar[data-w],.third-bar[data-w]').forEach(el => {
         el.style.width = Math.min(parseFloat(el.dataset.w), 100) + '%';
       });
     }, 300);

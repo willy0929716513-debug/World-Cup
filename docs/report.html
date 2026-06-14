@@ -338,7 +338,12 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
         </div>
       </div>
       <div class="vs-center">
-        <span class="vs-text">VS</span>
+        <div id="actual-hero" style="display:none;flex-direction:column;align-items:center;gap:.25rem">
+          <span style="font-size:.52rem;letter-spacing:2px;color:rgba(0,230,118,.7);text-transform:uppercase;font-family:'Orbitron',sans-serif">✓ FINAL</span>
+          <span id="actual-hero-score" style="font-family:'Orbitron',sans-serif;font-size:2.4rem;font-weight:900;color:var(--green);line-height:1;text-shadow:0 0 30px rgba(0,230,118,.4)"></span>
+          <span style="font-size:.55rem;color:var(--dim);letter-spacing:1px">實際比分</span>
+        </div>
+        <span class="vs-text" id="vs-text">VS</span>
         <span class="vs-date" id="vs-stage"></span>
       </div>
       <div class="team-side away-team">
@@ -602,6 +607,14 @@ function initReport(data){
   fill('nav-comp', MATCH.comp); fill('meta-comp', MATCH.comp);
   fill('meta-stage', MATCH.stage); fill('vs-stage', MATCH.stage);
   fill('meta-date', '📅 '+MATCH.date); fill('meta-venue', '📍 '+MATCH.venue);
+
+  // Show actual result in hero if available
+  if(data._actual){
+    const a = data._actual;
+    document.getElementById('actual-hero-score').textContent = `${a.score1} – ${a.score2}`;
+    document.getElementById('actual-hero').style.display = 'flex';
+    document.getElementById('vs-text').style.display = 'none';
+  }
 
   // Home team
   fill('home-code', HOME.code); fill('home-name', HOME.name);

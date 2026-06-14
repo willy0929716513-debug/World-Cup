@@ -229,11 +229,14 @@ footer a{color:var(--gold);text-decoration:none}
     <h1 class="ht">AI WORLD<br>CUP<br>PREDICTOR</h1>
     <p class="hsub"><em>100,000 次</em>蒙特卡羅模擬 · <em>14</em> 項統計維度<br>7 大 AI 模型即時計算每場比賽勝率與最可能比分</p>
     <div class="cdwrap">
-      <span class="cdlbl">下一場比賽</span>
+      <div>
+        <span class="cdlbl">下一場比賽開賽倒數</span>
+        <div id="nmatch" style="font-family:var(--fh);font-size:.68rem;font-weight:700;color:var(--c);margin:.18rem 0 .42rem;letter-spacing:1px;min-height:1.1em"></div>
+      </div>
       <div class="cdus">
-        <div class="cdu"><span class="cdn" id="cdh">00</span><span class="cdul">時</span></div>
-        <div class="cdu"><span class="cdn" id="cdm">00</span><span class="cdul">分</span></div>
-        <div class="cdu"><span class="cdn" id="cds">00</span><span class="cdul">秒</span></div>
+        <div class="cdu"><span class="cdn" id="cdh">--</span><span class="cdul">時</span></div>
+        <div class="cdu"><span class="cdn" id="cdm">--</span><span class="cdul">分</span></div>
+        <div class="cdu"><span class="cdn" id="cds">--</span><span class="cdul">秒</span></div>
       </div>
     </div>
     <div class="ctas">
@@ -390,14 +393,84 @@ window.addEventListener('load',()=>{
     .to('#nav',{opacity:1,y:0,duration:.7,ease:'power2.out'},'-=.6');
 });
 
+/* Schedule (UTC) */
+const SCHEDULE=[
+  {d:'2026-06-11',t:'20:00',g:'A',t1:'MEX',t2:'RSA'},
+  {d:'2026-06-11',t:'23:00',g:'B',t1:'CAN',t2:'SUI'},
+  {d:'2026-06-12',t:'02:00',g:'C',t1:'BRA',t2:'MAR'},
+  {d:'2026-06-12',t:'16:00',g:'D',t1:'USA',t2:'PAR'},
+  {d:'2026-06-12',t:'19:00',g:'A',t1:'KOR',t2:'CZE'},
+  {d:'2026-06-12',t:'22:00',g:'B',t1:'QAT',t2:'BIH'},
+  {d:'2026-06-13',t:'02:00',g:'C',t1:'SCO',t2:'HAI'},
+  {d:'2026-06-13',t:'16:00',g:'E',t1:'GER',t2:'CUW'},
+  {d:'2026-06-13',t:'19:00',g:'F',t1:'NED',t2:'JPN'},
+  {d:'2026-06-13',t:'22:00',g:'A',t1:'MEX',t2:'CZE'},
+  {d:'2026-06-14',t:'02:00',g:'D',t1:'AUS',t2:'TUR'},
+  {d:'2026-06-14',t:'16:00',g:'E',t1:'CIV',t2:'ECU'},
+  {d:'2026-06-14',t:'19:00',g:'F',t1:'SWE',t2:'TUN'},
+  {d:'2026-06-14',t:'22:00',g:'G',t1:'BEL',t2:'EGY'},
+  {d:'2026-06-15',t:'02:00',g:'B',t1:'CAN',t2:'QAT'},
+  {d:'2026-06-15',t:'16:00',g:'H',t1:'ESP',t2:'CPV'},
+  {d:'2026-06-15',t:'19:00',g:'I',t1:'FRA',t2:'SEN'},
+  {d:'2026-06-15',t:'22:00',g:'G',t1:'IRN',t2:'NZL'},
+  {d:'2026-06-16',t:'02:00',g:'H',t1:'KSA',t2:'URU'},
+  {d:'2026-06-16',t:'16:00',g:'J',t1:'ARG',t2:'ALG'},
+  {d:'2026-06-16',t:'19:00',g:'K',t1:'POR',t2:'COD'},
+  {d:'2026-06-16',t:'22:00',g:'L',t1:'ENG',t2:'CRO'},
+  {d:'2026-06-17',t:'02:00',g:'I',t1:'IRQ',t2:'NOR'},
+  {d:'2026-06-17',t:'16:00',g:'J',t1:'ALG',t2:'AUT'},
+  {d:'2026-06-17',t:'19:00',g:'K',t1:'COD',t2:'UZB'},
+  {d:'2026-06-17',t:'22:00',g:'L',t1:'GHA',t2:'PAN'},
+  {d:'2026-06-18',t:'02:00',g:'I',t1:'SEN',t2:'NOR'},
+  {d:'2026-06-18',t:'16:00',g:'D',t1:'USA',t2:'AUS'},
+  {d:'2026-06-18',t:'19:00',g:'E',t1:'GER',t2:'CIV'},
+  {d:'2026-06-18',t:'22:00',g:'F',t1:'NED',t2:'SWE'},
+  {d:'2026-06-19',t:'02:00',g:'D',t1:'PAR',t2:'TUR'},
+  {d:'2026-06-19',t:'16:00',g:'G',t1:'BEL',t2:'IRN'},
+  {d:'2026-06-19',t:'19:00',g:'H',t1:'ESP',t2:'KSA'},
+  {d:'2026-06-19',t:'22:00',g:'L',t1:'ENG',t2:'GHA'},
+  {d:'2026-06-20',t:'02:00',g:'J',t1:'ARG',t2:'AUT'},
+  {d:'2026-06-20',t:'16:00',g:'K',t1:'POR',t2:'UZB'},
+  {d:'2026-06-20',t:'19:00',g:'A',t1:'RSA',t2:'KOR'},
+  {d:'2026-06-20',t:'22:00',g:'B',t1:'SUI',t2:'BIH'},
+  {d:'2026-06-21',t:'02:00',g:'C',t1:'BRA',t2:'SCO'},
+  {d:'2026-06-21',t:'16:00',g:'F',t1:'JPN',t2:'TUN'},
+  {d:'2026-06-21',t:'19:00',g:'H',t1:'CPV',t2:'URU'},
+  {d:'2026-06-21',t:'22:00',g:'G',t1:'EGY',t2:'NZL'},
+  {d:'2026-06-22',t:'02:00',g:'C',t1:'MAR',t2:'HAI'},
+  {d:'2026-06-22',t:'16:00',g:'I',t1:'FRA',t2:'IRQ'},
+  {d:'2026-06-22',t:'19:00',g:'J',t1:'ALG',t2:'JOR'},
+  {d:'2026-06-22',t:'22:00',g:'K',t1:'COL',t2:'COD'},
+  {d:'2026-06-23',t:'02:00',g:'L',t1:'CRO',t2:'PAN'},
+  {d:'2026-06-23',t:'16:00',g:'J',t1:'ARG',t2:'JOR'},
+  {d:'2026-06-23',t:'19:00',g:'K',t1:'POR',t2:'COL'},
+  {d:'2026-06-23',t:'22:00',g:'L',t1:'ENG',t2:'PAN'},
+  {d:'2026-06-24',t:'02:00',g:'I',t1:'FRA',t2:'NOR'},
+  {d:'2026-06-24',t:'20:00',g:'A',t1:'MEX',t2:'RSA'},
+  {d:'2026-06-24',t:'20:00',g:'A',t1:'KOR',t2:'CZE'},
+  {d:'2026-06-25',t:'20:00',g:'B',t1:'CAN',t2:'BIH'},
+  {d:'2026-06-25',t:'20:00',g:'B',t1:'SUI',t2:'QAT'},
+  {d:'2026-06-26',t:'20:00',g:'D',t1:'USA',t2:'TUR'},
+  {d:'2026-06-26',t:'20:00',g:'D',t1:'PAR',t2:'AUS'},
+  {d:'2026-06-27',t:'20:00',g:'E',t1:'GER',t2:'ECU'},
+  {d:'2026-06-27',t:'20:00',g:'E',t1:'CUW',t2:'CIV'},
+];
+
 /* Countdown */
 function cdTick(){
-  const now=new Date(),t=new Date(now);
-  t.setHours(t.getHours()+1,0,0,0);
-  const d=t-now;
-  document.getElementById('cdh').textContent=Math.floor(d/3600000).toString().padStart(2,'0');
-  document.getElementById('cdm').textContent=Math.floor((d%3600000)/60000).toString().padStart(2,'0');
-  document.getElementById('cds').textContent=Math.floor((d%60000)/1000).toString().padStart(2,'0');
+  const now=new Date();
+  const next=SCHEDULE.find(s=>new Date(s.d+'T'+s.t+':00Z')>now);
+  if(!next){
+    ['cdh','cdm','cds'].forEach(id=>document.getElementById(id).textContent='--');
+    return;
+  }
+  const mt=new Date(next.d+'T'+next.t+':00Z');
+  const diff=mt-now;
+  document.getElementById('cdh').textContent=Math.floor(diff/3600000).toString().padStart(2,'0');
+  document.getElementById('cdm').textContent=Math.floor((diff%3600000)/60000).toString().padStart(2,'0');
+  document.getElementById('cds').textContent=Math.floor((diff%60000)/1000).toString().padStart(2,'0');
+  const nm=document.getElementById('nmatch');
+  if(nm)nm.innerHTML=`${FLAGS[next.t1]||''} ${next.t1} <span style="color:var(--gold)">vs</span> ${next.t2} ${FLAGS[next.t2]||''}&nbsp;<span style="color:var(--dim2);font-size:.58rem;font-weight:400">Group ${next.g} · ${next.t} UTC</span>`;
 }
 setInterval(cdTick,1000);cdTick();
 
@@ -418,21 +491,47 @@ Promise.all([
   const RES={};
   (res.matches||[]).forEach(m=>{if(m.played){RES[`${m.t1}_${m.t2}`]={s1:m.score1,s2:m.score2};RES[`${m.t2}_${m.t1}`]={s1:m.score2,s2:m.score1}}});
 
-  const all=[];
-  Object.entries(group_matches).forEach(([g,ms])=>ms.forEach(m=>all.push({...m,group:g})));
-  all.sort((a,b)=>{const ra=RES[`${a.t1}_${a.t2}`]?0:1,rb=RES[`${b.t1}_${b.t2}`]?0:1;if(ra!==rb)return ra-rb;return Math.abs(a.p_home-a.p_away)-Math.abs(b.p_home-b.p_away)});
+  // Build probability lookup from tournament data
+  const matchData={};
+  Object.entries(group_matches).forEach(([g,ms])=>ms.forEach(m=>{matchData[`${m.t1}_${m.t2}`]={...m,group:g}}));
+
+  const now2=new Date();
+  const todayStr=now2.toISOString().split('T')[0];
+
+  // Pick schedule entries to show: today (all) + next 2 days upcoming, plus recent played
+  const recentPlayed=SCHEDULE.filter(s=>new Date(s.d+'T'+s.t+':00Z')<=now2).slice(-3);
+  const todayUpcoming=SCHEDULE.filter(s=>s.d===todayStr&&new Date(s.d+'T'+s.t+':00Z')>now2);
+  const futureUpcoming=SCHEDULE.filter(s=>s.d>todayStr).slice(0,5);
+  const showList=[...recentPlayed,...todayUpcoming,...futureUpcoming].slice(0,8);
 
   const scroll=document.getElementById('mscroll');
-  all.slice(0,8).forEach(m=>{
-    const n1=team_names[m.t1]||m.t1,n2=team_names[m.t2]||m.t2;
-    const f1=FLAGS[m.t1]||'🏳',f2=FLAGS[m.t2]||'🏳';
-    const ph=(m.p_home||0).toFixed(0),pd=(m.p_draw||0).toFixed(0),pa=(m.p_away||0).toFixed(0);
-    const xh=m.xg_home!=null?m.xg_home.toFixed(1):'-',xa=m.xg_away!=null?m.xg_away.toFixed(1):'-';
-    const r=RES[`${m.t1}_${m.t2}`];
-    const predH=Math.round(m.xg_home||0),predA=Math.round(m.xg_away||0);
+  showList.forEach(sc=>{
+    const key=`${sc.t1}_${sc.t2}`;
+    const md=matchData[key]||matchData[`${sc.t2}_${sc.t1}`];
+    if(!md)return;
+    const swapped=!matchData[key];
+    const t1=sc.t1,t2=sc.t2;
+    const n1=team_names[t1]||t1,n2=team_names[t2]||t2;
+    const f1=FLAGS[t1]||'🏳',f2=FLAGS[t2]||'🏳';
+    const ph=swapped?(md.p_away||0).toFixed(0):(md.p_home||0).toFixed(0);
+    const pd=(md.p_draw||0).toFixed(0);
+    const pa=swapped?(md.p_home||0).toFixed(0):(md.p_away||0).toFixed(0);
+    const xh=swapped?(md.xg_away!=null?md.xg_away.toFixed(1):'-'):(md.xg_home!=null?md.xg_home.toFixed(1):'-');
+    const xa=swapped?(md.xg_home!=null?md.xg_home.toFixed(1):'-'):(md.xg_away!=null?md.xg_away.toFixed(1):'-');
+    const r=RES[key];
+    const predH=Math.round(parseFloat(xh)||0),predA=Math.round(parseFloat(xa)||0);
+    const mt=new Date(sc.d+'T'+sc.t+':00Z');
+    const isPast=mt<=now2;
+    const isToday=sc.d===todayStr;
+    const timeLabel=sc.t+' UTC';
+    let statusHTML;
+    if(r){statusHTML='<span class="mcst">✓ FINAL</span>'}
+    else if(isPast){statusHTML='<span class="mcst">已結束</span>'}
+    else if(isToday){statusHTML=`<span class="mcst live"><span style="width:5px;height:5px;border-radius:50%;background:var(--red);animation:lp 1s infinite;display:inline-block"></span>&nbsp;今日 ${timeLabel}</span>`}
+    else{statusHTML=`<span class="mcst">${sc.d.slice(5)} · ${timeLabel}</span>`}
     const card=document.createElement('a');
-    card.className='mc';card.href=`report.html?home=${m.t1}&away=${m.t2}`;
-    card.innerHTML=`<div class="mch"><span class="mcgb">GROUP ${m.group}</span>${r?'<span class="mcst">✓ FINAL</span>':'<span class="mcst live"><span style="width:5px;height:5px;border-radius:50%;background:var(--red);animation:lp 1s infinite;display:inline-block"></span>&nbsp;PREDICT</span>'}</div><div class="mct"><div class="mctm"><span class="mcfl">${f1}</span><span class="mcco">${m.t1}</span><span class="mcnm">${n1}</span></div><div class="mcvs">${r?`<span class="mcfin">${r.s1} – ${r.s2}</span><span class="mcfinl">FINAL</span>`:`<span class="mcspr">${predH} – ${predA}</span><span class="mcvsl">AI 預測</span>`}</div><div class="mctm"><span class="mcfl">${f2}</span><span class="mcco">${m.t2}</span><span class="mcnm">${n2}</span></div></div><div class="mcpr"><span class="mcph">${ph}%</span><div class="mcpb"><div class="mph" style="width:${ph}%"></div><div class="mpd" style="width:${pd}%"></div><div class="mpa" style="width:${pa}%"></div></div><span class="mcpa">${pa}%</span></div><div class="mcxg"><span class="mcxgv">xG ${xh}</span><span>Expected Goals</span><span class="mcxgv">${xa} xG</span></div><span class="mcbtn">⚡ 完整 AI 分析 →</span>`;
+    card.className='mc';card.href=`report.html?home=${t1}&away=${t2}`;
+    card.innerHTML=`<div class="mch"><span class="mcgb">GROUP ${sc.g}</span>${statusHTML}</div><div class="mct"><div class="mctm"><span class="mcfl">${f1}</span><span class="mcco">${t1}</span><span class="mcnm">${n1}</span></div><div class="mcvs">${r?`<span class="mcfin">${r.s1} – ${r.s2}</span><span class="mcfinl">FINAL</span>`:`<span class="mcspr">${predH} – ${predA}</span><span class="mcvsl">AI 預測</span>`}</div><div class="mctm"><span class="mcfl">${f2}</span><span class="mcco">${t2}</span><span class="mcnm">${n2}</span></div></div><div class="mcpr"><span class="mcph">${ph}%</span><div class="mcpb"><div class="mph" style="width:${ph}%"></div><div class="mpd" style="width:${pd}%"></div><div class="mpa" style="width:${pa}%"></div></div><span class="mcpa">${pa}%</span></div><div class="mcxg"><span class="mcxgv">xG ${xh}</span><span>Expected Goals</span><span class="mcxgv">${xa} xG</span></div><span class="mcbtn">⚡ 完整 AI 分析 →</span>`;
     scroll.appendChild(card);
   });
 

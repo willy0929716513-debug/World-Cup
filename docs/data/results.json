@@ -82,6 +82,15 @@
       "group": "E",
       "played": true,
       "date": "2026-06-14"
+    },
+    {
+      "t1": "NED",
+      "t2": "JPN",
+      "score1": 2,
+      "score2": 2,
+      "group": "E",
+      "played": true,
+      "date": "2026-06-14"
     }
   ]
 }

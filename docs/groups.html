@@ -339,6 +339,50 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
 .t-pct{color:var(--gold);font-size:.54rem}
 .t-sep{color:rgba(255,215,0,.25)}
 body{padding-bottom:26px}
+/* Prediction disclaimer */
+.pred-disclaimer{font-size:.65rem;color:rgba(255,180,0,.65);background:rgba(255,180,0,.06);
+  border:1px solid rgba(255,180,0,.18);border-radius:8px;padding:.4rem .9rem;
+  margin-top:.85rem;display:inline-block;letter-spacing:.3px}
+/* ── Stadium Atmosphere ──────────────────────────────────────────────────── */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:repeating-linear-gradient(180deg,
+    transparent 0,transparent 55px,
+    rgba(0,140,50,.018) 55px,rgba(0,140,50,.018) 110px)}
+.floodlights{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.flood{position:absolute;top:-60px;width:520px;height:110vh}
+.flood-l{left:-80px;background:conic-gradient(from 28deg at 0% 0%,transparent 0deg,rgba(255,255,230,.05) 14deg,transparent 28deg);animation:floodPulse 10s ease-in-out infinite}
+.flood-r{right:-80px;background:conic-gradient(from -28deg at 100% 0%,transparent 0deg,rgba(255,255,230,.05) 14deg,transparent 28deg);animation:floodPulse 10s ease-in-out 5s infinite}
+@keyframes floodPulse{0%,100%{opacity:.6}50%{opacity:1}}
+.pitch-circle{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:680px;height:680px;border-radius:50%;pointer-events:none;z-index:0;border:1px solid rgba(0,180,60,.055);animation:pcPulse 10s ease-in-out infinite}
+.pitch-circle::before{content:'';position:absolute;inset:30%;border-radius:50%;border:1px solid rgba(0,180,60,.04)}
+.pitch-circle::after{content:'';position:absolute;inset:-1px;border-radius:50%;border:1px solid rgba(0,180,60,.025)}
+@keyframes pcPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.7}50%{transform:translate(-50%,-50%) scale(1.04);opacity:1}}
+.live-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.58rem;font-family:'Orbitron',sans-serif;font-weight:900;color:#ff3333;letter-spacing:1.5px;padding:.2rem .55rem;border-radius:20px;border:1px solid rgba(255,50,50,.3);background:rgba(255,50,50,.07)}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#ff3333;flex-shrink:0;animation:liveDot 1s ease-in-out infinite}
+@keyframes liveDot{0%,100%{opacity:1;box-shadow:0 0 6px #ff3333}50%{opacity:.25;box-shadow:none}}
+/* Scoreboard-style group header */
+.group-header{position:relative}
+.group-header::after{content:'LIVE';position:absolute;top:.5rem;right:.7rem;font-size:.4rem;font-family:'Orbitron',sans-serif;font-weight:900;color:#ff3333;letter-spacing:2px;background:rgba(255,50,50,.08);border:1px solid rgba(255,50,50,.25);border-radius:3px;padding:.1rem .3rem;animation:liveDot 1.5s ease-in-out infinite}
+/* LIVE badge in hero */
+.hero-live-wrap{display:flex;align-items:center;justify-content:center;gap:.6rem;margin-bottom:.8rem}
+/* Pitch half-line decorative */
+.pitch-halfline{width:100%;max-width:900px;margin:0 auto 1.5rem;height:1px;background:linear-gradient(90deg,transparent,rgba(0,180,60,.2),rgba(0,180,60,.35),rgba(0,180,60,.2),transparent);position:relative}
+.pitch-halfline::before{content:'⚽';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:.8rem;background:var(--bg3,#0c1128);padding:0 .5rem}
+/* Card scoreboard flavor */
+.group-card{border-top:3px solid hsla(var(--ghue,48),70%,50%,.4)}
+/* Match result overlay in cards */
+.m-result{display:flex;align-items:center;justify-content:center;gap:.4rem;
+  padding:.22rem .5rem;border-radius:6px;background:rgba(0,230,118,.08);
+  border:1px solid rgba(0,230,118,.22);margin-top:.3rem}
+.m-result-score{font-family:'Orbitron',sans-serif;font-size:.72rem;font-weight:900;color:var(--green)}
+.m-result-lbl{font-size:.5rem;color:rgba(0,230,118,.7);letter-spacing:.8px;text-transform:uppercase}
+.m-final-badge{font-size:.48rem;font-family:'Orbitron',sans-serif;font-weight:900;
+  color:var(--green);background:rgba(0,230,118,.12);border:1px solid rgba(0,230,118,.3);
+  border-radius:3px;padding:.08rem .3rem;letter-spacing:1px}
+/* Upset badge */
+.m-upset{font-size:.48rem;font-family:'Orbitron',sans-serif;font-weight:900;
+  color:#ff4444;background:rgba(255,68,68,.1);border:1px solid rgba(255,68,68,.25);
+  border-radius:3px;padding:.08rem .28rem;letter-spacing:.8px}
 /* Champion prediction panel */
 .champ-panel{margin-bottom:1.5rem;padding:1.2rem;background:linear-gradient(135deg,rgba(255,215,0,.04),rgba(255,150,0,.02));border:1px solid rgba(255,215,0,.22);border-radius:16px;position:relative;overflow:hidden}
 .champ-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(255,215,0,.6),rgba(255,150,0,.5),transparent)}
@@ -367,6 +411,8 @@ body{padding-bottom:26px}
 </style>
 </head>
 <body>
+<div class="floodlights"><div class="flood flood-l"></div><div class="flood flood-r"></div></div>
+<div class="pitch-circle"></div>
 
 <div class="aurora-bg">
   <div class="aurora-orb" style="width:500px;height:500px;left:10%;top:15%;background:rgba(0,212,255,.08);--tx:-60px;--ty:90px;animation-duration:20s"></div>
@@ -399,7 +445,10 @@ body{padding-bottom:26px}
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-eyebrow">⚽ FIFA 2026 WORLD CUP · USA / CANADA / MEXICO</div>
+  <div class="hero-live-wrap">
+    <div class="hero-eyebrow" style="margin-bottom:0">⚽ FIFA 2026 WORLD CUP · USA / CANADA / MEXICO</div>
+    <div class="live-badge"><span class="live-dot"></span>LIVE</div>
+  </div>
   <h1 class="hero-title">小組賽全覽</h1>
   <p class="hero-sub" id="hero-sub">12 個小組 · 48 支球隊 · Monte Carlo 模擬晉級機率</p>
 
@@ -415,6 +464,10 @@ body{padding-bottom:26px}
     <div class="format-pill"><strong>每組 4 隊</strong>，踢 3 場</div>
     <div class="format-pill hl">前 2 名直接晉級 → 24 隊</div>
     <div class="format-pill hl"><strong>共 32 隊</strong>進入淘汰賽</div>
+  </div>
+
+  <div class="pred-disclaimer">
+    ⚠ 以下為賽前 Monte Carlo 機率預測，非實時比賽結果。已完賽場次會標註實際比分。
   </div>
 
   <div class="stats-strip">
@@ -454,6 +507,8 @@ body{padding-bottom:26px}
       <span class="path-arrow">→</span>
       <div class="path-step"><span class="path-num">🏆</span><span class="path-lbl">冠軍</span></div>
     </div>
+
+    <div class="pitch-halfline fade-up"></div>
 
     <!-- Legend -->
     <div class="legend fade-up">
@@ -765,14 +820,22 @@ function renderChampions(probs, names) {
 }
 
 // ── Fetch ─────────────────────────────────────────────────────────────────────
-fetch('data/tournament.json')
-  .then(r => {
-    if (!r.ok) throw new Error(`HTTP ${r.status} — ${r.statusText}`);
-    return r.json();
-  })
-  .then(data => {
+Promise.all([
+  fetch('data/tournament.json').then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
+  fetch('data/results.json').then(r => r.ok ? r.json() : { matches: [] }).catch(() => ({ matches: [] }))
+])
+  .then(([data, resultsData]) => {
     document.getElementById('loading-overlay').classList.add('hidden');
+    // Build results lookup: "T1_T2" → result object
+    window.RESULTS = {};
+    (resultsData.matches || []).forEach(m => {
+      if (m.played) {
+        window.RESULTS[`${m.t1}_${m.t2}`] = m;
+        window.RESULTS[`${m.t2}_${m.t1}`] = { ...m, score1: m.score2, score2: m.score1, flipped: true };
+      }
+    });
     render(data);
+    injectActualResults();
   })
   .catch(err => {
     document.getElementById('loading-overlay').classList.add('hidden');
@@ -781,6 +844,43 @@ fetch('data/tournament.json')
     document.getElementById('error-wrap').classList.add('show');
     console.error('Failed to load tournament.json', err);
   });
+
+function injectActualResults() {
+  if (!window.RESULTS) return;
+  document.querySelectorAll('.match-item').forEach(el => {
+    const home = el.querySelector('.m-team.home')?.textContent?.trim();
+    const away = el.querySelector('.m-team.away')?.textContent?.trim();
+    if (!home || !away) return;
+    const key = `${home}_${away}`;
+    const res = window.RESULTS[key];
+    if (!res) return;
+    const winner = res.score1 > res.score2 ? home : res.score2 > res.score1 ? away : null;
+    const predEl = el.querySelector('.m-center');
+    if (!predEl) return;
+    // Detect upset: if the underdog (p_away > p_home for home) won
+    const probBar = el.querySelector('.m-prob-bar');
+    let isUpset = false;
+    if (probBar) {
+      const bars = probBar.querySelectorAll('div');
+      if (bars.length >= 3) {
+        const ph = parseFloat(bars[0].style.width) || 0;
+        const pa = parseFloat(bars[2].style.width) || 0;
+        if (winner === home && pa > ph) isUpset = true;
+        if (winner === away && ph > pa) isUpset = true;
+      }
+    }
+    const upsetBadge = isUpset ? `<span class="m-upset">💥 冷門</span>` : '';
+    const resultHTML = `<div class="m-result">
+      <span class="m-final-badge">FINAL</span>
+      <span class="m-result-score">${res.score1} – ${res.score2}</span>
+      <span class="m-result-lbl">實際</span>
+      ${upsetBadge}
+    </div>`;
+    predEl.insertAdjacentHTML('beforeend', resultHTML);
+    el.style.background = 'rgba(0,230,118,.03)';
+    el.style.borderBottom = '1px solid rgba(0,230,118,.12)';
+  });
+}
 </script>
 <script src="help.js"></script>
 

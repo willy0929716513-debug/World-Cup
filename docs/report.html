@@ -280,9 +280,35 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
 @keyframes awayGlitch{0%,92%,100%{transform:none}93%{transform:translate(2px,0) skewX(-1deg)}94%{transform:translate(-2px,0)}95%{transform:none}}
 .home-team .team-code{animation:homeCodePulse 3s ease-in-out infinite,homeGlitch 15s steps(1) 5s infinite}
 .away-team .team-code{animation:awayCodePulse 3s ease-in-out infinite,awayGlitch 15s steps(1) 7s infinite}
+/* ── Stadium Atmosphere ──────────────────────────────────────────────────── */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:repeating-linear-gradient(180deg,
+    transparent 0,transparent 55px,
+    rgba(0,140,50,.018) 55px,rgba(0,140,50,.018) 110px)}
+.floodlights{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.flood{position:absolute;top:-60px;width:520px;height:110vh}
+.flood-l{left:-80px;background:conic-gradient(from 28deg at 0% 0%,transparent 0deg,rgba(255,255,230,.05) 14deg,transparent 28deg);animation:floodPulse 10s ease-in-out infinite}
+.flood-r{right:-80px;background:conic-gradient(from -28deg at 100% 0%,transparent 0deg,rgba(255,255,230,.05) 14deg,transparent 28deg);animation:floodPulse 10s ease-in-out 5s infinite}
+@keyframes floodPulse{0%,100%{opacity:.6}50%{opacity:1}}
+.pitch-circle{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:680px;height:680px;border-radius:50%;pointer-events:none;z-index:0;border:1px solid rgba(0,180,60,.055);animation:pcPulse 10s ease-in-out infinite}
+.pitch-circle::before{content:'';position:absolute;inset:30%;border-radius:50%;border:1px solid rgba(0,180,60,.04)}
+.pitch-circle::after{content:'';position:absolute;inset:-1px;border-radius:50%;border:1px solid rgba(0,180,60,.025)}
+@keyframes pcPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.7}50%{transform:translate(-50%,-50%) scale(1.04);opacity:1}}
+.live-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.58rem;font-family:'Orbitron',sans-serif;font-weight:900;color:#ff3333;letter-spacing:1.5px;padding:.2rem .55rem;border-radius:20px;border:1px solid rgba(255,50,50,.3);background:rgba(255,50,50,.07)}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#ff3333;flex-shrink:0;animation:liveDot 1s ease-in-out infinite}
+@keyframes liveDot{0%,100%{opacity:1;box-shadow:0 0 6px #ff3333}50%{opacity:.25;box-shadow:none}}
+/* Pre-match broadcast vibes */
+.match-kickoff-bar{display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;background:linear-gradient(90deg,rgba(255,68,68,.06),rgba(255,215,0,.06),rgba(0,212,255,.06));border-bottom:1px solid rgba(255,215,0,.1);font-size:.6rem;color:var(--dim);letter-spacing:2px;text-transform:uppercase;flex-wrap:wrap}
+.mkb-sep{color:rgba(255,215,0,.25)}
+/* Hero team codes bigger + more dramatic */
+.team-code{text-shadow:0 0 40px currentColor}
+/* Pitch texture on hero */
+.hero::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0,transparent 50px,rgba(0,140,50,.012) 50px,rgba(0,140,50,.012) 100px);pointer-events:none;z-index:0}
 </style>
 </head>
 <body>
+<div class="floodlights"><div class="flood flood-l"></div><div class="flood flood-r"></div></div>
+<div class="pitch-circle"></div>
 
 <!-- LOADING -->
 <div class="loading" id="loading">
@@ -299,6 +325,16 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
 
 <!-- MAIN CONTENT (hidden until data loaded) -->
 <div id="main-content" style="display:none">
+
+<div class="match-kickoff-bar">
+  <span>⚽ FIFA WORLD CUP 2026</span>
+  <span class="mkb-sep">·</span>
+  <span id="mkb-stage">Group Stage</span>
+  <span class="mkb-sep">·</span>
+  <div class="live-badge"><span class="live-dot"></span>LIVE PREDICTION</div>
+  <span class="mkb-sep">·</span>
+  <span>🇺🇸🇨🇦🇲🇽</span>
+</div>
 
 <nav>
   <a href="index.html" class="nav-back">← 返回</a>
@@ -338,7 +374,12 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
         </div>
       </div>
       <div class="vs-center">
-        <span class="vs-text">VS</span>
+        <div id="actual-hero" style="display:none;flex-direction:column;align-items:center;gap:.25rem">
+          <span style="font-size:.52rem;letter-spacing:2px;color:rgba(0,230,118,.7);text-transform:uppercase;font-family:'Orbitron',sans-serif">✓ FINAL</span>
+          <span id="actual-hero-score" style="font-family:'Orbitron',sans-serif;font-size:2.4rem;font-weight:900;color:var(--green);line-height:1;text-shadow:0 0 30px rgba(0,230,118,.4)"></span>
+          <span style="font-size:.55rem;color:var(--dim);letter-spacing:1px">實際比分</span>
+        </div>
+        <span class="vs-text" id="vs-text">VS</span>
         <span class="vs-date" id="vs-stage"></span>
       </div>
       <div class="team-side away-team">
@@ -521,6 +562,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
 
 <div class="section fade-up">
   <div class="section-title">最終預測</div>
+  <div style="font-size:.62rem;color:rgba(255,180,0,.6);background:rgba(255,180,0,.05);border:1px solid rgba(255,180,0,.15);border-radius:7px;padding:.35rem .8rem;margin-bottom:.7rem;text-align:center">
+    ⚠ 以下為賽前 Monte Carlo 機率預測，實際結果以官方為準
+  </div>
   <div class="final-box">
     <div class="final-title">★ 推薦比分</div>
     <div class="final-scores" id="final-scores"></div>
@@ -562,12 +606,24 @@ const MATCH_VENUE = P.get('venue') || 'MetLife Stadium, East Rutherford, NJ';
 document.getElementById('loading-text').textContent = `載入 ${HC} vs ${AC} 預測資料…`;
 
 // ── Fetch & init ──────────────────────────────────────────────────────────────
-fetch(`data/matches/${HC}_vs_${AC}.json`)
-  .then(r=>{ if(!r.ok) throw new Error(`尚無 ${HC} vs ${AC} 的預測資料（404）`); return r.json(); })
-  .then(data=>{
+Promise.all([
+  fetch(`data/matches/${HC}_vs_${AC}.json`)
+    .then(r=>{ if(!r.ok) throw new Error(`尚無 ${HC} vs ${AC} 的預測資料（404）`); return r.json(); }),
+  fetch('data/results.json').then(r=>r.ok?r.json():{matches:[]}).catch(()=>({matches:[]}))
+])
+  .then(([data, resultsData])=>{
     data.match.date  = MATCH_DATE;
     data.match.stage = MATCH_STAGE;
     data.match.venue = MATCH_VENUE;
+    // Attach actual result if available
+    const res = (resultsData.matches||[]).find(m =>
+      (m.t1===HC && m.t2===AC) || (m.t1===AC && m.t2===HC)
+    );
+    if(res && res.played){
+      data._actual = (res.t1===HC)
+        ? {score1: res.score1, score2: res.score2}
+        : {score1: res.score2, score2: res.score1};
+    }
     initReport(data);
     if(data.result.betting) fetchLiveOdds(data.home, data.away, data.result);
   })
@@ -587,6 +643,14 @@ function initReport(data){
   fill('nav-comp', MATCH.comp); fill('meta-comp', MATCH.comp);
   fill('meta-stage', MATCH.stage); fill('vs-stage', MATCH.stage);
   fill('meta-date', '📅 '+MATCH.date); fill('meta-venue', '📍 '+MATCH.venue);
+
+  // Show actual result in hero if available
+  if(data._actual){
+    const a = data._actual;
+    document.getElementById('actual-hero-score').textContent = `${a.score1} – ${a.score2}`;
+    document.getElementById('actual-hero').style.display = 'flex';
+    document.getElementById('vs-text').style.display = 'none';
+  }
 
   // Home team
   fill('home-code', HOME.code); fill('home-name', HOME.name);
@@ -655,7 +719,7 @@ function initReport(data){
   buildInjured('away-injured-wrap', AWAY.injured_players, AWAY.name);
   buildForm('home-form', HOME.recent_form);
   buildForm('away-form', AWAY.recent_form);
-  buildFinalScores(R, HOME, AWAY);
+  buildFinalScores(R, HOME, AWAY, data._actual);
   buildRisks(HOME, AWAY);
 
   // Prob bars animation
@@ -813,12 +877,32 @@ function buildForm(containerId, form){
 }
 
 // ── Final scores ──────────────────────────────────────────────────────────────
-function buildFinalScores(R, HOME, AWAY){
+function buildFinalScores(R, HOME, AWAY, actual){
   const c=document.getElementById('final-scores');
+  // Show actual result banner if match has been played
+  if(actual){
+    const winner = actual.score1 > actual.score2 ? HOME.name : actual.score2 > actual.score1 ? AWAY.name : '平局';
+    const predTop = R.top10[0];
+    const predCorrect = predTop && predTop.home === actual.score1 && predTop.away === actual.score2;
+    const banner = document.createElement('div');
+    banner.style.cssText='margin-bottom:.8rem;padding:.6rem .9rem;background:rgba(0,230,118,.07);border:1px solid rgba(0,230,118,.28);border-radius:10px;text-align:center';
+    banner.innerHTML=`
+      <div style="font-size:.55rem;letter-spacing:1.5px;color:rgba(0,230,118,.7);text-transform:uppercase;margin-bottom:.35rem">✓ 最終比分</div>
+      <div style="font-family:'Orbitron',sans-serif;font-size:1.5rem;font-weight:900;color:var(--green)">${actual.score1} – ${actual.score2}</div>
+      <div style="font-size:.6rem;color:var(--dim);margin-top:.2rem">${HOME.code} vs ${AWAY.code} · ${winner === '平局' ? '平局' : winner + ' 獲勝'}</div>
+      ${predCorrect ? '<div style="font-size:.58rem;color:var(--green);margin-top:.3rem">🎯 最高機率比分命中！</div>' : '<div style="font-size:.58rem;color:rgba(255,180,0,.7);margin-top:.3rem">預測最高機率比分：'+predTop.home+'–'+predTop.away+' ('+predTop.prob+'%)</div>'}`;
+    c.appendChild(banner);
+    const disc = document.createElement('div');
+    disc.style.cssText='font-size:.58rem;color:rgba(255,180,0,.6);text-align:center;margin-bottom:.6rem;padding:.3rem;background:rgba(255,180,0,.05);border-radius:6px';
+    disc.textContent='以下為賽前機率預測，僅供參考';
+    c.appendChild(disc);
+  }
   R.top10.slice(0,5).forEach((s,i)=>{
     const el=document.createElement('div');
+    const isActual = actual && s.home===actual.score1 && s.away===actual.score2;
     el.className='final-score-item'+(i>=3?' secondary':'');
-    el.innerHTML=`<div class="fs-score-row"><div class="fs-half"><span class="fs-tc tc-home">${HOME.code}</span><span class="fs-goal tc-home">${s.home}</span></div><span class="fs-dash">–</span><div class="fs-half"><span class="fs-tc tc-away">${AWAY.code}</span><span class="fs-goal tc-away">${s.away}</span></div></div><div class="score-rank-label">#${i+1} · ${s.prob}%</div>`;
+    if(isActual) el.style.cssText='outline:1px solid rgba(0,230,118,.4);border-radius:10px';
+    el.innerHTML=`<div class="fs-score-row"><div class="fs-half"><span class="fs-tc tc-home">${HOME.code}</span><span class="fs-goal tc-home">${s.home}</span></div><span class="fs-dash">–</span><div class="fs-half"><span class="fs-tc tc-away">${AWAY.code}</span><span class="fs-goal tc-away">${s.away}</span></div></div><div class="score-rank-label">${isActual?'✓ 命中 · ':''} #${i+1} · ${s.prob}%</div>`;
     c.appendChild(el);
   });
 }

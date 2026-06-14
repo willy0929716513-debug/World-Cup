@@ -126,9 +126,44 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
 .predict-btn:hover{transform:translateY(-3px) scale(1.01);box-shadow:0 0 60px rgba(0,212,255,.65)}
 /* Detail fields glow on focus */
 .detail-field input:focus,.detail-field select:focus{box-shadow:0 0 0 2px rgba(255,215,0,.25)}
+/* ── Stadium Atmosphere ──────────────────────────────────────────────────── */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:repeating-linear-gradient(180deg,
+    transparent 0,transparent 55px,
+    rgba(0,140,50,.018) 55px,rgba(0,140,50,.018) 110px)}
+.floodlights{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.flood{position:absolute;top:-60px;width:520px;height:110vh}
+.flood-l{left:-80px;background:conic-gradient(from 28deg at 0% 0%,transparent 0deg,rgba(255,255,230,.05) 14deg,transparent 28deg);animation:floodPulse 10s ease-in-out infinite}
+.flood-r{right:-80px;background:conic-gradient(from -28deg at 100% 0%,transparent 0deg,rgba(255,255,230,.05) 14deg,transparent 28deg);animation:floodPulse 10s ease-in-out 5s infinite}
+@keyframes floodPulse{0%,100%{opacity:.6}50%{opacity:1}}
+.pitch-circle{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:680px;height:680px;border-radius:50%;pointer-events:none;z-index:0;border:1px solid rgba(0,180,60,.055);animation:pcPulse 10s ease-in-out infinite}
+.pitch-circle::before{content:'';position:absolute;inset:30%;border-radius:50%;border:1px solid rgba(0,180,60,.04)}
+.pitch-circle::after{content:'';position:absolute;inset:-1px;border-radius:50%;border:1px solid rgba(0,180,60,.025)}
+@keyframes pcPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.7}50%{transform:translate(-50%,-50%) scale(1.04);opacity:1}}
+.live-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.58rem;font-family:'Orbitron',sans-serif;font-weight:900;color:#ff3333;letter-spacing:1.5px;padding:.2rem .55rem;border-radius:20px;border:1px solid rgba(255,50,50,.3);background:rgba(255,50,50,.07)}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#ff3333;flex-shrink:0;animation:liveDot 1s ease-in-out infinite}
+@keyframes liveDot{0%,100%{opacity:1;box-shadow:0 0 6px #ff3333}50%{opacity:.25;box-shadow:none}}
+/* index pitch center behind card */
+.hero{isolation:isolate}
+.pitch-mid-line{position:fixed;top:50%;left:0;right:0;height:1px;background:rgba(0,180,60,.035);pointer-events:none;z-index:0}
+/* Trophy emblem animation */
+@keyframes trophyBounce{0%,100%{transform:translateY(0) scale(1)}40%{transform:translateY(-6px) scale(1.08)}70%{transform:translateY(-2px) scale(1.03)}}
+.hero-trophy{font-size:2.8rem;display:block;text-align:center;animation:trophyBounce 3s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(255,215,0,.5));margin-bottom:.5rem}
+/* WC stamp */
+.wc-stamp{position:fixed;bottom:3rem;right:2rem;z-index:2;pointer-events:none;opacity:.1;font-family:'Orbitron',sans-serif;font-size:.6rem;font-weight:900;color:white;border:2px solid white;border-radius:50%;width:80px;height:80px;display:flex;align-items:center;justify-content:center;text-align:center;letter-spacing:1px;line-height:1.3;transform:rotate(-15deg)}
+/* Goalposts frame decoration */
+.goalpost-frame{position:fixed;top:60px;left:0;right:0;height:3px;pointer-events:none;z-index:0;
+  background:linear-gradient(90deg,transparent 3%,rgba(255,255,255,.06) 3%,rgba(255,255,255,.06) 6%,transparent 6%,transparent 94%,rgba(255,255,255,.06) 94%,rgba(255,255,255,.06) 97%,transparent 97%)}
+/* Hero badge more dramatic */
+.hero-badge{font-size:.8rem;letter-spacing:5px;padding:.5rem 1.5rem}
 </style>
 </head>
 <body>
+<div class="floodlights"><div class="flood flood-l"></div><div class="flood flood-r"></div></div>
+<div class="pitch-circle"></div>
+<div class="pitch-mid-line"></div>
+<div class="wc-stamp">FIFA<br>WC<br>2026</div>
+<div class="goalpost-frame"></div>
 <div class="aurora-bg">
   <div class="aurora-orb" style="width:520px;height:520px;left:15%;top:8%;background:rgba(0,212,255,.10);--tx:-70px;--ty:80px;animation-duration:18s"></div>
   <div class="aurora-orb" style="width:580px;height:580px;left:70%;top:55%;background:rgba(255,107,107,.08);--tx:80px;--ty:-50px;animation-duration:22s"></div>
@@ -147,7 +182,8 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
 </nav>
 
 <section class="hero">
-  <div class="hero-badge">⚽ FIFA WORLD CUP 2026 · USA / CANADA / MEXICO</div>
+  <div class="hero-trophy">🏆</div>
+  <div class="hero-badge">⚽ FIFA WORLD CUP 2026 · USA · CANADA · MEXICO</div>
   <h1 class="hero-title">Football<br>Prediction System</h1>
   <p class="hero-sub">7 統計模型 · 14 分析維度 · 100,000 次 Monte Carlo 模擬</p>
 
@@ -209,7 +245,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
         </select>
       </div>
     </div>
-    <button type="submit" class="predict-btn" id="predict-btn">⚡ 開始預測分析</button>
+    <button type="submit" class="predict-btn" id="predict-btn">⚽ KICK OFF — 生成預測</button>
   </form>
 
   <div class="teams-section">

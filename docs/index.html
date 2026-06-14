@@ -105,34 +105,34 @@ h1.ht{font-family:var(--fh);font-size:clamp(2.4rem,9vw,4.8rem);font-weight:900;l
 /* Match Cards */
 .mscroll{display:flex;gap:.9rem;overflow-x:auto;padding-bottom:1rem;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .mscroll::-webkit-scrollbar{display:none}
-.mc{flex-shrink:0;width:290px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:1.1rem;scroll-snap-align:start;transition:border-color .3s,box-shadow .3s,transform .3s;position:relative;overflow:hidden;cursor:pointer;text-decoration:none;display:block;color:inherit}
+.mc{flex-shrink:0;width:262px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:.85rem;scroll-snap-align:start;transition:border-color .3s,box-shadow .3s,transform .3s;position:relative;overflow:hidden;cursor:pointer;text-decoration:none;display:block;color:inherit}
 .mc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--c),transparent);opacity:0;transition:opacity .3s}
 .mc:hover{border-color:rgba(0,229,255,.3);box-shadow:0 8px 40px rgba(0,229,255,.12);transform:translateY(-4px)}
 .mc:hover::before{opacity:1}
-.mch{display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem}
-.mcgb{font-size:.5rem;font-weight:700;font-family:var(--fh);letter-spacing:1px;padding:.14rem .42rem;border-radius:4px;background:rgba(0,229,255,.1);color:var(--c);border:1px solid rgba(0,229,255,.2)}
-.mcst{font-size:.5rem;color:var(--dim2)}
+.mch{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem}
+.mcgb{font-size:.48rem;font-weight:700;font-family:var(--fh);letter-spacing:1px;padding:.12rem .36rem;border-radius:4px;background:rgba(0,229,255,.1);color:var(--c);border:1px solid rgba(0,229,255,.2)}
+.mcst{font-size:.48rem;color:var(--dim2)}
 .mcst.live{color:var(--red);display:flex;align-items:center;gap:.2rem}
-.mct{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem;gap:.4rem}
+.mct{display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem;gap:.35rem}
 .mctm{text-align:center;flex:1}
-.mcfl{font-size:1.8rem;display:block;margin-bottom:.25rem;line-height:1}
-.mcco{font-family:var(--fh);font-size:.82rem;font-weight:900;color:var(--text);display:block}
-.mcnm{font-size:.54rem;color:var(--dim);display:block;margin-top:.1rem}
+.mcfl{font-size:1.55rem;display:block;margin-bottom:.2rem;line-height:1}
+.mcco{font-family:var(--fh);font-size:.76rem;font-weight:900;color:var(--text);display:block}
+.mcnm{font-size:.5rem;color:var(--dim);display:block;margin-top:.08rem}
 .mcvs{text-align:center;flex-shrink:0}
-.mcspr{font-family:var(--fh);font-size:1rem;font-weight:900;color:var(--gold);display:block;text-shadow:0 0 18px rgba(255,215,0,.4)}
-.mcvsl{font-size:.44rem;color:var(--dim2);display:block;margin-top:.1rem}
-.mcfin{font-family:var(--fh);font-size:1.3rem;font-weight:900;color:var(--g);display:block;text-shadow:0 0 20px rgba(0,255,136,.4)}
-.mcfinl{font-size:.42rem;color:rgba(0,255,136,.6);display:block;letter-spacing:1px}
-.mcpr{display:flex;gap:.2rem;margin-bottom:.5rem;align-items:center}
-.mcph{font-family:var(--fh);font-size:.64rem;font-weight:700;color:var(--c);min-width:30px}
-.mcpa{font-family:var(--fh);font-size:.64rem;font-weight:700;color:var(--red);min-width:30px;text-align:right}
-.mcpb{flex:1;height:5px;border-radius:3px;overflow:hidden;background:rgba(255,255,255,.07);display:flex}
+.mcspr{font-family:var(--fh);font-size:.92rem;font-weight:900;color:var(--gold);display:block;text-shadow:0 0 18px rgba(255,215,0,.4)}
+.mcvsl{font-size:.42rem;color:var(--dim2);display:block;margin-top:.08rem}
+.mcfin{font-family:var(--fh);font-size:1.15rem;font-weight:900;color:var(--g);display:block;text-shadow:0 0 20px rgba(0,255,136,.4)}
+.mcfinl{font-size:.4rem;color:rgba(0,255,136,.6);display:block;letter-spacing:1px}
+.mcpr{display:flex;gap:.2rem;margin-bottom:.45rem;align-items:center}
+.mcph{font-family:var(--fh);font-size:.6rem;font-weight:700;color:var(--c);min-width:28px}
+.mcpa{font-family:var(--fh);font-size:.6rem;font-weight:700;color:var(--red);min-width:28px;text-align:right}
+.mcpb{flex:1;height:4px;border-radius:3px;overflow:hidden;background:rgba(255,255,255,.07);display:flex}
 .mph{height:100%;background:linear-gradient(90deg,var(--c),rgba(0,229,255,.5));border-radius:3px 0 0 3px}
 .mpd{height:100%;background:rgba(255,215,0,.38)}
 .mpa{height:100%;background:linear-gradient(90deg,rgba(255,51,102,.5),var(--red));border-radius:0 3px 3px 0}
-.mcxg{display:flex;justify-content:space-between;font-size:.57rem;color:var(--dim2);margin-bottom:.85rem}
-.mcxgv{font-family:var(--fh);font-size:.58rem;color:var(--dim)}
-.mcbtn{width:100%;padding:.5rem;background:rgba(0,229,255,.07);border:1px solid rgba(0,229,255,.18);color:var(--c);border-radius:9px;font-size:.68rem;font-weight:600;cursor:pointer;font-family:var(--fb);transition:all .2s;text-align:center;text-decoration:none;display:block}
+.mcxg{display:flex;justify-content:space-between;font-size:.52rem;color:var(--dim2);margin-bottom:.65rem}
+.mcxgv{font-family:var(--fh);font-size:.54rem;color:var(--dim)}
+.mcbtn{width:100%;padding:.42rem;background:rgba(0,229,255,.07);border:1px solid rgba(0,229,255,.18);color:var(--c);border-radius:8px;font-size:.62rem;font-weight:600;cursor:pointer;font-family:var(--fb);transition:all .2s;text-align:center;text-decoration:none;display:block}
 .mcbtn:hover{background:rgba(0,229,255,.15);border-color:rgba(0,229,255,.4)}
 
 /* Predict */
@@ -191,7 +191,7 @@ footer a{color:var(--gold);text-decoration:none}
   .drow{grid-template-columns:1fr}
   .sec{padding:3.5rem 1.2rem}
   #predict{padding:3.5rem 1.2rem}
-  .mc{width:270px}
+  .mc{width:248px}
 }
 </style>
 </head>
@@ -241,7 +241,7 @@ footer a{color:var(--gold);text-decoration:none}
     </div>
     <div class="ctas">
       <a href="#predict" class="bp">⚽ 立即預測</a>
-      <a href="#matches" class="bs">🔥 今日賽事</a>
+      <a href="#matches" class="bs">⚽ 即將開賽</a>
     </div>
   </div>
 </section>
@@ -249,8 +249,8 @@ footer a{color:var(--gold);text-decoration:none}
 <!-- MATCHES -->
 <div id="matches" style="background:linear-gradient(180deg,transparent,rgba(0,229,255,.025),transparent)">
 <div class="sec">
-  <span class="sey rv">🔥 TODAY'S HOT MATCHES</span>
-  <h2 class="st rv">今日熱門賽事</h2>
+  <span class="sey rv">⚽ UPCOMING MATCHES</span>
+  <h2 class="st rv">即將開賽</h2>
   <p class="ssub rv">AI 即時分析每場比賽勝負機率 · 點擊查看完整預測報告</p>
   <div class="mscroll" id="mscroll"></div>
 </div>
@@ -498,11 +498,10 @@ Promise.all([
   const now2=new Date();
   const todayStr=now2.toISOString().split('T')[0];
 
-  // Pick schedule entries to show: today (all) + next 2 days upcoming, plus recent played
-  const recentPlayed=SCHEDULE.filter(s=>new Date(s.d+'T'+s.t+':00Z')<=now2).slice(-3);
+  // Only show upcoming matches (today's remaining + future days) — no completed matches
   const todayUpcoming=SCHEDULE.filter(s=>s.d===todayStr&&new Date(s.d+'T'+s.t+':00Z')>now2);
-  const futureUpcoming=SCHEDULE.filter(s=>s.d>todayStr).slice(0,5);
-  const showList=[...recentPlayed,...todayUpcoming,...futureUpcoming].slice(0,8);
+  const futureUpcoming=SCHEDULE.filter(s=>s.d>todayStr);
+  const showList=[...todayUpcoming,...futureUpcoming].slice(0,8);
 
   const scroll=document.getElementById('mscroll');
   showList.forEach(sc=>{

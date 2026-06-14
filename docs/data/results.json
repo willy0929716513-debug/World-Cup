@@ -9,7 +9,6 @@
     {"t1": "SUI", "t2": "QAT", "score1": 1, "score2": 1, "group": "B", "played": true, "date": "2026-06-12"},
     {"t1": "BRA", "t2": "MAR", "score1": 1, "score2": 1, "group": "C", "played": true, "date": "2026-06-13"},
     {"t1": "SCO", "t2": "HAI", "score1": 1, "score2": 0, "group": "C", "played": true, "date": "2026-06-13"},
-    {"t1": "AUS", "t2": "TUR", "score1": 2, "score2": 0, "group": "D", "played": true, "date": "2026-06-14"},
-    {"t1": "GER", "t2": "CUW", "score1": 4, "score2": 0, "group": "E", "played": true, "date": "2026-06-14"}
+    {"t1": "AUS", "t2": "TUR", "score1": 2, "score2": 0, "group": "D", "played": true, "date": "2026-06-14"}
   ]
 }

@@ -280,9 +280,35 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
 @keyframes awayGlitch{0%,92%,100%{transform:none}93%{transform:translate(2px,0) skewX(-1deg)}94%{transform:translate(-2px,0)}95%{transform:none}}
 .home-team .team-code{animation:homeCodePulse 3s ease-in-out infinite,homeGlitch 15s steps(1) 5s infinite}
 .away-team .team-code{animation:awayCodePulse 3s ease-in-out infinite,awayGlitch 15s steps(1) 7s infinite}
+/* ── Stadium Atmosphere ──────────────────────────────────────────────────── */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:repeating-linear-gradient(180deg,
+    transparent 0,transparent 55px,
+    rgba(0,140,50,.018) 55px,rgba(0,140,50,.018) 110px)}
+.floodlights{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.flood{position:absolute;top:-60px;width:520px;height:110vh}
+.flood-l{left:-80px;background:conic-gradient(from 28deg at 0% 0%,transparent 0deg,rgba(255,255,230,.05) 14deg,transparent 28deg);animation:floodPulse 10s ease-in-out infinite}
+.flood-r{right:-80px;background:conic-gradient(from -28deg at 100% 0%,transparent 0deg,rgba(255,255,230,.05) 14deg,transparent 28deg);animation:floodPulse 10s ease-in-out 5s infinite}
+@keyframes floodPulse{0%,100%{opacity:.6}50%{opacity:1}}
+.pitch-circle{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:680px;height:680px;border-radius:50%;pointer-events:none;z-index:0;border:1px solid rgba(0,180,60,.055);animation:pcPulse 10s ease-in-out infinite}
+.pitch-circle::before{content:'';position:absolute;inset:30%;border-radius:50%;border:1px solid rgba(0,180,60,.04)}
+.pitch-circle::after{content:'';position:absolute;inset:-1px;border-radius:50%;border:1px solid rgba(0,180,60,.025)}
+@keyframes pcPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.7}50%{transform:translate(-50%,-50%) scale(1.04);opacity:1}}
+.live-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.58rem;font-family:'Orbitron',sans-serif;font-weight:900;color:#ff3333;letter-spacing:1.5px;padding:.2rem .55rem;border-radius:20px;border:1px solid rgba(255,50,50,.3);background:rgba(255,50,50,.07)}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#ff3333;flex-shrink:0;animation:liveDot 1s ease-in-out infinite}
+@keyframes liveDot{0%,100%{opacity:1;box-shadow:0 0 6px #ff3333}50%{opacity:.25;box-shadow:none}}
+/* Pre-match broadcast vibes */
+.match-kickoff-bar{display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;background:linear-gradient(90deg,rgba(255,68,68,.06),rgba(255,215,0,.06),rgba(0,212,255,.06));border-bottom:1px solid rgba(255,215,0,.1);font-size:.6rem;color:var(--dim);letter-spacing:2px;text-transform:uppercase;flex-wrap:wrap}
+.mkb-sep{color:rgba(255,215,0,.25)}
+/* Hero team codes bigger + more dramatic */
+.team-code{text-shadow:0 0 40px currentColor}
+/* Pitch texture on hero */
+.hero::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0,transparent 50px,rgba(0,140,50,.012) 50px,rgba(0,140,50,.012) 100px);pointer-events:none;z-index:0}
 </style>
 </head>
 <body>
+<div class="floodlights"><div class="flood flood-l"></div><div class="flood flood-r"></div></div>
+<div class="pitch-circle"></div>
 
 <!-- LOADING -->
 <div class="loading" id="loading">
@@ -299,6 +325,16 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
 
 <!-- MAIN CONTENT (hidden until data loaded) -->
 <div id="main-content" style="display:none">
+
+<div class="match-kickoff-bar">
+  <span>⚽ FIFA WORLD CUP 2026</span>
+  <span class="mkb-sep">·</span>
+  <span id="mkb-stage">Group Stage</span>
+  <span class="mkb-sep">·</span>
+  <div class="live-badge"><span class="live-dot"></span>LIVE PREDICTION</div>
+  <span class="mkb-sep">·</span>
+  <span>🇺🇸🇨🇦🇲🇽</span>
+</div>
 
 <nav>
   <a href="index.html" class="nav-back">← 返回</a>

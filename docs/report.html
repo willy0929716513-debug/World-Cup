@@ -521,6 +521,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
 
 <div class="section fade-up">
   <div class="section-title">最終預測</div>
+  <div style="font-size:.62rem;color:rgba(255,180,0,.6);background:rgba(255,180,0,.05);border:1px solid rgba(255,180,0,.15);border-radius:7px;padding:.35rem .8rem;margin-bottom:.7rem;text-align:center">
+    ⚠ 以下為賽前 Monte Carlo 機率預測，實際結果以官方為準
+  </div>
   <div class="final-box">
     <div class="final-title">★ 推薦比分</div>
     <div class="final-scores" id="final-scores"></div>
@@ -562,12 +565,24 @@ const MATCH_VENUE = P.get('venue') || 'MetLife Stadium, East Rutherford, NJ';
 document.getElementById('loading-text').textContent = `載入 ${HC} vs ${AC} 預測資料…`;
 
 // ── Fetch & init ──────────────────────────────────────────────────────────────
-fetch(`data/matches/${HC}_vs_${AC}.json`)
-  .then(r=>{ if(!r.ok) throw new Error(`尚無 ${HC} vs ${AC} 的預測資料（404）`); return r.json(); })
-  .then(data=>{
+Promise.all([
+  fetch(`data/matches/${HC}_vs_${AC}.json`)
+    .then(r=>{ if(!r.ok) throw new Error(`尚無 ${HC} vs ${AC} 的預測資料（404）`); return r.json(); }),
+  fetch('data/results.json').then(r=>r.ok?r.json():{matches:[]}).catch(()=>({matches:[]}))
+])
+  .then(([data, resultsData])=>{
     data.match.date  = MATCH_DATE;
     data.match.stage = MATCH_STAGE;
     data.match.venue = MATCH_VENUE;
+    // Attach actual result if available
+    const res = (resultsData.matches||[]).find(m =>
+      (m.t1===HC && m.t2===AC) || (m.t1===AC && m.t2===HC)
+    );
+    if(res && res.played){
+      data._actual = (res.t1===HC)
+        ? {score1: res.score1, score2: res.score2}
+        : {score1: res.score2, score2: res.score1};
+    }
     initReport(data);
     if(data.result.betting) fetchLiveOdds(data.home, data.away, data.result);
   })
@@ -655,7 +670,7 @@ function initReport(data){
   buildInjured('away-injured-wrap', AWAY.injured_players, AWAY.name);
   buildForm('home-form', HOME.recent_form);
   buildForm('away-form', AWAY.recent_form);
-  buildFinalScores(R, HOME, AWAY);
+  buildFinalScores(R, HOME, AWAY, data._actual);
   buildRisks(HOME, AWAY);
 
   // Prob bars animation
@@ -813,12 +828,32 @@ function buildForm(containerId, form){
 }
 
 // ── Final scores ──────────────────────────────────────────────────────────────
-function buildFinalScores(R, HOME, AWAY){
+function buildFinalScores(R, HOME, AWAY, actual){
   const c=document.getElementById('final-scores');
+  // Show actual result banner if match has been played
+  if(actual){
+    const winner = actual.score1 > actual.score2 ? HOME.name : actual.score2 > actual.score1 ? AWAY.name : '平局';
+    const predTop = R.top10[0];
+    const predCorrect = predTop && predTop.home === actual.score1 && predTop.away === actual.score2;
+    const banner = document.createElement('div');
+    banner.style.cssText='margin-bottom:.8rem;padding:.6rem .9rem;background:rgba(0,230,118,.07);border:1px solid rgba(0,230,118,.28);border-radius:10px;text-align:center';
+    banner.innerHTML=`
+      <div style="font-size:.55rem;letter-spacing:1.5px;color:rgba(0,230,118,.7);text-transform:uppercase;margin-bottom:.35rem">✓ 最終比分</div>
+      <div style="font-family:'Orbitron',sans-serif;font-size:1.5rem;font-weight:900;color:var(--green)">${actual.score1} – ${actual.score2}</div>
+      <div style="font-size:.6rem;color:var(--dim);margin-top:.2rem">${HOME.code} vs ${AWAY.code} · ${winner === '平局' ? '平局' : winner + ' 獲勝'}</div>
+      ${predCorrect ? '<div style="font-size:.58rem;color:var(--green);margin-top:.3rem">🎯 最高機率比分命中！</div>' : '<div style="font-size:.58rem;color:rgba(255,180,0,.7);margin-top:.3rem">預測最高機率比分：'+predTop.home+'–'+predTop.away+' ('+predTop.prob+'%)</div>'}`;
+    c.appendChild(banner);
+    const disc = document.createElement('div');
+    disc.style.cssText='font-size:.58rem;color:rgba(255,180,0,.6);text-align:center;margin-bottom:.6rem;padding:.3rem;background:rgba(255,180,0,.05);border-radius:6px';
+    disc.textContent='以下為賽前機率預測，僅供參考';
+    c.appendChild(disc);
+  }
   R.top10.slice(0,5).forEach((s,i)=>{
     const el=document.createElement('div');
+    const isActual = actual && s.home===actual.score1 && s.away===actual.score2;
     el.className='final-score-item'+(i>=3?' secondary':'');
-    el.innerHTML=`<div class="fs-score-row"><div class="fs-half"><span class="fs-tc tc-home">${HOME.code}</span><span class="fs-goal tc-home">${s.home}</span></div><span class="fs-dash">–</span><div class="fs-half"><span class="fs-tc tc-away">${AWAY.code}</span><span class="fs-goal tc-away">${s.away}</span></div></div><div class="score-rank-label">#${i+1} · ${s.prob}%</div>`;
+    if(isActual) el.style.cssText='outline:1px solid rgba(0,230,118,.4);border-radius:10px';
+    el.innerHTML=`<div class="fs-score-row"><div class="fs-half"><span class="fs-tc tc-home">${HOME.code}</span><span class="fs-goal tc-home">${s.home}</span></div><span class="fs-dash">–</span><div class="fs-half"><span class="fs-tc tc-away">${AWAY.code}</span><span class="fs-goal tc-away">${s.away}</span></div></div><div class="score-rank-label">${isActual?'✓ 命中 · ':''} #${i+1} · ${s.prob}%</div>`;
     c.appendChild(el);
   });
 }

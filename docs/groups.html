@@ -168,6 +168,11 @@ a.nav-btn.gold:hover{background:rgba(255,215,0,.07)}
   color:rgba(255,255,255,.55);background:rgba(255,255,255,.05);
   border-radius:6px;padding:.1rem .4rem;white-space:nowrap;letter-spacing:.5px}
 .m-score::after{content:' xG';font-size:.5rem;opacity:.5}
+.m-final-score{font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:900;
+  color:var(--green);text-shadow:0 0 12px rgba(0,230,118,.35);letter-spacing:.5px}
+.m-final-lbl{font-size:.47rem;color:rgba(0,230,118,.65);letter-spacing:1.2px;
+  text-transform:uppercase;display:block;margin-top:1px}
+.match-item.played{background:rgba(0,230,118,.03);border-bottom:1px solid rgba(0,230,118,.1)!important}
 .m-prob-bar{display:flex;height:3px;width:100%;border-radius:2px;overflow:hidden;gap:1px}
 .m-prob-bar div{height:100%;border-radius:2px}
 .m-probs{display:flex;gap:.3rem;font-size:.58rem;font-family:'Orbitron',sans-serif}
@@ -680,17 +685,25 @@ function render(data) {
         </div>`;
     }).join('');
 
-    // Match rows — show xG and win probability bar
+    // Match rows — show actual score for played matches, xG prediction otherwise
     const matchRowsHTML = matches.map(m => {
       const ph = m.p_home || 0, pd = m.p_draw || 0, pa = m.p_away || 0;
-      const xgH = m.xg_home != null ? m.xg_home.toFixed(2) : '—';
-      const xgA = m.xg_away != null ? m.xg_away.toFixed(2) : '—';
-      // Color the team names based on who's favored
+      const res = window.RESULTS && window.RESULTS[`${m.t1}_${m.t2}`];
       const homeColor = ph > pa ? 'var(--blue)' : ph < pa ? 'rgba(255,107,107,.6)' : 'var(--dim)';
       const awayColor = pa > ph ? 'rgba(255,107,107,.9)' : pa < ph ? 'rgba(0,212,255,.6)' : 'var(--dim)';
-      return `<div class="match-item">
-        <span class="m-team home" style="color:${homeColor}">${m.t1}</span>
-        <div class="m-center">
+
+      let centerHTML;
+      if (res) {
+        const winner = res.score1 > res.score2 ? m.t1 : res.score2 > res.score1 ? m.t2 : null;
+        const isUpset = (winner === m.t1 && pa > ph) || (winner === m.t2 && ph > pa);
+        centerHTML = `
+          <span class="m-final-score">${res.score1} – ${res.score2}</span>
+          <span class="m-final-lbl">正式比分</span>
+          ${isUpset ? '<span class="m-upset">💥 冷門</span>' : ''}`;
+      } else {
+        const xgH = m.xg_home != null ? m.xg_home.toFixed(2) : '—';
+        const xgA = m.xg_away != null ? m.xg_away.toFixed(2) : '—';
+        centerHTML = `
           <span class="m-score">${xgH} – ${xgA}</span>
           <div class="m-prob-bar">
             <div style="width:${ph}%;background:var(--blue);opacity:.8"></div>
@@ -701,8 +714,11 @@ function render(data) {
             <span style="color:var(--blue)">${ph}%</span>
             <span style="color:rgba(255,215,0,.8)">${pd}%</span>
             <span style="color:rgba(255,107,107,.9)">${pa}%</span>
-          </div>
-        </div>
+          </div>`;
+      }
+      return `<div class="match-item${res ? ' played' : ''}">
+        <span class="m-team home" style="color:${homeColor}">${m.t1}</span>
+        <div class="m-center">${centerHTML}</div>
         <span class="m-team away" style="color:${awayColor}">${m.t2}</span>
       </div>`;
     }).join('');
@@ -846,40 +862,7 @@ Promise.all([
   });
 
 function injectActualResults() {
-  if (!window.RESULTS) return;
-  document.querySelectorAll('.match-item').forEach(el => {
-    const home = el.querySelector('.m-team.home')?.textContent?.trim();
-    const away = el.querySelector('.m-team.away')?.textContent?.trim();
-    if (!home || !away) return;
-    const key = `${home}_${away}`;
-    const res = window.RESULTS[key];
-    if (!res) return;
-    const winner = res.score1 > res.score2 ? home : res.score2 > res.score1 ? away : null;
-    const predEl = el.querySelector('.m-center');
-    if (!predEl) return;
-    // Detect upset: if the underdog (p_away > p_home for home) won
-    const probBar = el.querySelector('.m-prob-bar');
-    let isUpset = false;
-    if (probBar) {
-      const bars = probBar.querySelectorAll('div');
-      if (bars.length >= 3) {
-        const ph = parseFloat(bars[0].style.width) || 0;
-        const pa = parseFloat(bars[2].style.width) || 0;
-        if (winner === home && pa > ph) isUpset = true;
-        if (winner === away && ph > pa) isUpset = true;
-      }
-    }
-    const upsetBadge = isUpset ? `<span class="m-upset">💥 冷門</span>` : '';
-    const resultHTML = `<div class="m-result">
-      <span class="m-final-badge">FINAL</span>
-      <span class="m-result-score">${res.score1} – ${res.score2}</span>
-      <span class="m-result-lbl">實際</span>
-      ${upsetBadge}
-    </div>`;
-    predEl.insertAdjacentHTML('beforeend', resultHTML);
-    el.style.background = 'rgba(0,230,118,.03)';
-    el.style.borderBottom = '1px solid rgba(0,230,118,.12)';
-  });
+  // Actual results are now rendered directly in matchRowsHTML — no injection needed.
 }
 </script>
 <script src="help.js"></script>

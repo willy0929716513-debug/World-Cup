@@ -347,7 +347,7 @@ footer a{color:var(--gold);text-decoration:none}
       <div><span class="tsl">客隊 · Away</span><select class="tss ass" id="asel" name="away" required></select></div>
     </div>
     <div class="drow">
-      <div class="df"><label>比賽日期</label><input type="date" name="date" id="idate" value="2026-06-14"></div>
+      <div class="df"><label>比賽日期</label><input type="date" name="date" id="idate"></div>
       <div class="df"><label>賽制階段</label><select name="stage" id="istage">
         <option value="Group Stage">小組賽</option>
         <option value="Round of 32">32 強</option>
@@ -577,6 +577,15 @@ document.addEventListener('mousemove',e=>{const g=document.getElementById('cglow
 /* Scroll reveal */
 const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target)}})},{threshold:.1});
 document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+
+/* Default date input to today */
+(function(){
+  const el=document.getElementById('idate');
+  if(el&&!el.value){
+    const d=new Date();
+    el.value=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  }
+})();
 
 /* Data */
 Promise.all([

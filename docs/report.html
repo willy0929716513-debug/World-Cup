@@ -681,6 +681,62 @@ const MATCH_DATE  = P.get('date')  || '2026-06-14';
 const MATCH_STAGE = P.get('stage') || 'Group Stage';
 const MATCH_VENUE = P.get('venue') || 'MetLife Stadium, East Rutherford, NJ';
 
+/* ── Venue metadata: altitude (m), indoor AC, hot climate ─────────────── */
+const VENUE_META = {
+  'MetLife Stadium, East Rutherford, NJ':      {alt:9,    indoor:false, hot:false},
+  'AT&T Stadium, Arlington, TX':               {alt:175,  indoor:false, hot:true},
+  'SoFi Stadium, Inglewood, CA':               {alt:67,   indoor:false, hot:false},
+  'Hard Rock Stadium, Miami Gardens, FL':      {alt:2,    indoor:false, hot:true},
+  'NRG Stadium, Houston, TX':                  {alt:12,   indoor:false, hot:true},
+  "Levi's Stadium, Santa Clara, CA":           {alt:12,   indoor:false, hot:false},
+  'Gillette Stadium, Foxborough, MA':          {alt:15,   indoor:false, hot:false},
+  'Lincoln Financial Field, Philadelphia, PA': {alt:12,   indoor:false, hot:false},
+  'Arrowhead Stadium, Kansas City, MO':        {alt:304,  indoor:false, hot:true},
+  'Empower Field at Mile High, Denver, CO':    {alt:1609, indoor:false, hot:false},
+  'Allegiant Stadium, Las Vegas, NV':          {alt:623,  indoor:true,  hot:false},
+  'BC Place, Vancouver, BC':                   {alt:0,    indoor:true,  hot:false},
+  'BMO Field, Toronto, ON':                    {alt:76,   indoor:false, hot:false},
+  'Estadio Azteca, Mexico City':               {alt:2240, indoor:false, hot:false},
+  'Estadio Akron, Guadalajara':                {alt:1522, indoor:false, hot:false},
+  'Estadio BBVA, Monterrey':                   {alt:537,  indoor:false, hot:true},
+};
+
+/* ── Apply venue modifiers to pre-computed lambdas ────────────────────── */
+function applyVenueModifiers(R) {
+  const vm = VENUE_META[MATCH_VENUE] || {alt:0, indoor:false, hot:false};
+  const effectiveAlt = vm.indoor ? 0 : vm.alt;   // indoor AC = no altitude stress
+
+  // Altitude effect: kicks in above 800m, max ~14% reduction at 2240m
+  // Based on observed goal-rate data from high-altitude WC qualifiers
+  if(effectiveAlt >= 800) {
+    const factor = Math.max(0.86, 1 - (effectiveAlt - 800) / 13000);
+    R.lambda_home = (R.lambda_home || 1.3) * factor;
+    R.lambda_away = (R.lambda_away || 1.1) * factor;
+
+    // Annotate for display
+    const pct = Math.round((1 - factor) * 100);
+    if(!R._venueNote) R._venueNote = [];
+    R._venueNote.push(`⛰️ 高海拔 ${effectiveAlt}m：預期進球率降低約 ${pct}%（含氧量不足、體能消耗加劇）`);
+    if(effectiveAlt >= 2000) {
+      R._venueNote.push('🇲🇽 非高原球隊（尤其歐洲/亞洲隊）在第 60 分鐘後體力明顯下滑');
+    }
+  }
+
+  // Hot climate warning (no lambda change — hard to quantify individually)
+  if(vm.hot && !vm.indoor) {
+    if(!R._venueNote) R._venueNote = [];
+    R._venueNote.push('🌡️ 高溫潮濕氣候：來自溫帶氣候球隊體力消耗較大，後段比賽節奏可能放緩');
+  }
+
+  // Indoor AC note
+  if(vm.indoor) {
+    if(!R._venueNote) R._venueNote = [];
+    R._venueNote.push('🏟️ 室內球場（空調）：氣候條件中性，不受外部溫度/海拔影響');
+  }
+
+  return R;
+}
+
 document.getElementById('loading-text').textContent = `載入 ${HC} vs ${AC} 預測資料…`;
 
 // ── Fetch & init ──────────────────────────────────────────────────────────────
@@ -701,6 +757,14 @@ Promise.all([
       data._actual = (res.t1===HC)
         ? {score1: res.score1, score2: res.score2}
         : {score1: res.score2, score2: res.score1};
+    }
+    // Apply venue modifiers (altitude, climate) to lambdas & risk notes
+    if(!data._actual) applyVenueModifiers(data.result);
+    if(data.result._venueNote && data.result._venueNote.length){
+      data.result.risk_factors = [
+        ...(data.result._venueNote),
+        ...(data.result.risk_factors || [])
+      ];
     }
     initReport(data);
     if(data.result.betting) fetchLiveOdds(data.home, data.away, data.result);

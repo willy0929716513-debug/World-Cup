@@ -638,6 +638,12 @@ function build(){
   /* ── Step 2: Password gate ───────────────────────────────────────────── */
   function renderPassword(){
     var box = document.getElementById('wc-disc-box');
+    if(!box){
+      /* direct entry (disclaimer already accepted in a previous session) */
+      box = document.createElement('div');
+      box.id = 'wc-disc-box';
+      ov.appendChild(box);
+    }
     box.style.opacity = '0';
     box.innerHTML = '<div id="wc-disc-head">'
       +   '<span id="wc-disc-icon">🔐</span>'

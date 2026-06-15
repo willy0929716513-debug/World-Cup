@@ -100,6 +100,15 @@
       "group": "E",
       "played": true,
       "date": "2026-06-14"
+    },
+    {
+      "t1": "SWE",
+      "t2": "TUN",
+      "score1": 5,
+      "score2": 1,
+      "group": "F",
+      "played": true,
+      "date": "2026-06-14"
     }
   ]
 }

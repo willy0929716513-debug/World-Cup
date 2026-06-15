@@ -482,6 +482,87 @@ function build(){
   };
 }
 
+/* ── Disclaimer modal (shown once per browser session) ──────────────── */
+(function(){
+  try{ if(sessionStorage.getItem('wc_disclaimer_ok')) return; }catch(e){}
+
+  const CSS = `
+#wc-disc-ov{position:fixed;inset:0;z-index:19000;background:rgba(2,6,23,.95);
+  backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;
+  padding:1rem;animation:discFade .4s ease}
+@keyframes discFade{from{opacity:0}to{opacity:1}}
+#wc-disc-box{background:#080e1e;border:1px solid rgba(255,215,0,.22);border-radius:22px;
+  width:100%;max-width:480px;overflow:hidden;
+  box-shadow:0 0 80px rgba(255,215,0,.08),0 40px 80px rgba(0,0,0,.8);position:relative}
+#wc-disc-box::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,#ffd700,rgba(0,229,255,.6),transparent)}
+#wc-disc-head{padding:1.1rem 1.4rem .9rem;border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;gap:.7rem}
+#wc-disc-icon{font-size:1.4rem}
+#wc-disc-title{font-family:'Orbitron','Inter',sans-serif;font-size:.78rem;font-weight:900;
+  letter-spacing:2px;background:linear-gradient(90deg,#ffd700,#00e5ff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#wc-disc-body{padding:1.2rem 1.4rem;font-family:'Inter','Space Grotesk',sans-serif;
+  font-size:.8rem;line-height:1.7;color:rgba(240,244,255,.72);max-height:55vh;overflow-y:auto}
+#wc-disc-body h3{font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(255,215,0,.8);margin:1rem 0 .4rem;font-family:'Orbitron','Inter',sans-serif}
+#wc-disc-body h3:first-child{margin-top:0}
+#wc-disc-body p{margin-bottom:.5rem}
+#wc-disc-body a{color:#00e5ff;text-decoration:none}
+#wc-disc-foot{padding:.9rem 1.4rem 1.2rem;border-top:1px solid rgba(255,255,255,.06);
+  display:flex;gap:.6rem;align-items:center}
+#wc-disc-agree{flex:1;padding:.65rem;
+  background:linear-gradient(135deg,rgba(255,215,0,.15),rgba(0,229,255,.08));
+  border:1px solid rgba(255,215,0,.35);color:#ffd700;border-radius:11px;
+  font-family:'Orbitron','Inter',sans-serif;font-size:.68rem;font-weight:900;
+  letter-spacing:.8px;cursor:pointer;transition:all .2s}
+#wc-disc-agree:hover{background:rgba(255,215,0,.22);border-color:rgba(255,215,0,.7)}
+#wc-disc-age{font-size:.68rem;color:rgba(240,244,255,.35);text-align:center;min-width:60px}
+`;
+
+  const style = document.createElement('style');
+  style.textContent = CSS;
+  document.head.appendChild(style);
+
+  const ov = document.createElement('div');
+  ov.id = 'wc-disc-ov';
+  ov.innerHTML = `
+<div id="wc-disc-box">
+  <div id="wc-disc-head">
+    <span id="wc-disc-icon">⚠️</span>
+    <span id="wc-disc-title">使用聲明 · DISCLAIMER</span>
+  </div>
+  <div id="wc-disc-body">
+    <h3>📊 預測準確性</h3>
+    <p>本網站所有 AI 預測結果（包含比分、勝負機率、賠率分析）均由統計模型自動生成，<strong style="color:#ffd700">僅供娛樂及學術參考用途</strong>，不代表任何保證或承諾。預測結果可能與實際比賽結果存在重大差異。</p>
+
+    <h3>🎰 投注免責聲明</h3>
+    <p>本網站任何內容均<strong style="color:#ff6b6b">不構成投注建議或金融建議</strong>。任何人因參考本網站資料而進行投注或其他財務行為所造成的損失，本網站概不負責。請依據您所在地區的法律法規謹慎行事。</p>
+
+    <h3>🔐 個人資料與隱私</h3>
+    <p>本網站為靜態網頁，<strong>不收集、儲存或傳輸任何使用者個人資料</strong>。您在「設定」中輸入的賠率 API 金鑰僅儲存於您的瀏覽器本機（localStorage），不會上傳至任何伺服器。本站不使用追蹤 Cookie。</p>
+
+    <h3>📋 智慧財產權</h3>
+    <p>本網站內容（預測模型、視覺設計、程式碼）受著作權保護。未經授權禁止複製、重製或商業使用。</p>
+
+    <h3>🔞 年齡限制</h3>
+    <p>本網站包含博彩賠率分析內容，<strong style="color:#ff6b6b">限 18 歲（或您所在地區法定年齡）以上人士瀏覽</strong>。</p>
+  </div>
+  <div id="wc-disc-foot">
+    <span id="wc-disc-age">18+</span>
+    <button id="wc-disc-agree">✓ 我已閱讀並同意，繼續使用</button>
+  </div>
+</div>`;
+
+  document.body.appendChild(ov);
+
+  document.getElementById('wc-disc-agree').addEventListener('click', function(){
+    try{ sessionStorage.setItem('wc_disclaimer_ok','1'); }catch(e){}
+    ov.style.animation = 'discFade .3s ease reverse';
+    setTimeout(function(){ ov.remove(); }, 280);
+  });
+})();
+
 function _updateApiStatus(state){
   const el = document.getElementById('wc-api-key-status');
   if(!el) return;

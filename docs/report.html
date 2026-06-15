@@ -138,10 +138,14 @@ nav{position:sticky;top:0;z-index:200;background:rgba(5,8,15,.9);backdrop-filter
 .cold-info{font-size:.75rem;color:var(--dim)}
 .cold-info strong{color:var(--text);display:block;font-size:.85rem;margin-bottom:.2rem}
 .cold-odds{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:var(--gold);background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:8px;padding:.3rem .7rem;text-align:center}
+.bet-thead{display:grid;grid-template-columns:1.4fr .9fr .9fr .9fr auto;gap:.5rem;padding:.3rem .9rem .5rem;font-size:.62rem;letter-spacing:.5px;color:var(--dim2);text-transform:uppercase;font-family:'Orbitron',sans-serif}
+.bet-thead span{text-align:center}.bet-thead span:first-child{text-align:left}
 .bet-row{display:grid;grid-template-columns:1.4fr .9fr .9fr .9fr auto;align-items:center;gap:.5rem;padding:.7rem .9rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r12);margin-bottom:.4rem;transition:border-color .2s}
 .bet-row:hover{border-color:var(--border2)}
 .bet-label{font-size:.82rem;font-weight:600}
 .bet-num{font-family:'Orbitron',sans-serif;font-size:.82rem;color:var(--dim);text-align:center}
+.bet-calib-warn{display:flex;align-items:flex-start;gap:.6rem;padding:.65rem .9rem;background:rgba(255,179,0,.07);border:1px solid rgba(255,179,0,.2);border-radius:var(--r12);margin-bottom:.7rem;font-size:.76rem;color:rgba(255,179,0,.85);line-height:1.5}
+.bet-calib-icon{font-size:1rem;flex-shrink:0;margin-top:.05rem}
 .edge-badge{font-size:.7rem;font-weight:700;padding:.2rem .55rem;border-radius:8px;white-space:nowrap}
 .edge-good{background:rgba(0,230,118,.12);color:var(--green);border:1px solid rgba(0,230,118,.2)}
 .edge-ok{background:rgba(255,179,0,.1);color:var(--yellow);border:1px solid rgba(255,179,0,.2)}
@@ -195,7 +199,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(5,8,15,.9);backdrop-filter
 .fade-up{animation:fadeUp .6s ease both}
 .delay-1{animation-delay:.1s}.delay-2{animation-delay:.2s}.delay-3{animation-delay:.3s}.delay-4{animation-delay:.4s}.delay-5{animation-delay:.5s}
 @media(max-width:900px){.charts-row{grid-template-columns:1fr 1fr}.charts-row>*:first-child{grid-column:span 2}.two-col,.three-col{grid-template-columns:1fr}.matchup{grid-template-columns:1fr auto 1fr}}
-@media(max-width:640px){.charts-row{grid-template-columns:1fr}.matchup{grid-template-columns:1fr;gap:1rem}.vs-center{order:-1}.team-code{font-size:2.2rem}.prob-pct{font-size:1.6rem}.hero{padding:1.5rem 1rem 1.5rem}.main{padding:1rem 1rem 3rem}.bet-row{grid-template-columns:1fr 1fr}.nav-tabs{display:none}}
+@media(max-width:640px){.charts-row{grid-template-columns:1fr}.matchup{grid-template-columns:1fr;gap:1rem}.vs-center{order:-1}.team-code{font-size:2.2rem}.prob-pct{font-size:1.6rem}.hero{padding:1.5rem 1rem 1.5rem}.main{padding:1rem 1rem 3rem}.bet-thead{display:none}.bet-row{grid-template-columns:1.6fr auto auto auto;font-size:.76rem}.bet-row .bet-num:nth-child(3){display:none}.nav-tabs{display:none}}
 @media(max-width:480px){
   nav{padding:0 .8rem;height:50px;gap:.4rem}
   nav .nav-link,.nav-tag{display:none}
@@ -900,7 +904,23 @@ function buildModels(R){
 
 // ── Betting ───────────────────────────────────────────────────────────────────
 function buildBetting(HOME, AWAY, R){
-  const c=document.getElementById('betting-rows'); const b=R.betting;
+  const c=document.getElementById('betting-rows'); c.innerHTML=''; const b=R.betting;
+
+  // Calibration warning: if model vs market diverge >15% on the main outcome
+  const mainDiff=Math.abs((b.home.model||0)-(b.home.implied||0));
+  if(mainDiff>15){
+    const warn=document.createElement('div'); warn.className='bet-calib-warn';
+    warn.innerHTML=`<span class="bet-calib-icon">⚠</span>
+      <span>模型與市場對主隊勝率的估計差距達 <strong>${mainDiff.toFixed(1)}%</strong>。
+      這通常出現在實力差距極大的比賽中（我方模型對弱隊估計偏高）。邊際值僅供參考，請以市場賠率為主。</span>`;
+    c.appendChild(warn);
+  }
+
+  // Column headers
+  const thead=document.createElement('div'); thead.className='bet-thead';
+  thead.innerHTML='<span>結果</span><span>賠率</span><span>市場隱含</span><span>模型估計</span><span>優勢</span>';
+  c.appendChild(thead);
+
   const items=[[HOME.name+' 勝 (1)',b.home,'var(--home)'],[`平局 (X)`,b.draw,'var(--gold)'],[AWAY.name+' 勝 (2)',b.away,'var(--away)'],[`大球 Over ${b.over.line}`,b.over,'var(--green)'],[`小球 Under ${b.under.line}`,b.under,'var(--dim)']];
   items.forEach(([label,info,color])=>{
     const edgeClass=info.edge>3?'edge-good':info.edge>0?'edge-ok':'edge-bad';

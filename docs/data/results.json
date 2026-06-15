@@ -1,6 +1,6 @@
 {
   "note": "實際比賽結果 — 手動更新",
-  "updated": "2026-06-14",
+  "updated": "2026-06-15",
   "matches": [
     {
       "t1": "MEX",
@@ -88,6 +88,15 @@
       "t2": "JPN",
       "score1": 2,
       "score2": 2,
+      "group": "E",
+      "played": true,
+      "date": "2026-06-14"
+    },
+    {
+      "t1": "CIV",
+      "t2": "ECU",
+      "score1": 1,
+      "score2": 0,
       "group": "E",
       "played": true,
       "date": "2026-06-14"

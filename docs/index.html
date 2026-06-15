@@ -481,82 +481,101 @@ window.addEventListener('load',()=>{
 });
 
 /* Schedule (UTC) — verified against official fixture list */
+/* v = venue key → expanded in VENUE_FULL below */
+const VENUE_FULL={
+  MLS:'MetLife Stadium, East Rutherford, NJ',
+  ATT:'AT&T Stadium, Arlington, TX',
+  SOF:'SoFi Stadium, Inglewood, CA',
+  HRS:'Hard Rock Stadium, Miami Gardens, FL',
+  NRG:'NRG Stadium, Houston, TX',
+  LEV:"Levi's Stadium, Santa Clara, CA",
+  GIL:'Gillette Stadium, Foxborough, MA',
+  LFC:'Lincoln Financial Field, Philadelphia, PA',
+  ARH:'Arrowhead Stadium, Kansas City, MO',
+  EMP:'Empower Field at Mile High, Denver, CO',
+  LAS:'Allegiant Stadium, Las Vegas, NV',
+  BCP:'BC Place, Vancouver, BC',
+  BMO:'BMO Field, Toronto, ON',
+  AZT:'Estadio Azteca, Mexico City',
+  AKR:'Estadio Akron, Guadalajara',
+  BBV:'Estadio BBVA, Monterrey',
+};
 const SCHEDULE=[
   // ── Round 1 ──────────────────────────────────────────────────────────────
-  {d:'2026-06-11',t:'20:00',g:'A',t1:'MEX',t2:'RSA'},
-  {d:'2026-06-11',t:'23:00',g:'A',t1:'KOR',t2:'CZE'},
-  {d:'2026-06-12',t:'16:00',g:'D',t1:'USA',t2:'PAR'},
-  {d:'2026-06-12',t:'19:00',g:'B',t1:'CAN',t2:'BIH'},
-  {d:'2026-06-12',t:'22:00',g:'B',t1:'SUI',t2:'QAT'},
-  {d:'2026-06-13',t:'16:00',g:'C',t1:'BRA',t2:'MAR'},
-  {d:'2026-06-13',t:'20:00',g:'C',t1:'SCO',t2:'HAI'},
-  {d:'2026-06-14',t:'04:00',g:'D',t1:'AUS',t2:'TUR'},
-  {d:'2026-06-14',t:'17:00',g:'E',t1:'GER',t2:'CUW'},
-  {d:'2026-06-14',t:'20:00',g:'F',t1:'NED',t2:'JPN'},
-  {d:'2026-06-14',t:'23:00',g:'E',t1:'CIV',t2:'ECU'},
-  {d:'2026-06-15',t:'02:00',g:'F',t1:'SWE',t2:'TUN'},
-  {d:'2026-06-15',t:'16:00',g:'H',t1:'ESP',t2:'CPV'},
-  {d:'2026-06-15',t:'19:00',g:'G',t1:'BEL',t2:'EGY'},
-  {d:'2026-06-15',t:'22:00',g:'H',t1:'KSA',t2:'URU'},
-  {d:'2026-06-16',t:'04:00',g:'G',t1:'IRN',t2:'NZL'},
-  {d:'2026-06-16',t:'19:00',g:'I',t1:'FRA',t2:'SEN'},
-  {d:'2026-06-16',t:'22:00',g:'I',t1:'IRQ',t2:'NOR'},
-  {d:'2026-06-17',t:'01:00',g:'J',t1:'ARG',t2:'ALG'},
-  {d:'2026-06-17',t:'04:00',g:'J',t1:'AUT',t2:'JOR'},
-  {d:'2026-06-17',t:'17:00',g:'K',t1:'POR',t2:'COD'},
-  {d:'2026-06-17',t:'20:00',g:'L',t1:'ENG',t2:'CRO'},
-  {d:'2026-06-17',t:'23:00',g:'L',t1:'GHA',t2:'PAN'},
-  {d:'2026-06-18',t:'02:00',g:'K',t1:'UZB',t2:'COL'},
+  {d:'2026-06-11',t:'20:00',g:'A',t1:'MEX',t2:'RSA',v:'AZT'},
+  {d:'2026-06-11',t:'23:00',g:'A',t1:'KOR',t2:'CZE',v:'LEV'},
+  {d:'2026-06-12',t:'16:00',g:'D',t1:'USA',t2:'PAR',v:'MLS'},
+  {d:'2026-06-12',t:'19:00',g:'B',t1:'CAN',t2:'BIH',v:'BMO'},
+  {d:'2026-06-12',t:'22:00',g:'B',t1:'SUI',t2:'QAT',v:'ATT'},
+  {d:'2026-06-13',t:'16:00',g:'C',t1:'BRA',t2:'MAR',v:'NRG'},
+  {d:'2026-06-13',t:'20:00',g:'C',t1:'SCO',t2:'HAI',v:'ARH'},
+  {d:'2026-06-14',t:'04:00',g:'D',t1:'AUS',t2:'TUR',v:'BCP'},
+  {d:'2026-06-14',t:'17:00',g:'E',t1:'GER',t2:'CUW',v:'LFC'},
+  {d:'2026-06-14',t:'20:00',g:'F',t1:'NED',t2:'JPN',v:'HRS'},
+  {d:'2026-06-14',t:'23:00',g:'E',t1:'CIV',t2:'ECU',v:'EMP'},
+  {d:'2026-06-15',t:'02:00',g:'F',t1:'SWE',t2:'TUN',v:'LAS'},
+  {d:'2026-06-15',t:'16:00',g:'H',t1:'ESP',t2:'CPV',v:'SOF'},
+  {d:'2026-06-15',t:'19:00',g:'G',t1:'BEL',t2:'EGY',v:'GIL'},
+  {d:'2026-06-15',t:'22:00',g:'H',t1:'KSA',t2:'URU',v:'ATT'},
+  {d:'2026-06-16',t:'04:00',g:'G',t1:'IRN',t2:'NZL',v:'BCP'},
+  {d:'2026-06-16',t:'19:00',g:'I',t1:'FRA',t2:'SEN',v:'MLS'},
+  {d:'2026-06-16',t:'22:00',g:'I',t1:'IRQ',t2:'NOR',v:'GIL'},
+  {d:'2026-06-17',t:'01:00',g:'J',t1:'ARG',t2:'ALG',v:'MLS'},
+  {d:'2026-06-17',t:'04:00',g:'J',t1:'AUT',t2:'JOR',v:'AKR'},
+  {d:'2026-06-17',t:'17:00',g:'K',t1:'POR',t2:'COD',v:'SOF'},
+  {d:'2026-06-17',t:'20:00',g:'L',t1:'ENG',t2:'CRO',v:'MLS'},
+  {d:'2026-06-17',t:'23:00',g:'L',t1:'GHA',t2:'PAN',v:'BBV'},
+  {d:'2026-06-18',t:'02:00',g:'K',t1:'UZB',t2:'COL',v:'BBV'},
   // ── Round 2 ──────────────────────────────────────────────────────────────
-  {d:'2026-06-18',t:'16:00',g:'A',t1:'CZE',t2:'RSA'},
-  {d:'2026-06-18',t:'19:00',g:'B',t1:'SUI',t2:'BIH'},
-  {d:'2026-06-18',t:'22:00',g:'B',t1:'CAN',t2:'QAT'},
-  {d:'2026-06-19',t:'01:00',g:'A',t1:'MEX',t2:'KOR'},
-  {d:'2026-06-19',t:'19:00',g:'D',t1:'USA',t2:'AUS'},
-  {d:'2026-06-19',t:'22:00',g:'C',t1:'SCO',t2:'MAR'},
-  {d:'2026-06-20',t:'01:00',g:'C',t1:'BRA',t2:'HAI'},
-  {d:'2026-06-20',t:'04:00',g:'D',t1:'TUR',t2:'PAR'},
-  {d:'2026-06-20',t:'17:00',g:'F',t1:'NED',t2:'SWE'},
-  {d:'2026-06-20',t:'20:00',g:'E',t1:'GER',t2:'CIV'},
-  {d:'2026-06-21',t:'00:00',g:'E',t1:'ECU',t2:'CUW'},
-  {d:'2026-06-21',t:'04:00',g:'F',t1:'TUN',t2:'JPN'},
-  {d:'2026-06-21',t:'16:00',g:'H',t1:'ESP',t2:'KSA'},
-  {d:'2026-06-21',t:'19:00',g:'G',t1:'BEL',t2:'IRN'},
-  {d:'2026-06-21',t:'22:00',g:'H',t1:'URU',t2:'CPV'},
-  {d:'2026-06-22',t:'01:00',g:'G',t1:'NZL',t2:'EGY'},
-  {d:'2026-06-22',t:'17:00',g:'J',t1:'ARG',t2:'AUT'},
-  {d:'2026-06-22',t:'21:00',g:'I',t1:'FRA',t2:'IRQ'},
-  {d:'2026-06-23',t:'00:00',g:'I',t1:'NOR',t2:'SEN'},
-  {d:'2026-06-23',t:'03:00',g:'J',t1:'JOR',t2:'ALG'},
-  {d:'2026-06-23',t:'17:00',g:'K',t1:'POR',t2:'UZB'},
-  {d:'2026-06-23',t:'20:00',g:'L',t1:'ENG',t2:'GHA'},
-  {d:'2026-06-23',t:'23:00',g:'L',t1:'PAN',t2:'CRO'},
-  {d:'2026-06-24',t:'02:00',g:'K',t1:'COL',t2:'COD'},
+  {d:'2026-06-18',t:'16:00',g:'A',t1:'CZE',t2:'RSA',v:'LEV'},
+  {d:'2026-06-18',t:'19:00',g:'B',t1:'SUI',t2:'BIH',v:'ATT'},
+  {d:'2026-06-18',t:'22:00',g:'B',t1:'CAN',t2:'QAT',v:'BMO'},
+  {d:'2026-06-19',t:'01:00',g:'A',t1:'MEX',t2:'KOR',v:'AZT'},
+  {d:'2026-06-19',t:'19:00',g:'D',t1:'USA',t2:'AUS',v:'NRG'},
+  {d:'2026-06-19',t:'22:00',g:'C',t1:'SCO',t2:'MAR',v:'ARH'},
+  {d:'2026-06-20',t:'01:00',g:'C',t1:'BRA',t2:'HAI',v:'NRG'},
+  {d:'2026-06-20',t:'04:00',g:'D',t1:'TUR',t2:'PAR',v:'BCP'},
+  {d:'2026-06-20',t:'17:00',g:'F',t1:'NED',t2:'SWE',v:'LAS'},
+  {d:'2026-06-20',t:'20:00',g:'E',t1:'GER',t2:'CIV',v:'LFC'},
+  {d:'2026-06-21',t:'00:00',g:'E',t1:'ECU',t2:'CUW',v:'EMP'},
+  {d:'2026-06-21',t:'04:00',g:'F',t1:'TUN',t2:'JPN',v:'LAS'},
+  {d:'2026-06-21',t:'16:00',g:'H',t1:'ESP',t2:'KSA',v:'SOF'},
+  {d:'2026-06-21',t:'19:00',g:'G',t1:'BEL',t2:'IRN',v:'GIL'},
+  {d:'2026-06-21',t:'22:00',g:'H',t1:'URU',t2:'CPV',v:'ATT'},
+  {d:'2026-06-22',t:'01:00',g:'G',t1:'NZL',t2:'EGY',v:'BCP'},
+  {d:'2026-06-22',t:'17:00',g:'J',t1:'ARG',t2:'AUT',v:'HRS'},
+  {d:'2026-06-22',t:'21:00',g:'I',t1:'FRA',t2:'IRQ',v:'HRS'},
+  {d:'2026-06-23',t:'00:00',g:'I',t1:'NOR',t2:'SEN',v:'GIL'},
+  {d:'2026-06-23',t:'03:00',g:'J',t1:'JOR',t2:'ALG',v:'AKR'},
+  {d:'2026-06-23',t:'17:00',g:'K',t1:'POR',t2:'UZB',v:'SOF'},
+  {d:'2026-06-23',t:'20:00',g:'L',t1:'ENG',t2:'GHA',v:'MLS'},
+  {d:'2026-06-23',t:'23:00',g:'L',t1:'PAN',t2:'CRO',v:'BBV'},
+  {d:'2026-06-24',t:'02:00',g:'K',t1:'COL',t2:'COD',v:'BBV'},
   // ── Round 3 (simultaneous per group) ─────────────────────────────────────
-  {d:'2026-06-24',t:'19:00',g:'B',t1:'SUI',t2:'CAN'},
-  {d:'2026-06-24',t:'19:00',g:'B',t1:'BIH',t2:'QAT'},
-  {d:'2026-06-24',t:'22:00',g:'C',t1:'SCO',t2:'BRA'},
-  {d:'2026-06-24',t:'22:00',g:'C',t1:'MAR',t2:'HAI'},
-  {d:'2026-06-25',t:'01:00',g:'A',t1:'CZE',t2:'MEX'},
-  {d:'2026-06-25',t:'01:00',g:'A',t1:'RSA',t2:'KOR'},
-  {d:'2026-06-25',t:'20:00',g:'E',t1:'ECU',t2:'GER'},
-  {d:'2026-06-25',t:'20:00',g:'E',t1:'CUW',t2:'CIV'},
-  {d:'2026-06-25',t:'23:00',g:'F',t1:'JPN',t2:'SWE'},
-  {d:'2026-06-25',t:'23:00',g:'F',t1:'TUN',t2:'NED'},
-  {d:'2026-06-26',t:'02:00',g:'D',t1:'TUR',t2:'USA'},
-  {d:'2026-06-26',t:'02:00',g:'D',t1:'PAR',t2:'AUS'},
-  {d:'2026-06-26',t:'19:00',g:'I',t1:'NOR',t2:'FRA'},
-  {d:'2026-06-26',t:'19:00',g:'I',t1:'SEN',t2:'IRQ'},
-  {d:'2026-06-27',t:'00:00',g:'H',t1:'CPV',t2:'KSA'},
-  {d:'2026-06-27',t:'00:00',g:'H',t1:'URU',t2:'ESP'},
-  {d:'2026-06-27',t:'03:00',g:'G',t1:'EGY',t2:'IRN'},
-  {d:'2026-06-27',t:'03:00',g:'G',t1:'NZL',t2:'BEL'},
-  {d:'2026-06-27',t:'21:00',g:'L',t1:'PAN',t2:'ENG'},
-  {d:'2026-06-27',t:'21:00',g:'L',t1:'CRO',t2:'GHA'},
-  {d:'2026-06-27',t:'23:30',g:'K',t1:'COL',t2:'POR'},
-  {d:'2026-06-27',t:'23:30',g:'K',t1:'COD',t2:'UZB'},
-  {d:'2026-06-28',t:'02:00',g:'J',t1:'JOR',t2:'ARG'},
-  {d:'2026-06-28',t:'02:00',g:'J',t1:'ALG',t2:'AUT'},
+  {d:'2026-06-24',t:'19:00',g:'B',t1:'SUI',t2:'CAN',v:'ATT'},
+  {d:'2026-06-24',t:'19:00',g:'B',t1:'BIH',t2:'QAT',v:'BMO'},
+  {d:'2026-06-24',t:'22:00',g:'C',t1:'SCO',t2:'BRA',v:'NRG'},
+  {d:'2026-06-24',t:'22:00',g:'C',t1:'MAR',t2:'HAI',v:'ARH'},
+  {d:'2026-06-25',t:'01:00',g:'A',t1:'CZE',t2:'MEX',v:'LEV'},
+  {d:'2026-06-25',t:'01:00',g:'A',t1:'RSA',t2:'KOR',v:'AZT'},
+  {d:'2026-06-25',t:'20:00',g:'E',t1:'ECU',t2:'GER',v:'LFC'},
+  {d:'2026-06-25',t:'20:00',g:'E',t1:'CUW',t2:'CIV',v:'EMP'},
+  {d:'2026-06-25',t:'23:00',g:'F',t1:'JPN',t2:'SWE',v:'LAS'},
+  {d:'2026-06-25',t:'23:00',g:'F',t1:'TUN',t2:'NED',v:'HRS'},
+  {d:'2026-06-26',t:'02:00',g:'D',t1:'TUR',t2:'USA',v:'NRG'},
+  {d:'2026-06-26',t:'02:00',g:'D',t1:'PAR',t2:'AUS',v:'BCP'},
+  {d:'2026-06-26',t:'19:00',g:'I',t1:'NOR',t2:'FRA',v:'GIL'},
+  {d:'2026-06-26',t:'19:00',g:'I',t1:'SEN',t2:'IRQ',v:'MLS'},
+  {d:'2026-06-27',t:'00:00',g:'H',t1:'CPV',t2:'KSA',v:'ATT'},
+  {d:'2026-06-27',t:'00:00',g:'H',t1:'URU',t2:'ESP',v:'SOF'},
+  {d:'2026-06-27',t:'03:00',g:'G',t1:'EGY',t2:'IRN',v:'BCP'},
+  {d:'2026-06-27',t:'03:00',g:'G',t1:'NZL',t2:'BEL',v:'BMO'},
+  {d:'2026-06-27',t:'21:00',g:'L',t1:'PAN',t2:'ENG',v:'MLS'},
+  {d:'2026-06-27',t:'21:00',g:'L',t1:'CRO',t2:'GHA',v:'BBV'},
+  {d:'2026-06-27',t:'23:30',g:'K',t1:'COL',t2:'POR',v:'MLS'},
+  {d:'2026-06-27',t:'23:30',g:'K',t1:'COD',t2:'UZB',v:'AKR'},
+  {d:'2026-06-28',t:'02:00',g:'J',t1:'JOR',t2:'ARG',v:'AKR'},
+  {d:'2026-06-28',t:'02:00',g:'J',t1:'ALG',t2:'AUT',v:'AZT'},
 ];
 
 /* Countdown */
@@ -641,11 +660,12 @@ Promise.all([
     else if(isToday){statusHTML=`<span class="mcst live"><span style="width:5px;height:5px;border-radius:50%;background:var(--red);animation:lp 1s infinite;display:inline-block"></span>&nbsp;今日 ${timeLabel}</span>`}
     else{statusHTML=`<span class="mcst">${sc.d.slice(5)} · ${timeLabel}</span>`}
     const card=document.createElement('a');
-    card.className='mc';card.href=`report.html?home=${t1}&away=${t2}`;
+    const venueStr=sc.v?(VENUE_FULL[sc.v]||sc.v):'';
+    card.className='mc';card.href=`report.html?home=${t1}&away=${t2}${venueStr?'&venue='+encodeURIComponent(venueStr):''}`;
     card.dataset.t1=t1;card.dataset.t2=t2;
     const predH=Math.floor(parseFloat(xh)||0),predA=Math.floor(parseFloat(xa)||0);
     const oddsSlot=r?'':`<div class="mc-odds" id="mco-${t1}-${t2}" style="display:none"><span class="mc-odds-lbl">市場賠率</span><span class="mc-odds-h" id="mco-h-${t1}-${t2}">H -</span><span class="mc-odds-sep">·</span><span class="mc-odds-x" id="mco-x-${t1}-${t2}">X -</span><span class="mc-odds-sep">·</span><span class="mc-odds-a" id="mco-a-${t1}-${t2}">A -</span></div>`;
-    if(!r){SIM_DATA[`${t1}_${t2}`]={t1,t2,predH,predA,n1,n2,f1,f2,ph,pd,pa,g:sc.g};}
+    if(!r){SIM_DATA[`${t1}_${t2}`]={t1,t2,predH,predA,n1,n2,f1,f2,ph,pd,pa,g:sc.g,v:sc.v};}
     const simSlot=r?'':`<div class="mc-sim" onclick="event.preventDefault();event.stopPropagation();_doSim('${t1}','${t2}')"><span class="mc-sim-ico">🎲</span>即時模擬比賽</div>`;
     card.innerHTML=`<div class="mch"><span class="mcgb">GROUP ${sc.g}</span>${statusHTML}</div><div class="mct"><div class="mctm"><span class="mcfl">${f1}</span><span class="mcco">${t1}</span><span class="mcnm">${n1}</span></div><div class="mcvs">${r?`<span class="mcfin">${r.s1} – ${r.s2}</span><span class="mcfinl">FINAL</span>`:`<span class="mcspr">${predH} – ${predA}</span><span class="mcvsl">AI 預測</span>`}</div><div class="mctm"><span class="mcfl">${f2}</span><span class="mcco">${t2}</span><span class="mcnm">${n2}</span></div></div><div class="mcpr"><span class="mcph">${ph}%</span><div class="mcpb"><div class="mph" style="width:${ph}%"></div><div class="mpd" style="width:${pd}%"></div><div class="mpa" style="width:${pa}%"></div></div><span class="mcpa">${pa}%</span></div>${oddsSlot}${simSlot}<span class="mcbtn">⚡ 完整 AI 分析 →</span>`;
     scroll.appendChild(card);
@@ -782,7 +802,8 @@ function _openSim(d){
   document.getElementById('sim-f2').textContent=f2;
   document.getElementById('sim-c2').textContent=t2;
   document.getElementById('sim-n2').textContent=n2;
-  document.getElementById('sim-full').href=`report.html?home=${t1}&away=${t2}`;
+  const _sv=d.v?(VENUE_FULL[d.v]||d.v):'';
+  document.getElementById('sim-full').href=`report.html?home=${t1}&away=${t2}${_sv?'&venue='+encodeURIComponent(_sv):''}`;
 
   // Populate probability bar values
   document.getElementById('sim-fill-h').style.width='0%';

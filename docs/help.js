@@ -489,7 +489,7 @@ function build(){
   var isIndex = /\/(index\.html)?$/.test(path) || path === '/';
   if(!isIndex) return;
 
-  try{ if(sessionStorage.getItem('wc_disclaimer_ok')) return; }catch(e){}
+  try{ if(localStorage.getItem('wc_disclaimer_ok')) return; }catch(e){}
 
   var TODAY = '2026-06-15';
 
@@ -591,7 +591,7 @@ function build(){
   document.body.appendChild(ov);
 
   document.getElementById('wc-disc-agree').addEventListener('click', function(){
-    try{ sessionStorage.setItem('wc_disclaimer_ok','1'); }catch(e){}
+    try{ localStorage.setItem('wc_disclaimer_ok','1'); }catch(e){}
     ov.style.animation = 'discFade .3s ease reverse';
     setTimeout(function(){ ov.remove(); }, 280);
   });

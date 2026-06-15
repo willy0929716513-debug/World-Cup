@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src fonts.gstatic.com; connect-src 'self'; img-src 'self' data:; frame-ancestors 'none';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
 <title>2026 World Cup — 淘汰賽預測</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -392,5 +395,6 @@ fetch('data/tournament.json')
     document.getElementById('loading').innerHTML=`<div style="color:#ff4444;font-family:var(--fb);font-size:.85rem;text-align:center;padding:2rem">⚠ 資料載入失敗<br><span style="color:rgba(255,255,255,.4);font-size:.75rem">${err.message}</span></div>`;
   });
 </script>
+<script src="js/security.js"></script>
 </body>
 </html>

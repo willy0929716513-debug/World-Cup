@@ -1,24 +1,21 @@
-/* Password gate for non-index pages — SHA-256 verified */
+/* Password gate for report / groups / bracket pages — SHA-256 verified */
 (function () {
   'use strict';
 
-  /* index.html is handled by the disclaimer flow in help.js */
-  var path = window.location.pathname;
-  if (/\/(index\.html)?$/.test(path) || path === '/') return;
-
   var HASH = 'e9adc021389854afa805943ff9900c72b7a0713128aaa593c29585098a2855b6';
 
-  /* Already authenticated (remembered or this session) */
+  /* Already authenticated */
   try {
     if (localStorage.getItem('wc_auth_ok') === '1') return;
     if (sessionStorage.getItem('wc_auth_session') === '1') return;
   } catch (e) {}
 
-  /* Hide body until authenticated */
-  var lockStyle = document.createElement('style');
-  lockStyle.id = 'wc-auth-lock';
-  lockStyle.textContent = 'body{visibility:hidden!important}';
-  document.head.appendChild(lockStyle);
+  /* Cover the page with an opaque overlay immediately so content never flashes */
+  var cover = document.createElement('div');
+  cover.id = 'wc-auth-cover';
+  cover.style.cssText = 'position:fixed;inset:0;z-index:29000;background:#020617';
+  /* Append even before body exists — works in <head> because fixed positioning
+     attaches to the viewport, but body isn't ready yet so we defer to DOMCL */
 
   function sha256(str) {
     return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str))
@@ -30,15 +27,15 @@
   }
 
   var CSS = [
-    '#wc-auth-ov{position:fixed;inset:0;z-index:29000;',
-    'background:linear-gradient(160deg,#020617 0%,#050d1f 60%,#080e1e 100%);',
-    'display:flex;align-items:center;justify-content:center;padding:1.2rem;',
-    'animation:wcAuthFade .4s ease}',
-    '@keyframes wcAuthFade{from{opacity:0}to{opacity:1}}',
+    '#wc-auth-cover{position:fixed;inset:0;z-index:29000;background:#020617}',
+    '#wc-auth-ov{position:fixed;inset:0;z-index:29001;',
+    'display:flex;align-items:center;justify-content:center;padding:1.2rem}',
     '#wc-auth-box{width:100%;max-width:360px;',
-    'background:rgba(8,14,30,.94);border:1px solid rgba(255,215,0,.2);',
+    'background:rgba(8,14,30,.97);border:1px solid rgba(255,215,0,.2);',
     'border-radius:20px;overflow:hidden;position:relative;',
-    'box-shadow:0 0 60px rgba(255,215,0,.07),0 32px 64px rgba(0,0,0,.9)}',
+    'box-shadow:0 0 60px rgba(255,215,0,.07),0 32px 64px rgba(0,0,0,.9);',
+    'animation:wcAuthPop .35s cubic-bezier(.17,.67,.26,1.3)}',
+    '@keyframes wcAuthPop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}',
     '#wc-auth-box::before{content:"";position:absolute;top:0;left:15%;right:15%;height:1px;',
     'background:linear-gradient(90deg,transparent,rgba(255,215,0,.6),rgba(0,229,255,.4),transparent)}',
     '#wc-auth-top{padding:1.6rem 1.6rem 1rem;text-align:center}',
@@ -58,11 +55,11 @@
     'padding:.72rem 2.8rem .72rem 1rem;border-radius:11px;outline:none;',
     'transition:border-color .2s;-webkit-appearance:none;caret-color:#ffd700}',
     '#wc-auth-input:focus{border-color:rgba(255,215,0,.5)}',
-    '#wc-auth-input.wc-shake{border-color:rgba(255,51,102,.65);animation:wcShakeA .35s ease}',
-    '@keyframes wcShakeA{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}',
+    '#wc-auth-input.wc-shake{border-color:rgba(255,51,102,.65);animation:wcShkA .35s ease}',
+    '@keyframes wcShkA{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}',
     '#wc-auth-eye{position:absolute;right:.8rem;top:50%;transform:translateY(-50%);',
     'background:none;border:none;cursor:pointer;color:rgba(255,255,255,.3);font-size:.95rem;',
-    'padding:.15rem;line-height:1;transition:color .2s;-webkit-tap-highlight-color:transparent}',
+    'padding:.15rem;line-height:1;-webkit-tap-highlight-color:transparent}',
     '#wc-auth-eye:hover{color:rgba(255,255,255,.65)}',
     '#wc-auth-err{font-size:.73rem;color:#ff3366;min-height:.95rem;text-align:center;',
     'font-family:"Inter",sans-serif}',
@@ -84,6 +81,9 @@
     var styleEl = document.createElement('style');
     styleEl.textContent = CSS;
     document.head.appendChild(styleEl);
+
+    /* Ensure cover is in body first */
+    document.body.appendChild(cover);
 
     var ov = document.createElement('div');
     ov.id = 'wc-auth-ov';
@@ -107,17 +107,13 @@
       + '</div>'
       + '</div>';
 
-    document.body.insertBefore(ov, document.body.firstChild);
-    document.body.style.visibility = 'visible';
+    document.body.appendChild(ov);
 
-    var lockEl = document.getElementById('wc-auth-lock');
-    if (lockEl) lockEl.remove();
-
-    var inp    = document.getElementById('wc-auth-input');
-    var btn    = document.getElementById('wc-auth-btn');
-    var eye    = document.getElementById('wc-auth-eye');
-    var errEl  = document.getElementById('wc-auth-err');
-    var remCb  = document.getElementById('wc-auth-remember');
+    var inp   = document.getElementById('wc-auth-input');
+    var btn   = document.getElementById('wc-auth-btn');
+    var eye   = document.getElementById('wc-auth-eye');
+    var errEl = document.getElementById('wc-auth-err');
+    var remCb = document.getElementById('wc-auth-remember');
 
     inp.focus();
 
@@ -125,7 +121,6 @@
       inp.type = inp.type === 'password' ? 'text' : 'password';
       eye.textContent = inp.type === 'password' ? '👁' : '🙈';
     });
-
     inp.addEventListener('keydown', function (e) {
       errEl.textContent = '';
       if (e.key === 'Enter') attempt();
@@ -140,9 +135,12 @@
         if (digest === HASH) {
           try { sessionStorage.setItem('wc_auth_session', '1'); } catch (e) {}
           if (remCb.checked) { try { localStorage.setItem('wc_auth_ok', '1'); } catch (e) {} }
+          /* Fade out cover + overlay together */
+          cover.style.transition = 'opacity .35s';
+          cover.style.opacity = '0';
           ov.style.transition = 'opacity .35s';
           ov.style.opacity = '0';
-          setTimeout(function () { ov.remove(); }, 340);
+          setTimeout(function () { cover.remove(); ov.remove(); }, 360);
         } else {
           showErr('密碼錯誤，請重試');
           btn.disabled = false;

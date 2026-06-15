@@ -385,6 +385,63 @@ function build(){
   style.textContent = CSS;
   document.head.appendChild(style);
 
+  // ── Inject page nav tabs into existing <nav> ──────────────────────────
+  (function(){
+    const path = window.location.pathname;
+    const isGroups  = /groups\.html/.test(path);
+    const isBracket = /bracket\.html/.test(path);
+    const isReport  = /report\.html/.test(path);
+    const isIndex   = !isGroups && !isBracket && !isReport;
+
+    const nav = document.querySelector('nav');
+    if(!nav) return;
+
+    // Inject CSS for the wc-nav-tab links
+    const tabStyle = document.createElement('style');
+    tabStyle.textContent = [
+      'a.wc-nav-tab{text-decoration:none;display:inline-flex!important;align-items:center;',
+      'font-family:"Orbitron","Inter",sans-serif;font-size:.62rem;font-weight:700;',
+      'letter-spacing:.7px;padding:.36rem .72rem;border-radius:20px;',
+      'border:1px solid rgba(255,255,255,.1);color:rgba(240,244,255,.42);',
+      'transition:all .18s;white-space:nowrap;-webkit-tap-highlight-color:transparent;flex-shrink:0}',
+      'a.wc-nav-tab:hover{color:rgba(240,244,255,.85);background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.22)}',
+      'a.wc-nav-tab.wc-nav-active{color:#ffd700;border-color:rgba(255,215,0,.38);background:rgba(255,215,0,.09)}',
+      /* hide back-button text on small phones to save space */
+      '@media(max-width:480px){',
+      '.na:not(.gold):not([href*="groups"]):not([href*="bracket"]),'
+      + '.nav-btn:not(.gold):not(.active):not([href*="groups"]):not([href*="bracket"]),'
+      + '.nav-back{display:none!important}',
+      '}',
+    ].join('');
+    document.head.appendChild(tabStyle);
+
+    // Insert groups link if not already there
+    if(!nav.querySelector('[href*="groups.html"]')){
+      const a = document.createElement('a');
+      a.href = 'groups.html';
+      a.className = 'wc-nav-tab' + (isGroups ? ' wc-nav-active' : '');
+      a.textContent = '⚽ 小組賽';
+      nav.appendChild(a);
+    } else {
+      const el = nav.querySelector('[href*="groups.html"]');
+      el.classList.add('wc-nav-tab');
+      if(isGroups) el.classList.add('wc-nav-active');
+    }
+
+    // Insert bracket link if not already there
+    if(!nav.querySelector('[href*="bracket.html"]')){
+      const a = document.createElement('a');
+      a.href = 'bracket.html';
+      a.className = 'wc-nav-tab' + (isBracket ? ' wc-nav-active' : '');
+      a.textContent = '🏆 淘汰賽';
+      nav.appendChild(a);
+    } else {
+      const el = nav.querySelector('[href*="bracket.html"]');
+      el.classList.add('wc-nav-tab');
+      if(isBracket) el.classList.add('wc-nav-active');
+    }
+  })();
+
   // Floating button
   const btn = document.createElement('button');
   btn.id = 'wc-help-btn';

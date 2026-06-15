@@ -130,8 +130,6 @@ h1.ht{font-family:var(--fh);font-size:clamp(2.4rem,9vw,4.8rem);font-weight:900;l
 .mph{height:100%;background:linear-gradient(90deg,var(--c),rgba(0,229,255,.5));border-radius:3px 0 0 3px}
 .mpd{height:100%;background:rgba(255,215,0,.38)}
 .mpa{height:100%;background:linear-gradient(90deg,rgba(255,51,102,.5),var(--red));border-radius:0 3px 3px 0}
-.mcxg{display:flex;justify-content:space-between;font-size:.52rem;color:var(--dim2);margin-bottom:.65rem}
-.mcxgv{font-family:var(--fh);font-size:.54rem;color:var(--dim)}
 .mcbtn{width:100%;padding:.42rem;background:rgba(0,229,255,.07);border:1px solid rgba(0,229,255,.18);color:var(--c);border-radius:8px;font-size:.62rem;font-weight:600;cursor:pointer;font-family:var(--fb);transition:all .2s;text-align:center;text-decoration:none;display:block}
 .mcbtn:hover{background:rgba(0,229,255,.15);border-color:rgba(0,229,255,.4)}
 
@@ -534,7 +532,6 @@ Promise.all([
     const xh=swapped?(md.xg_away!=null?md.xg_away.toFixed(1):'-'):(md.xg_home!=null?md.xg_home.toFixed(1):'-');
     const xa=swapped?(md.xg_home!=null?md.xg_home.toFixed(1):'-'):(md.xg_away!=null?md.xg_away.toFixed(1):'-');
     const r=RES[key];
-    const predH=Math.round(parseFloat(xh)||0),predA=Math.round(parseFloat(xa)||0);
     const mt=new Date(sc.d+'T'+sc.t+':00Z');
     const isPast=mt<=now2;
     const isToday=sc.d===todayStr;
@@ -546,7 +543,8 @@ Promise.all([
     else{statusHTML=`<span class="mcst">${sc.d.slice(5)} · ${timeLabel}</span>`}
     const card=document.createElement('a');
     card.className='mc';card.href=`report.html?home=${t1}&away=${t2}`;
-    card.innerHTML=`<div class="mch"><span class="mcgb">GROUP ${sc.g}</span>${statusHTML}</div><div class="mct"><div class="mctm"><span class="mcfl">${f1}</span><span class="mcco">${t1}</span><span class="mcnm">${n1}</span></div><div class="mcvs">${r?`<span class="mcfin">${r.s1} – ${r.s2}</span><span class="mcfinl">FINAL</span>`:`<span class="mcspr">${predH} – ${predA}</span><span class="mcvsl">AI 預測</span>`}</div><div class="mctm"><span class="mcfl">${f2}</span><span class="mcco">${t2}</span><span class="mcnm">${n2}</span></div></div><div class="mcpr"><span class="mcph">${ph}%</span><div class="mcpb"><div class="mph" style="width:${ph}%"></div><div class="mpd" style="width:${pd}%"></div><div class="mpa" style="width:${pa}%"></div></div><span class="mcpa">${pa}%</span></div><div class="mcxg"><span class="mcxgv">xG ${xh}</span><span>Expected Goals</span><span class="mcxgv">${xa} xG</span></div><span class="mcbtn">⚡ 完整 AI 分析 →</span>`;
+    const predH=Math.floor(parseFloat(xh)||0),predA=Math.floor(parseFloat(xa)||0);
+    card.innerHTML=`<div class="mch"><span class="mcgb">GROUP ${sc.g}</span>${statusHTML}</div><div class="mct"><div class="mctm"><span class="mcfl">${f1}</span><span class="mcco">${t1}</span><span class="mcnm">${n1}</span></div><div class="mcvs">${r?`<span class="mcfin">${r.s1} – ${r.s2}</span><span class="mcfinl">FINAL</span>`:`<span class="mcspr">${predH} – ${predA}</span><span class="mcvsl">AI 預測</span>`}</div><div class="mctm"><span class="mcfl">${f2}</span><span class="mcco">${t2}</span><span class="mcnm">${n2}</span></div></div><div class="mcpr"><span class="mcph">${ph}%</span><div class="mcpb"><div class="mph" style="width:${ph}%"></div><div class="mpd" style="width:${pd}%"></div><div class="mpa" style="width:${pa}%"></div></div><span class="mcpa">${pa}%</span></div><span class="mcbtn">⚡ 完整 AI 分析 →</span>`;
     scroll.appendChild(card);
   });
 

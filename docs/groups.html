@@ -553,6 +553,14 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   &nbsp;|&nbsp; <a href="bracket.html" style="color:var(--gold);text-decoration:none">查看淘汰賽預測 →</a>
 </div>
 
+<!-- Bottom prediction ticker — must be in DOM before scripts run to avoid race condition -->
+<div class="wc-ticker" id="wc-ticker" style="display:none">
+  <div class="ticker-label">⚽ WC2026</div>
+  <div class="ticker-track">
+    <div class="ticker-scroll" id="ticker-scroll"></div>
+  </div>
+</div>
+
 <script>
 // ── Constants ────────────────────────────────────────────────────────────────
 const HOST_TEAMS = ['USA', 'CAN', 'MEX'];
@@ -866,13 +874,5 @@ function injectActualResults() {
 }
 </script>
 <script src="help.js"></script>
-
-<!-- Bottom prediction ticker (populated by JS after data loads) -->
-<div class="wc-ticker" id="wc-ticker" style="display:none">
-  <div class="ticker-label">⚽ WC2026</div>
-  <div class="ticker-track">
-    <div class="ticker-scroll" id="ticker-scroll"></div>
-  </div>
-</div>
 </body>
 </html>

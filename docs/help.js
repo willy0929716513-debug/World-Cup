@@ -482,6 +482,121 @@ function build(){
   };
 }
 
+/* ── Disclaimer modal (shown once per session, only on the home page) ── */
+(function(){
+  // Only trigger on the main index page
+  var path = window.location.pathname;
+  var isIndex = /\/(index\.html)?$/.test(path) || path === '/';
+  if(!isIndex) return;
+
+  try{ if(localStorage.getItem('wc_disclaimer_ok')) return; }catch(e){}
+
+  var TODAY = '2026-06-15';
+
+  const CSS = `
+#wc-disc-ov{position:fixed;inset:0;z-index:19000;background:rgba(2,6,23,.97);
+  backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:center;
+  padding:1rem;animation:discFade .4s ease}
+@keyframes discFade{from{opacity:0}to{opacity:1}}
+#wc-disc-box{background:#07101f;border:1px solid rgba(255,215,0,.22);border-radius:22px;
+  width:100%;max-width:560px;overflow:hidden;
+  box-shadow:0 0 80px rgba(255,215,0,.07),0 40px 80px rgba(0,0,0,.85);position:relative}
+#wc-disc-box::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,215,0,.7),rgba(0,229,255,.5),transparent)}
+#wc-disc-head{padding:1.1rem 1.4rem .9rem;border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;gap:.7rem}
+#wc-disc-icon{font-size:1.4rem;flex-shrink:0}
+#wc-disc-title{font-family:'Orbitron','Inter',sans-serif;font-size:.78rem;font-weight:900;
+  letter-spacing:2px;background:linear-gradient(90deg,#ffd700,#00e5ff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#wc-disc-updated{margin-left:auto;font-size:.62rem;color:rgba(255,255,255,.25);
+  font-family:'Inter',sans-serif;white-space:nowrap;flex-shrink:0}
+#wc-disc-body{padding:1.1rem 1.4rem 1.4rem;font-family:'Inter','Space Grotesk',sans-serif;
+  font-size:.79rem;line-height:1.72;color:rgba(240,244,255,.7);max-height:58vh;overflow-y:auto;
+  scrollbar-width:thin;scrollbar-color:rgba(255,215,0,.2) transparent}
+#wc-disc-body::-webkit-scrollbar{width:3px}
+#wc-disc-body::-webkit-scrollbar-thumb{background:rgba(255,215,0,.2);border-radius:2px}
+#wc-disc-body h3{font-size:.68rem;letter-spacing:1.8px;text-transform:uppercase;
+  color:rgba(255,215,0,.85);margin:1.1rem 0 .4rem;font-family:'Orbitron','Inter',sans-serif;
+  display:flex;align-items:center;gap:.4rem}
+#wc-disc-body h3:first-child{margin-top:0}
+#wc-disc-body p{margin-bottom:.55rem}
+#wc-disc-body strong.warn{color:#ff6b6b}
+#wc-disc-body strong.gold{color:#ffd700}
+#wc-disc-body a{color:#00e5ff;text-decoration:none}
+#wc-disc-body a:hover{text-decoration:underline}
+#wc-disc-divider{border:none;border-top:1px solid rgba(255,255,255,.055);margin:.9rem 0}
+#wc-disc-foot{padding:.85rem 1.4rem 1.15rem;border-top:1px solid rgba(255,255,255,.06);
+  display:flex;gap:.7rem;align-items:center}
+#wc-disc-agree{flex:1;padding:.68rem;
+  background:linear-gradient(135deg,rgba(255,215,0,.14),rgba(0,229,255,.07));
+  border:1px solid rgba(255,215,0,.38);color:#ffd700;border-radius:11px;
+  font-family:'Orbitron','Inter',sans-serif;font-size:.67rem;font-weight:900;
+  letter-spacing:.8px;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent}
+#wc-disc-agree:hover{background:rgba(255,215,0,.22);border-color:rgba(255,215,0,.7)}
+#wc-disc-age{font-size:.7rem;font-weight:900;color:rgba(255,107,107,.75);
+  text-align:center;min-width:44px;font-family:'Orbitron','Inter',sans-serif}
+`;
+
+  const style = document.createElement('style');
+  style.textContent = CSS;
+  document.head.appendChild(style);
+
+  const ov = document.createElement('div');
+  ov.id = 'wc-disc-ov';
+  ov.innerHTML = `
+<div id="wc-disc-box">
+  <div id="wc-disc-head">
+    <span id="wc-disc-icon">⚠️</span>
+    <span id="wc-disc-title">使用條款與免責聲明</span>
+    <span id="wc-disc-updated">更新：${TODAY}</span>
+  </div>
+  <div id="wc-disc-body">
+
+    <h3>📊 預測準確性與資料限制</h3>
+    <p>本網站所有 AI 預測結果（包含比分預測、勝負機率、期望進球數、賠率分析等）均由統計模型自動生成，<strong class="gold">僅供娛樂及學術參考用途，絕不代表任何形式的保證、承諾或事實陳述。</strong>足球比賽受傷病、戰術臨時調整、場地狀況、氣候、裁判判決及其他無法量化的隨機因素影響，預測結果可能與實際比賽結果存在重大甚至完全相反的差異。使用者不得以本站資料作為任何決策的唯一或主要依據。</p>
+
+    <h3>🎰 博彩與投注免責聲明</h3>
+    <p>本網站任何內容，包括勝負機率、「正期望值」標示、賠率比較分析等，<strong class="warn">均不構成投注建議、金融建議、投資建議或任何形式的財務指導。</strong>「正期望值」為純數學理論概念，不保證實際獲利。任何人因參考本網站資料而進行投注或其他財務行為所導致之任何損失（包括直接、間接、附帶或衍生損失），本網站及其所有者、開發者概不承擔任何法律或道義責任。</p>
+    <p>博彩可能導致財務損失及成癮問題。若您有賭博問題，請尋求專業協助：<br>
+    台灣：<a href="tel:1925">1925 安心專線</a> ／ 國際：<a href="https://www.gamblingtherapy.org" target="_blank" rel="noopener noreferrer">gamblingtherapy.org</a></p>
+
+    <h3>⚖️ 合法性與地區限制</h3>
+    <p>博彩活動的合法性因地區而異。<strong class="warn">使用者有責任自行確認其所在地區是否允許存取本網站及參與相關活動。</strong>在博彩活動受限或禁止的地區，使用者應自行遵守當地法律法規。本網站不對因使用者違反當地法律而引發的任何後果負責。</p>
+
+    <hr id="wc-disc-divider">
+
+    <h3>🔐 個人資料與隱私保護</h3>
+    <p>本網站為 GitHub Pages 靜態網頁，<strong class="gold">不收集、儲存、傳輸或處理任何使用者個人識別資料。</strong>本站不使用任何追蹤 Cookie、分析腳本或廣告追蹤技術。您在設定中輸入的賠率 API 金鑰僅儲存於您的瀏覽器本機（localStorage），不會透過任何途徑上傳至外部伺服器。若您連線至第三方 API（The Odds API），其資料處理受該服務商隱私政策規範，與本站無關。</p>
+
+    <h3>🔒 服務可用性與責任限制</h3>
+    <p>本網站依「現狀」（as-is）提供服務，<strong class="warn">不對服務的持續性、準確性、完整性、即時性或適用性作出任何明示或默示的保證。</strong>本站可能因 GitHub Pages 服務中斷、資料更新延誤、程式錯誤或其他不可抗力因素而暫時無法正常使用。在法律允許的最大範圍內，因使用或無法使用本站服務所引起的任何損害，本站概不負責。</p>
+
+    <h3>📋 智慧財產權</h3>
+    <p>本網站之預測模型演算法、視覺設計、程式碼及全部文字內容受著作權法保護。<strong>未經書面授權，嚴禁以任何形式複製、重製、轉載、販售或作商業用途。</strong>公開賽事資料（球隊名稱、賽事結果等）為公共資訊，其他一切創作成果之權利均歸屬本站所有人。</p>
+
+    <h3>🔞 年齡限制</h3>
+    <p>本網站包含博彩賠率分析等內容，<strong class="warn">限 18 歲（或您所在地區適用之法定成年年齡，以較高者為準）以上人士瀏覽及使用。</strong>點擊下方按鈕即表示您確認您已達到適用的法定年齡。</p>
+
+    <h3>📝 條款修改</h3>
+    <p>本免責聲明可能隨時更新，更新後將修改頁面頂端的日期。繼續使用本網站即表示您接受最新版本之條款。如您不同意本聲明任何內容，請立即停止使用本網站。</p>
+
+  </div>
+  <div id="wc-disc-foot">
+    <span id="wc-disc-age">18+</span>
+    <button id="wc-disc-agree">✓ 我已年滿 18 歲，已閱讀並同意上述條款</button>
+  </div>
+</div>`;
+
+  document.body.appendChild(ov);
+
+  document.getElementById('wc-disc-agree').addEventListener('click', function(){
+    try{ localStorage.setItem('wc_disclaimer_ok','1'); }catch(e){}
+    ov.style.animation = 'discFade .3s ease reverse';
+    setTimeout(function(){ ov.remove(); }, 280);
+  });
+})();
+
 function _updateApiStatus(state){
   const el = document.getElementById('wc-api-key-status');
   if(!el) return;

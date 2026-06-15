@@ -309,6 +309,8 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 /* Pitch texture on hero */
 .hero::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0,transparent 50px,rgba(0,140,50,.012) 50px,rgba(0,140,50,.012) 100px);pointer-events:none;z-index:0}
 
+@keyframes simScoreIn{0%{transform:scale(2);opacity:0}100%{transform:scale(1);opacity:1}}
+
 /* ── Simulate button ── */
 .sim-trigger{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:.7rem;width:100%;max-width:520px;margin:.8rem auto 0;padding:.85rem 2rem;background:linear-gradient(135deg,rgba(255,215,0,.14),rgba(0,212,255,.08));border:1px solid rgba(255,215,0,.35);border-radius:14px;color:var(--gold);font-family:'Orbitron',sans-serif;font-size:.82rem;font-weight:900;letter-spacing:1.5px;cursor:pointer;transition:all .25s;overflow:hidden}
 .sim-trigger::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,215,0,.12),transparent);transform:translateX(-100%);transition:transform .6s}
@@ -428,12 +430,25 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         </div>
       </div>
       <div class="vs-center">
+        <!-- Completed match: actual score -->
         <div id="actual-hero" style="display:none;flex-direction:column;align-items:center;gap:.25rem">
           <span style="font-size:.52rem;letter-spacing:2px;color:rgba(0,230,118,.7);text-transform:uppercase;font-family:'Orbitron',sans-serif">✓ FINAL</span>
           <span id="actual-hero-score" style="font-family:'Orbitron',sans-serif;font-size:2.4rem;font-weight:900;color:var(--green);line-height:1;text-shadow:0 0 30px rgba(0,230,118,.4)"></span>
           <span style="font-size:.55rem;color:var(--dim);letter-spacing:1px">實際比分</span>
         </div>
+        <!-- Default VS -->
         <span class="vs-text" id="vs-text">VS</span>
+        <!-- Score display for upcoming matches: sim result (top) + AI pred (below) -->
+        <div id="hero-scores" style="display:none;flex-direction:column;align-items:center;gap:.5rem">
+          <div id="hero-sim-wrap" style="display:none;flex-direction:column;align-items:center;gap:.18rem">
+            <span style="font-size:.42rem;letter-spacing:2px;color:var(--gold);font-family:'Orbitron',sans-serif;opacity:.85">⚡ 即時模擬</span>
+            <span id="hero-sim-score" style="font-family:'Orbitron',sans-serif;font-size:2.4rem;font-weight:900;color:var(--gold);line-height:1;text-shadow:0 0 40px rgba(255,215,0,.55);animation:simScoreIn .5s cubic-bezier(.17,.67,.26,1.6)">0 – 0</span>
+          </div>
+          <div id="hero-model-wrap" style="display:flex;flex-direction:column;align-items:center;gap:.15rem">
+            <span style="font-size:.4rem;letter-spacing:2px;color:var(--dim2);font-family:'Orbitron',sans-serif">🤖 AI 預測</span>
+            <span id="hero-model-score" style="font-family:'Orbitron',sans-serif;font-size:1.45rem;font-weight:900;color:var(--dim);line-height:1">–</span>
+          </div>
+        </div>
         <span class="vs-date" id="vs-stage"></span>
       </div>
       <div class="team-side away-team">
@@ -728,10 +743,16 @@ function initReport(data){
   fill('prob-draw', R.p_draw+'%');
   fill('prob-away', R.p_away+'%'); fill('prob-away-label', AWAY.name+' 勝');
 
-  // Expose simulation params & show button (only for upcoming matches)
+  // Expose simulation params & show score display (only for upcoming matches)
   _SIM_LH = R.lambda_home; _SIM_LA = R.lambda_away;
   _SIM_H = HOME.code; _SIM_A = AWAY.code;
   if(!data._actual){
+    // Show AI model prediction score in hero
+    const pH=Math.floor(parseFloat(R.lambda_home)||0);
+    const pA=Math.floor(parseFloat(R.lambda_away)||0);
+    document.getElementById('hero-model-score').textContent=pH+' – '+pA;
+    document.getElementById('hero-scores').style.display='flex';
+    document.getElementById('vs-text').style.display='none';
     document.getElementById('sim-trigger-btn').style.display='flex';
   }
 
@@ -1332,6 +1353,12 @@ function rsimStart(){
         document.getElementById('rsim-final-score').textContent=sh+' – '+sa;
         document.getElementById('rsim-res-h').textContent=_SIM_H;
         document.getElementById('rsim-res-a').textContent=_SIM_A;
+        // Update hero section: sim score on top, AI pred below
+        const hss=document.getElementById('hero-sim-score');
+        hss.style.animation='none'; void hss.offsetWidth;
+        hss.style.animation='simScoreIn .5s cubic-bezier(.17,.67,.26,1.6)';
+        hss.textContent=sh+' – '+sa;
+        document.getElementById('hero-sim-wrap').style.display='flex';
 
         // Context sentence
         const res=sh>sa?_SIM_H+' 勝':sh<sa?_SIM_A+' 勝':'平局';

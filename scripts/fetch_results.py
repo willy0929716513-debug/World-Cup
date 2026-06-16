@@ -18,74 +18,108 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).parent.parent
 RESULTS_FILE = REPO_ROOT / "docs" / "data" / "results.json"
 
-# ── Team name → 3-letter code ─────────────────────────────────────────────
+# ── Team display name → our 3-letter code ────────────────────────────────
+# Covers ESPN displayName, football-data.org name, and common variants
 NAME_TO_CODE = {
     # Group A
-    "Mexico": "MEX", "South Africa": "RSA", "South Korea": "KOR", "Korea Republic": "KOR",
+    "Mexico": "MEX", "South Africa": "RSA",
+    "South Korea": "KOR", "Korea Republic": "KOR", "Korea DPR": "KOR",
     "Czech Republic": "CZE", "Czechia": "CZE",
     # Group B
-    "Canada": "CAN", "Bosnia and Herzegovina": "BIH", "Switzerland": "SUI", "Qatar": "QAT",
+    "Canada": "CAN",
+    "Bosnia and Herzegovina": "BIH", "Bosnia-Herzegovina": "BIH", "Bosnia & Herzegovina": "BIH",
+    "Switzerland": "SUI", "Qatar": "QAT",
     # Group C
     "Brazil": "BRA", "Morocco": "MAR", "Scotland": "SCO", "Haiti": "HAI",
     # Group D
-    "United States": "USA", "Paraguay": "PAR", "Australia": "AUS", "Turkey": "TUR", "Türkiye": "TUR",
+    "United States": "USA", "USA": "USA",
+    "Paraguay": "PAR", "Australia": "AUS", "Turkey": "TUR", "Türkiye": "TUR",
     # Group E
-    "Germany": "GER", "Curacao": "CUW", "Curaçao": "CUW", "Netherlands": "NED",
-    "Ivory Coast": "CIV", "Côte d'Ivoire": "CIV", "Cote d'Ivoire": "CIV", "Ecuador": "ECU",
+    "Germany": "GER",
+    "Curacao": "CUW", "Curaçao": "CUW", "Curaçao": "CUW",
+    "Ivory Coast": "CIV", "Côte d'Ivoire": "CIV", "Cote d'Ivoire": "CIV",
+    "Cote D'Ivoire": "CIV", "Côte D'Ivoire": "CIV",
+    "Ecuador": "ECU",
     # Group F
-    "Sweden": "SWE", "Tunisia": "TUN", "England": "ENG", "Serbia": "SRB",
+    "Netherlands": "NED", "Japan": "JPN", "Sweden": "SWE", "Tunisia": "TUN",
     # Group G
-    "Portugal": "POR", "Nigeria": "NGA", "Belgium": "BEL", "New Zealand": "NZL",
+    "Belgium": "BEL", "Egypt": "EGY", "Iran": "IRN", "New Zealand": "NZL",
     # Group H
-    "Spain": "ESP", "Cameroon": "CMR", "Japan": "JPN", "Honduras": "HON",
+    "Spain": "ESP",
+    "Cape Verde": "CPV", "Cabo Verde": "CPV", "Cape Verde Islands": "CPV",
+    "Saudi Arabia": "KSA", "Uruguay": "URU",
     # Group I
-    "Argentina": "ARG", "Iraq": "IRQ", "Croatia": "CRO", "Indonesia": "IDN",
+    "France": "FRA", "Senegal": "SEN", "Iraq": "IRQ", "Norway": "NOR",
     # Group J
-    "France": "FRA", "Panama": "PAN", "Uruguay": "URU", "Senegal": "SEN",
+    "Argentina": "ARG", "Algeria": "ALG", "Austria": "AUT", "Jordan": "JOR",
     # Group K
-    "Colombia": "COL", "Uzbekistan": "UZB", "Denmark": "DEN", "Romania": "ROU",
+    "Portugal": "POR",
+    "DR Congo": "COD", "Congo DR": "COD", "Congo, DR": "COD",
+    "Democratic Republic of Congo": "COD", "Democratic Republic of the Congo": "COD",
+    "Uzbekistan": "UZB", "Colombia": "COL",
     # Group L
-    "Saudi Arabia": "KSA", "Mali": "MLI", "Peru": "PER", "Iran": "IRN",
-    # ESPN codes that differ
-    "South Korea": "KOR", "Bosnia-Herzegovina": "BIH", "Bosnia & Herzegovina": "BIH",
-    "Cote D'Ivoire": "CIV",
+    "England": "ENG", "Croatia": "CRO", "Ghana": "GHA", "Panama": "PAN",
 }
 
-# ── Team → Group lookup ───────────────────────────────────────────────────
+# ── Actual WC2026 group assignments ───────────────────────────────────────
 TEAM_GROUP = {
     "MEX": "A", "RSA": "A", "KOR": "A", "CZE": "A",
     "CAN": "B", "BIH": "B", "SUI": "B", "QAT": "B",
     "BRA": "C", "MAR": "C", "SCO": "C", "HAI": "C",
     "USA": "D", "PAR": "D", "AUS": "D", "TUR": "D",
-    "GER": "E", "CUW": "E", "NED": "E", "CIV": "E",
-    "SWE": "F", "TUN": "F", "ENG": "F", "SRB": "F",
-    "POR": "G", "NGA": "G", "BEL": "G", "NZL": "G",
-    "ESP": "H", "CMR": "H", "JPN": "H", "HON": "H",
-    "ARG": "I", "IRQ": "I", "CRO": "I", "IDN": "I",
-    "FRA": "J", "PAN": "J", "URU": "J", "SEN": "J",
-    "COL": "K", "UZB": "K", "DEN": "K", "ROU": "K",
-    "KSA": "L", "MLI": "L", "PER": "L", "IRN": "L",
-    # ECU not in group E fixture list — it's actually Group E per CONMEBOL draw
-    "ECU": "E",
+    "GER": "E", "CUW": "E", "CIV": "E", "ECU": "E",
+    "NED": "F", "JPN": "F", "SWE": "F", "TUN": "F",
+    "BEL": "G", "EGY": "G", "IRN": "G", "NZL": "G",
+    "ESP": "H", "CPV": "H", "KSA": "H", "URU": "H",
+    "FRA": "I", "SEN": "I", "IRQ": "I", "NOR": "I",
+    "ARG": "J", "ALG": "J", "AUT": "J", "JOR": "J",
+    "POR": "K", "COD": "K", "UZB": "K", "COL": "K",
+    "ENG": "L", "CRO": "L", "GHA": "L", "PAN": "L",
 }
 
-# football-data.org team name mapping
-FD_NAME_TO_CODE = {
-    "Mexico": "MEX", "South Africa": "RSA", "Korea Republic": "KOR",
-    "Czech Republic": "CZE", "Canada": "CAN", "Bosnia and Herzegovina": "BIH",
-    "Switzerland": "SUI", "Qatar": "QAT", "Brazil": "BRA", "Morocco": "MAR",
-    "Scotland": "SCO", "Haiti": "HAI", "USA": "USA", "United States": "USA",
-    "Paraguay": "PAR", "Australia": "AUS", "Türkiye": "TUR", "Germany": "GER",
-    "Curaçao": "CUW", "Netherlands": "NED", "Côte d'Ivoire": "CIV",
-    "Ecuador": "ECU", "Sweden": "SWE", "Tunisia": "TUN", "England": "ENG",
-    "Serbia": "SRB", "Portugal": "POR", "Nigeria": "NGA", "Belgium": "BEL",
-    "New Zealand": "NZL", "Spain": "ESP", "Cameroon": "CMR", "Japan": "JPN",
-    "Honduras": "HON", "Argentina": "ARG", "Iraq": "IRQ", "Croatia": "CRO",
-    "Indonesia": "IDN", "France": "FRA", "Panama": "PAN", "Uruguay": "URU",
-    "Senegal": "SEN", "Colombia": "COL", "Uzbekistan": "UZB", "Denmark": "DEN",
-    "Romania": "ROU", "Saudi Arabia": "KSA", "Mali": "MLI", "Peru": "PER",
-    "Iran": "IRN",
+# ── Canonical schedule pairs (t1=first-listed, t2=second) ─────────────────
+# Used to ensure consistent home/away ordering in results.json
+CANONICAL_PAIRS = {
+    frozenset(["MEX","RSA"]): ("MEX","RSA"), frozenset(["KOR","CZE"]): ("KOR","CZE"),
+    frozenset(["USA","PAR"]): ("USA","PAR"), frozenset(["CAN","BIH"]): ("CAN","BIH"),
+    frozenset(["SUI","QAT"]): ("SUI","QAT"), frozenset(["BRA","MAR"]): ("BRA","MAR"),
+    frozenset(["SCO","HAI"]): ("SCO","HAI"), frozenset(["AUS","TUR"]): ("AUS","TUR"),
+    frozenset(["GER","CUW"]): ("GER","CUW"), frozenset(["NED","JPN"]): ("NED","JPN"),
+    frozenset(["CIV","ECU"]): ("CIV","ECU"), frozenset(["SWE","TUN"]): ("SWE","TUN"),
+    frozenset(["ESP","CPV"]): ("ESP","CPV"), frozenset(["BEL","EGY"]): ("BEL","EGY"),
+    frozenset(["KSA","URU"]): ("KSA","URU"), frozenset(["IRN","NZL"]): ("IRN","NZL"),
+    frozenset(["FRA","SEN"]): ("FRA","SEN"), frozenset(["IRQ","NOR"]): ("IRQ","NOR"),
+    frozenset(["ARG","ALG"]): ("ARG","ALG"), frozenset(["AUT","JOR"]): ("AUT","JOR"),
+    frozenset(["POR","COD"]): ("POR","COD"), frozenset(["ENG","CRO"]): ("ENG","CRO"),
+    frozenset(["GHA","PAN"]): ("GHA","PAN"), frozenset(["UZB","COL"]): ("UZB","COL"),
+    frozenset(["CZE","RSA"]): ("CZE","RSA"), frozenset(["SUI","BIH"]): ("SUI","BIH"),
+    frozenset(["CAN","QAT"]): ("CAN","QAT"), frozenset(["MEX","KOR"]): ("MEX","KOR"),
+    frozenset(["USA","AUS"]): ("USA","AUS"), frozenset(["SCO","MAR"]): ("SCO","MAR"),
+    frozenset(["BRA","HAI"]): ("BRA","HAI"), frozenset(["TUR","PAR"]): ("TUR","PAR"),
+    frozenset(["NED","SWE"]): ("NED","SWE"), frozenset(["GER","CIV"]): ("GER","CIV"),
+    frozenset(["ECU","CUW"]): ("ECU","CUW"), frozenset(["TUN","JPN"]): ("TUN","JPN"),
+    frozenset(["ESP","KSA"]): ("ESP","KSA"), frozenset(["BEL","IRN"]): ("BEL","IRN"),
+    frozenset(["URU","CPV"]): ("URU","CPV"), frozenset(["NZL","EGY"]): ("NZL","EGY"),
+    frozenset(["ARG","AUT"]): ("ARG","AUT"), frozenset(["FRA","IRQ"]): ("FRA","IRQ"),
+    frozenset(["NOR","SEN"]): ("NOR","SEN"), frozenset(["JOR","ALG"]): ("JOR","ALG"),
+    frozenset(["POR","UZB"]): ("POR","UZB"), frozenset(["ENG","GHA"]): ("ENG","GHA"),
+    frozenset(["PAN","CRO"]): ("PAN","CRO"), frozenset(["COL","COD"]): ("COL","COD"),
+    frozenset(["SUI","CAN"]): ("SUI","CAN"), frozenset(["BIH","QAT"]): ("BIH","QAT"),
+    frozenset(["SCO","BRA"]): ("SCO","BRA"), frozenset(["MAR","HAI"]): ("MAR","HAI"),
+    frozenset(["CZE","MEX"]): ("CZE","MEX"), frozenset(["RSA","KOR"]): ("RSA","KOR"),
+    frozenset(["ECU","GER"]): ("ECU","GER"), frozenset(["CUW","CIV"]): ("CUW","CIV"),
+    frozenset(["JPN","SWE"]): ("JPN","SWE"), frozenset(["TUN","NED"]): ("TUN","NED"),
+    frozenset(["TUR","USA"]): ("TUR","USA"), frozenset(["PAR","AUS"]): ("PAR","AUS"),
+    frozenset(["NOR","FRA"]): ("NOR","FRA"), frozenset(["SEN","IRQ"]): ("SEN","IRQ"),
+    frozenset(["CPV","KSA"]): ("CPV","KSA"), frozenset(["URU","ESP"]): ("URU","ESP"),
+    frozenset(["EGY","IRN"]): ("EGY","IRN"), frozenset(["NZL","BEL"]): ("NZL","BEL"),
+    frozenset(["PAN","ENG"]): ("PAN","ENG"), frozenset(["CRO","GHA"]): ("CRO","GHA"),
+    frozenset(["COL","POR"]): ("COL","POR"), frozenset(["COD","UZB"]): ("COD","UZB"),
+    frozenset(["JOR","ARG"]): ("JOR","ARG"), frozenset(["ALG","AUT"]): ("ALG","AUT"),
 }
+
+# football-data.org — same as NAME_TO_CODE (reuse)
+FD_NAME_TO_CODE = NAME_TO_CODE
 
 
 def fetch_url(url, headers=None):
@@ -149,10 +183,20 @@ def fetch_espn(start_date: date, end_date: date) -> list[dict]:
             if h_score < 0 or a_score < 0:
                 continue
 
-            group = TEAM_GROUP.get(h_code, "?")
+            # Use canonical ordering from our schedule
+            pair_key = frozenset([h_code, a_code])
+            canonical = CANONICAL_PAIRS.get(pair_key)
+            if not canonical:
+                print(f"  ⚠  Not in group-stage schedule: {h_code} vs {a_code}")
+                continue
+            t1, t2 = canonical
+            s1 = h_score if t1 == h_code else a_score
+            s2 = a_score if t1 == h_code else h_score
+
+            group = TEAM_GROUP.get(t1, "?")
             results.append({
-                "t1": h_code, "t2": a_code,
-                "score1": h_score, "score2": a_score,
+                "t1": t1, "t2": t2,
+                "score1": s1, "score2": s2,
                 "group": group, "played": True,
                 "date": d.isoformat(),
             })

@@ -1,5 +1,5 @@
 {
-  "note": "實際比賽結果 — 手動更新",
+  "note": "實際比賽結果 — 自動更新 (GitHub Actions)",
   "updated": "2026-06-16",
   "matches": [
     {
@@ -88,7 +88,7 @@
       "t2": "JPN",
       "score1": 2,
       "score2": 2,
-      "group": "E",
+      "group": "F",
       "played": true,
       "date": "2026-06-14"
     },
@@ -111,11 +111,29 @@
       "date": "2026-06-14"
     },
     {
+      "t1": "ESP",
+      "t2": "CPV",
+      "score1": 0,
+      "score2": 0,
+      "group": "H",
+      "played": true,
+      "date": "2026-06-15"
+    },
+    {
+      "t1": "BEL",
+      "t2": "EGY",
+      "score1": 1,
+      "score2": 1,
+      "group": "G",
+      "played": true,
+      "date": "2026-06-15"
+    },
+    {
       "t1": "KSA",
       "t2": "URU",
       "score1": 1,
       "score2": 1,
-      "group": "L",
+      "group": "H",
       "played": true,
       "date": "2026-06-15"
     },
@@ -124,9 +142,9 @@
       "t2": "NZL",
       "score1": 2,
       "score2": 2,
-      "group": "L",
+      "group": "G",
       "played": true,
-      "date": "2026-06-15"
+      "date": "2026-06-16"
     }
   ]
 }

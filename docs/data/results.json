@@ -84,20 +84,20 @@
       "date": "2026-06-14"
     },
     {
-      "t1": "NED",
-      "t2": "JPN",
-      "score1": 2,
-      "score2": 2,
-      "group": "F",
-      "played": true,
-      "date": "2026-06-14"
-    },
-    {
       "t1": "CIV",
       "t2": "ECU",
       "score1": 1,
       "score2": 0,
       "group": "E",
+      "played": true,
+      "date": "2026-06-14"
+    },
+    {
+      "t1": "NED",
+      "t2": "JPN",
+      "score1": 2,
+      "score2": 2,
+      "group": "F",
       "played": true,
       "date": "2026-06-14"
     },
@@ -111,20 +111,20 @@
       "date": "2026-06-14"
     },
     {
-      "t1": "ESP",
-      "t2": "CPV",
-      "score1": 0,
-      "score2": 0,
-      "group": "H",
-      "played": true,
-      "date": "2026-06-15"
-    },
-    {
       "t1": "BEL",
       "t2": "EGY",
       "score1": 1,
       "score2": 1,
       "group": "G",
+      "played": true,
+      "date": "2026-06-15"
+    },
+    {
+      "t1": "ESP",
+      "t2": "CPV",
+      "score1": 0,
+      "score2": 0,
+      "group": "H",
       "played": true,
       "date": "2026-06-15"
     },
@@ -143,6 +143,15 @@
       "score1": 2,
       "score2": 2,
       "group": "G",
+      "played": true,
+      "date": "2026-06-16"
+    },
+    {
+      "t1": "FRA",
+      "t2": "SEN",
+      "score1": 3,
+      "score2": 1,
+      "group": "I",
       "played": true,
       "date": "2026-06-16"
     }

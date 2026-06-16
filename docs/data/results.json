@@ -1,6 +1,6 @@
 {
   "note": "實際比賽結果 — 手動更新",
-  "updated": "2026-06-15",
+  "updated": "2026-06-16",
   "matches": [
     {
       "t1": "MEX",
@@ -109,6 +109,24 @@
       "group": "F",
       "played": true,
       "date": "2026-06-14"
+    },
+    {
+      "t1": "KSA",
+      "t2": "URU",
+      "score1": 1,
+      "score2": 1,
+      "group": "L",
+      "played": true,
+      "date": "2026-06-15"
+    },
+    {
+      "t1": "IRN",
+      "t2": "NZL",
+      "score1": 2,
+      "score2": 2,
+      "group": "L",
+      "played": true,
+      "date": "2026-06-15"
     }
   ]
 }

@@ -1,17 +1,17 @@
 name: Auto-Update WC2026 Results
 
 on:
-  workflow_dispatch:        # manual trigger from GitHub Actions tab
+  workflow_dispatch:
   schedule:
-    # Every 20 minutes — matches end ~95 min after kickoff
+    # Every 20 minutes — a match takes ~95-100 min, so this catches results fast
     - cron: "*/20 * * * *"
 
 permissions:
   contents: write
 
 jobs:
-  fetch:
-    name: Fetch & commit latest results
+  update:
+    name: Fetch results → regen if new
     runs-on: ubuntu-latest
 
     steps:
@@ -25,20 +25,35 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: pip
 
-      - name: Fetch results from ESPN
+      # Step 1 — lightweight: fetch results (stdlib only, no pip needed)
+      - id: fetch
+        name: Fetch latest results from ESPN
         env:
           FOOTBALL_API_KEY: ${{ secrets.FOOTBALL_API_KEY }}
         run: python scripts/fetch_results.py
 
-      - name: Commit & push if changed
+      # Step 2 — only runs when new match results were found
+      - name: Install full dependencies
+        if: steps.fetch.outputs.new_results == 'true'
+        run: pip install -r requirements.txt --quiet
+
+      - name: Update ELO ratings & regenerate predictions
+        if: steps.fetch.outputs.new_results == 'true'
+        run: python scripts/update_elo_from_results.py
+
+      # Commit everything that changed (results + ELO + predictions)
+      - name: Commit & push all changes
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/data/results.json
+          git add data/teams.json src/tournament/simulator.py \
+                  docs/data/tournament.json docs/data/matches/ 2>/dev/null || true
           if git diff --staged --quiet; then
-            echo "No new results — skipping commit."
+            echo "No changes to commit."
           else
-            git commit -m "⚽ auto: update match results ($(date -u '+%Y-%m-%d %H:%M UTC')) [skip ci]"
+            git commit -m "⚽ auto: results + ELO + predictions ($(date -u '+%Y-%m-%d %H:%M UTC')) [skip ci]"
             git push origin main
           fi

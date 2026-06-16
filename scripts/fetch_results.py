@@ -303,12 +303,22 @@ def main():
 
     if added == 0:
         print("\n✅  No new results — results.json unchanged.")
+        _write_gha_output("new_results", "false")
         sys.exit(0)
 
     existing_data["matches"] = merged
     existing_data["updated"] = today.isoformat()
     RESULTS_FILE.write_text(json.dumps(existing_data, ensure_ascii=False, indent=2))
     print(f"\n💾  Saved {len(merged)} total results (+{added} new) → {RESULTS_FILE}")
+    _write_gha_output("new_results", "true")
+
+
+def _write_gha_output(key: str, value: str) -> None:
+    """Write a key=value pair to GITHUB_OUTPUT (no-op outside Actions)."""
+    gha = os.environ.get("GITHUB_OUTPUT", "")
+    if gha:
+        with open(gha, "a") as f:
+            f.write(f"{key}={value}\n")
 
 
 if __name__ == "__main__":

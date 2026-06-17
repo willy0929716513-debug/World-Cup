@@ -163,6 +163,15 @@
       "group": "I",
       "played": true,
       "date": "2026-06-16"
+    },
+    {
+      "t1": "ARG",
+      "t2": "ALG",
+      "score1": 3,
+      "score2": 0,
+      "group": "J",
+      "played": true,
+      "date": "2026-06-16"
     }
   ]
 }

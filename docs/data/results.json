@@ -172,6 +172,15 @@
       "group": "J",
       "played": true,
       "date": "2026-06-16"
+    },
+    {
+      "t1": "AUT",
+      "t2": "JOR",
+      "score1": 3,
+      "score2": 1,
+      "group": "J",
+      "played": true,
+      "date": "2026-06-17"
     }
   ]
 }

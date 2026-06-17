@@ -190,6 +190,15 @@
       "group": "K",
       "played": true,
       "date": "2026-06-17"
+    },
+    {
+      "t1": "ENG",
+      "t2": "CRO",
+      "score1": 4,
+      "score2": 2,
+      "group": "L",
+      "played": true,
+      "date": "2026-06-17"
     }
   ]
 }

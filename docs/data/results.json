@@ -181,6 +181,15 @@
       "group": "J",
       "played": true,
       "date": "2026-06-17"
+    },
+    {
+      "t1": "POR",
+      "t2": "COD",
+      "score1": 1,
+      "score2": 1,
+      "group": "K",
+      "played": true,
+      "date": "2026-06-17"
     }
   ]
 }

@@ -217,6 +217,15 @@
       "group": "L",
       "played": true,
       "date": "2026-06-17"
+    },
+    {
+      "t1": "CZE",
+      "t2": "RSA",
+      "score1": 1,
+      "score2": 1,
+      "group": "A",
+      "played": true,
+      "date": "2026-06-18"
     }
   ]
 }

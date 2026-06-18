@@ -192,6 +192,15 @@
       "date": "2026-06-17"
     },
     {
+      "t1": "UZB",
+      "t2": "COL",
+      "score1": 1,
+      "score2": 3,
+      "group": "K",
+      "played": true,
+      "date": "2026-06-17"
+    },
+    {
       "t1": "ENG",
       "t2": "CRO",
       "score1": 4,

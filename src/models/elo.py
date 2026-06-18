@@ -62,7 +62,7 @@ def predict(home: TeamData, away: TeamData, neutral: bool = True) -> ModelResult
         math.exp(-lam_away) * (lam_away ** k) / math.factorial(k)
         for k in range(6)
     )
-    p_draw = min(p_draw, 0.32)  # WC group stage draw rate peaks ~30%
+    p_draw = min(p_draw, 0.36)  # WC group stage: observed ~27-30% draws historically
 
     # Distribute remaining probability between home/away win
     remaining = 1.0 - p_draw

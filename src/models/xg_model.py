@@ -13,7 +13,7 @@ Factors applied:
 from __future__ import annotations
 import math
 import numpy as np
-from config.settings import XG_REGRESSION_WEIGHT, MAX_GOALS_MATRIX
+from config.settings import XG_REGRESSION_WEIGHT, MAX_GOALS_MATRIX, XG_LAMBDA_CAP, XG_DEF_FACTOR_WEIGHT
 from src.data.structures import TeamData, ModelResult
 from .dixon_coles import score_matrix as dc_matrix
 
@@ -85,11 +85,17 @@ def _compute_xg_lambdas(home: TeamData, away: TeamData) -> tuple[float, float]:
     lam_a = (XG_REGRESSION_WEIGHT * away.attack.xg_per_game +
              (1 - XG_REGRESSION_WEIGHT) * away.attack.goals_per_game)
 
-    # Adjust for opponent defence quality vs international average
-    away_def_factor = away.defense.xga_per_game / 1.10
-    home_def_factor = home.defense.xga_per_game / 1.10
-    lam_h *= away_def_factor
-    lam_a *= home_def_factor
+    # Adjust for opponent defence quality vs international average.
+    # XG_DEF_FACTOR_WEIGHT dampens the raw club-stat multiplier toward 1.0:
+    #   raw_factor = xGA / 1.10  (e.g. CPV: 1.6/1.10 = 1.45)
+    #   dampened   = 1 + 0.55*(raw_factor - 1) = 1 + 0.55*0.45 = 1.25
+    # This prevents extreme multipliers from weak teams' club statistics.
+    raw_away_def = away.defense.xga_per_game / 1.10
+    raw_home_def = home.defense.xga_per_game / 1.10
+    away_def_factor = 1.0 + XG_DEF_FACTOR_WEIGHT * (raw_away_def - 1.0)
+    home_def_factor = 1.0 + XG_DEF_FACTOR_WEIGHT * (raw_home_def - 1.0)
+    lam_h *= max(0.60, min(1.50, away_def_factor))
+    lam_a *= max(0.60, min(1.50, home_def_factor))
 
     # Player availability (injuries / suspensions)
     lam_h *= _availability_modifier(home)
@@ -108,7 +114,9 @@ def _compute_xg_lambdas(home: TeamData, away: TeamData) -> tuple[float, float]:
     lam_h *= tac_h
     lam_a *= tac_a
 
-    return max(0.30, lam_h), max(0.30, lam_a)
+    # Hard cap: no team realistically creates >XG_LAMBDA_CAP xG against
+    # an organised World Cup defence, regardless of club-level statistics
+    return max(0.30, min(XG_LAMBDA_CAP, lam_h)), max(0.30, min(XG_LAMBDA_CAP, lam_a))
 
 
 def predict(home: TeamData, away: TeamData) -> ModelResult:

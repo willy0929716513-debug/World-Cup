@@ -13,7 +13,7 @@ multiplier based on historical World Cup data (~+9% at Mexico City 2240m).
 """
 from __future__ import annotations
 import numpy as np
-from config.settings import MODEL_WEIGHTS, MONTE_CARLO_SIMULATIONS, MAX_GOALS_MATRIX
+from config.settings import MODEL_WEIGHTS, MONTE_CARLO_SIMULATIONS, MAX_GOALS_MATRIX, GROUP_STAGE_DRAW_BOOST
 from src.data.structures import TeamData, ModelResult, EnsembleResult, MarketData
 
 from . import elo, poisson, dixon_coles, xg_model, market, monte_carlo
@@ -25,6 +25,7 @@ def run(
     market_data: MarketData | None = None,
     neutral: bool = True,
     altitude_m: int = 0,
+    group_stage: bool = True,
 ) -> EnsembleResult:
     # ── Run individual models ────────────────────────────────────────────────
     r_elo = elo.predict(home, away, neutral=neutral)
@@ -69,6 +70,10 @@ def run(
             lam_a *= (1.0 + adj)
             lam_h *= max(0.70, 1.0 - adj)
 
+    # Final cap on ensemble lambdas — even after weighting, keep realistic
+    lam_h = min(lam_h, 3.0)
+    lam_a = min(lam_a, 3.0)
+
     # ── Monte Carlo with ensemble lambdas ────────────────────────────────────
     r_mc = monte_carlo.simulate(lam_h, lam_a, n=MONTE_CARLO_SIMULATIONS)
 
@@ -86,6 +91,13 @@ def run(
     p_home = sum(w[k] * v.p_home for k, v in model_map.items())
     p_draw = sum(w[k] * v.p_draw for k, v in model_map.items())
     p_away = sum(w[k] * v.p_away for k, v in model_map.items())
+
+    # Group stage tactical conservatism boost: teams play more defensively early
+    # on, producing more draws than club-football models predict.
+    # Observed WC2026: 8/16 draws (50%). Historical WC group avg ~27-30%.
+    if group_stage:
+        p_draw *= GROUP_STAGE_DRAW_BOOST
+
     total  = p_home + p_draw + p_away
     p_home /= total; p_draw /= total; p_away /= total
 

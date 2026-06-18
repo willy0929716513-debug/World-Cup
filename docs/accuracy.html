@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src fonts.gstatic.com; connect-src 'self'; img-src 'self' data:; frame-ancestors 'none';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<title>2026 World Cup — 預測準確度</title>
+<script src="js/auth.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080f;--bg2:#090d1c;--bg3:#0c1128;
+  --card:rgba(255,255,255,0.035);--card2:rgba(255,255,255,0.06);
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
+  --gold:#ffd700;--green:#00e676;--blue:#00d4ff;--red:#ff4444;--orange:#ff9500;
+  --text:rgba(240,244,255,0.92);--dim:rgba(240,244,255,0.45);--dim2:rgba(240,244,255,0.22);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:rgba(0,212,255,.3);border-radius:3px}
+
+.loading{position:fixed;inset:0;background:rgba(5,8,15,.9);display:flex;
+  align-items:center;justify-content:center;z-index:999;flex-direction:column;gap:1rem}
+.spinner{width:40px;height:40px;border:3px solid rgba(255,215,0,.2);
+  border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:.82rem;color:var(--dim);letter-spacing:2px}
+.loading.hidden{display:none}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(5,8,15,.92);
+  backdrop-filter:blur(16px);border-bottom:1px solid var(--border);
+  padding:0 1.5rem;height:56px;display:flex;align-items:center;gap:.8rem}
+.nav-logo{font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:900;
+  background:linear-gradient(90deg,var(--blue),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-spacer{flex:1}
+a.nav-btn{color:var(--dim);text-decoration:none;font-size:.78rem;
+  padding:.3rem .7rem;border-radius:8px;border:1px solid var(--border);transition:all .2s}
+a.nav-btn:hover,a.nav-btn.active{color:var(--text);border-color:var(--blue);background:rgba(0,212,255,.07)}
+
+.hero{background:linear-gradient(180deg,rgba(0,212,255,.04) 0%,transparent 100%);
+  border-bottom:1px solid var(--border);padding:2.5rem 2rem 2rem;text-align:center}
+.hero-eyebrow{font-size:.65rem;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:.8rem}
+.hero-title{font-family:'Orbitron',sans-serif;font-size:clamp(1.4rem,3.5vw,2.4rem);
+  font-weight:900;margin-bottom:.5rem;
+  background:linear-gradient(135deg,#fff 30%,var(--blue) 70%,var(--gold) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{color:var(--dim);font-size:.88rem}
+
+/* Summary stats */
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1rem;padding:1.5rem 2rem;max-width:900px;margin:0 auto}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:1.2rem 1rem;text-align:center}
+.stat-val{font-family:'Orbitron',sans-serif;font-size:1.6rem;font-weight:900;line-height:1}
+.stat-val.green{color:var(--green)}
+.stat-val.gold{color:var(--gold)}
+.stat-val.blue{color:var(--blue)}
+.stat-val.orange{color:var(--orange)}
+.stat-label{font-size:.7rem;color:var(--dim);margin-top:.5rem;text-transform:uppercase;letter-spacing:1px}
+
+/* Filter row */
+.filter-row{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;padding:.8rem 1.5rem}
+.f-btn{font-size:.72rem;padding:.3rem .9rem;border-radius:20px;
+  border:1px solid var(--border);background:transparent;color:var(--dim);
+  cursor:pointer;transition:all .2s;font-family:inherit}
+.f-btn:hover{border-color:var(--blue);color:var(--text)}
+.f-btn.active{border-color:var(--blue);background:rgba(0,212,255,.12);color:var(--blue)}
+
+/* Table */
+.table-wrap{padding:0 1rem 3rem;max-width:1200px;margin:0 auto;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+thead th{padding:.7rem .8rem;text-align:left;color:var(--dim);
+  font-size:.65rem;text-transform:uppercase;letter-spacing:1px;
+  border-bottom:1px solid var(--border2);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
+tbody tr:hover{background:rgba(255,255,255,.025)}
+td{padding:.75rem .8rem;vertical-align:middle}
+
+.teams-cell{min-width:160px}
+.team-row{display:flex;align-items:center;gap:.4rem;line-height:1.3}
+.flag{font-size:1rem}
+.team-name{font-weight:500;font-size:.82rem}
+.score-actual{font-size:1rem;font-weight:700;text-align:center;min-width:40px}
+.score-big{font-family:'Orbitron',sans-serif;font-size:.9rem;letter-spacing:1px}
+
+/* Outcome badges */
+.badge{display:inline-block;padding:.2rem .6rem;border-radius:6px;
+  font-size:.68rem;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+.badge.home{background:rgba(0,230,118,.15);color:var(--green);border:1px solid rgba(0,230,118,.3)}
+.badge.draw{background:rgba(255,215,0,.12);color:var(--gold);border:1px solid rgba(255,215,0,.25)}
+.badge.away{background:rgba(0,212,255,.12);color:var(--blue);border:1px solid rgba(0,212,255,.25)}
+
+.prob-bar-wrap{min-width:120px}
+.prob-bar{display:flex;height:6px;border-radius:3px;overflow:hidden;margin-bottom:.3rem}
+.prob-h{background:var(--green)}
+.prob-d{background:var(--gold)}
+.prob-a{background:var(--blue)}
+.prob-nums{display:flex;justify-content:space-between;font-size:.65rem;color:var(--dim)}
+
+.result-icon{font-size:1.1rem;text-align:center}
+
+/* Hit/miss colours */
+.hit td{background:rgba(0,230,118,.03)}
+.miss td{background:rgba(255,68,68,.03)}
+
+.pred-score{font-size:.78rem;color:var(--dim);text-align:center}
+.pred-score.correct{color:var(--green);font-weight:600}
+
+.group-badge{display:inline-block;padding:.1rem .45rem;border-radius:5px;
+  font-size:.65rem;font-weight:700;background:rgba(255,255,255,.07);color:var(--dim);
+  border:1px solid var(--border)}
+.date-cell{font-size:.72rem;color:var(--dim2);white-space:nowrap}
+
+/* Brier info */
+.brier-note{font-size:.72rem;color:var(--dim2);text-align:center;padding:.5rem 1.5rem 1rem;max-width:700px;margin:0 auto}
+
+/* Calibration bar */
+.cal-bar-wrap{display:flex;align-items:center;gap:.5rem;min-width:80px}
+.cal-bar-bg{flex:1;height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
+.cal-bar-fill{height:100%;border-radius:3px;background:var(--blue)}
+.cal-pct{font-size:.7rem;color:var(--dim);width:36px;text-align:right;flex-shrink:0}
+
+.section-title{font-size:.7rem;text-transform:uppercase;letter-spacing:2px;
+  color:var(--dim);padding:.8rem 1rem .3rem;max-width:1200px;margin:0 auto}
+
+.no-data{text-align:center;padding:4rem;color:var(--dim);font-size:.9rem}
+</style>
+</head>
+<body>
+
+<div class="loading" id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text">載入中…</div>
+</div>
+
+<nav>
+  <span class="nav-logo">WC2026</span>
+  <div class="nav-spacer"></div>
+  <a class="nav-btn" href="index.html">主頁</a>
+  <a class="nav-btn" href="groups.html">小組</a>
+  <a class="nav-btn" href="bracket.html">淘汰賽</a>
+  <a class="nav-btn active" href="accuracy.html">準確度</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">AI Model Performance</div>
+  <div class="hero-title">預測 vs 實際結果</div>
+  <div class="hero-sub">模型預測與世界盃實際比賽結果對比 · 自動更新</div>
+</div>
+
+<div class="summary" id="summary-cards">
+  <!-- filled by JS -->
+</div>
+<div class="brier-note">
+  Brier 分數衡量機率預測的準確度 (0 = 完美, 1 = 最差)；數值越低越好。
+  平均信心 = 系統對實際發生結果所給的平均機率。
+</div>
+
+<div class="filter-row" id="filter-row">
+  <button class="f-btn active" data-f="all">全部</button>
+  <button class="f-btn" data-f="hit">預測正確</button>
+  <button class="f-btn" data-f="miss">預測錯誤</button>
+  <button class="f-btn" data-f="score">比分命中</button>
+</div>
+
+<div class="table-wrap">
+  <div id="match-table"></div>
+</div>
+
+<script>
+const FLAG={
+  MEX:'🇲🇽',RSA:'🇿🇦',KOR:'🇰🇷',CZE:'🇨🇿',CAN:'🇨🇦',BIH:'🇧🇦',SUI:'🇨🇭',QAT:'🇶🇦',
+  USA:'🇺🇸',PAR:'🇵🇾',BRA:'🇧🇷',MAR:'🇲🇦',SCO:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',HAI:'🇭🇹',AUS:'🇦🇺',TUR:'🇹🇷',
+  GER:'🇩🇪',CUW:'🇨🇼',NED:'🇳🇱',JPN:'🇯🇵',CIV:'🇨🇮',ECU:'🇪🇨',SWE:'🇸🇪',TUN:'🇹🇳',
+  ESP:'🇪🇸',CPV:'🇨🇻',BEL:'🇧🇪',EGY:'🇪🇬',KSA:'🇸🇦',URU:'🇺🇾',IRN:'🇮🇷',NZL:'🇳🇿',
+  ARG:'🇦🇷',FRA:'🇫🇷',ENG:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',POR:'🇵🇹',ITA:'🇮🇹',COL:'🇨🇴',CHI:'🇨🇱',URU:'🇺🇾',
+  SEN:'🇸🇳',NOR:'🇳🇴',IRQ:'🇮🇶',POL:'🇵🇱',UKR:'🇺🇦',DEN:'🇩🇰',SRB:'🇷🇸',HUN:'🇭🇺',
+  ALG:'🇩🇿',CMR:'🇨🇲',CRO:'🇭🇷',SVK:'🇸🇰',COD:'🇨🇩',JOR:'🇯🇴',PAK:'🇵🇰',AZE:'🇦🇿',
+  VEN:'🇻🇪',BOL:'🇧🇴',PAN:'🇵🇦',HON:'🇭🇳',PER:'🇵🇪',GUA:'🇬🇹',THA:'🇹🇭',IND:'🇮🇳',
+  ANG:'🇦🇴',CRC:'🇨🇷',BUR:'🇧🇫',MLI:'🇲🇱',TAN:'🇹🇿',RWA:'🇷🇼',BEN:'🇧🇯',
+};
+function flag(code){return FLAG[code]||'🏳️';}
+
+const NAME={
+  MEX:'墨西哥',RSA:'南非',KOR:'南韓',CZE:'捷克',CAN:'加拿大',BIH:'波黑',
+  SUI:'瑞士',QAT:'卡達',USA:'美國',PAR:'巴拉圭',BRA:'巴西',MAR:'摩洛哥',
+  SCO:'蘇格蘭',HAI:'海地',AUS:'澳洲',TUR:'土耳其',GER:'德國',CUW:'庫拉索',
+  NED:'荷蘭',JPN:'日本',CIV:'象牙海岸',ECU:'厄瓜多',SWE:'瑞典',TUN:'突尼西亞',
+  ESP:'西班牙',CPV:'佛得角',BEL:'比利時',EGY:'埃及',KSA:'沙烏地阿拉伯',
+  URU:'烏拉圭',IRN:'伊朗',NZL:'紐西蘭',ARG:'阿根廷',FRA:'法國',ENG:'英格蘭',
+  POR:'葡萄牙',ITA:'義大利',COL:'哥倫比亞',CHI:'智利',SEN:'塞內加爾',
+  NOR:'挪威',IRQ:'伊拉克',POL:'波蘭',UKR:'烏克蘭',DEN:'丹麥',SRB:'塞爾維亞',
+  HUN:'匈牙利',ALG:'阿爾及利亞',CMR:'喀麥隆',CRO:'克羅埃西亞',SVK:'斯洛伐克',
+  COD:'剛果民主共和國',JOR:'約旦',VEN:'委內瑞拉',BOL:'玻利維亞',PAN:'巴拿馬',
+  HON:'宏都拉斯',PER:'秘魯',GUA:'瓜地馬拉',CRC:'哥斯大黎加',
+};
+function teamName(code){return NAME[code]||code;}
+
+let allRows=[];
+let activeFilter='all';
+
+async function loadMatch(t1,t2){
+  try{
+    const r=await fetch(`data/matches/${t1}_vs_${t2}.json`);
+    if(!r.ok)return null;
+    return r.json();
+  }catch{return null;}
+}
+
+function outcomeLabel(s1,s2){
+  if(s1>s2)return 'home';
+  if(s1<s2)return 'away';
+  return 'draw';
+}
+
+function outcomeCN(o){
+  if(o==='home')return '主勝';
+  if(o==='draw')return '平局';
+  return '客勝';
+}
+
+function brierContrib(ph,pd,pa,outcome){
+  const actual={home:[1,0,0],draw:[0,1,0],away:[0,0,1]}[outcome];
+  const probs=[ph/100,pd/100,pa/100];
+  return probs.reduce((s,p,i)=>s+(p-actual[i])**2,0)/3;
+}
+
+function renderTable(rows){
+  const wrap=document.getElementById('match-table');
+  if(!rows.length){wrap.innerHTML='<div class="no-data">暫無比賽資料</div>';return;}
+
+  let filtered=rows;
+  if(activeFilter==='hit')filtered=rows.filter(r=>r.hit);
+  else if(activeFilter==='miss')filtered=rows.filter(r=>!r.hit);
+  else if(activeFilter==='score')filtered=rows.filter(r=>r.scoreHit);
+
+  if(!filtered.length){wrap.innerHTML='<div class="no-data">無符合條件的比賽</div>';return;}
+
+  let html=`<table>
+<thead><tr>
+  <th>日期</th><th>組別</th><th>主隊</th><th style="text-align:center">實際比分</th><th>客隊</th>
+  <th>實際結果</th><th>AI預測</th><th>命中</th><th>最高機率比分</th><th>比分命中</th>
+  <th>信心度</th>
+</tr></thead><tbody>`;
+
+  for(const r of filtered){
+    const hitClass=r.hit?'hit':'miss';
+    const ph=r.ph,pd=r.pd,pa=r.pa;
+    const predOutcome=ph>=pd&&ph>=pa?'home':pd>=ph&&pd>=pa?'draw':'away';
+    const predLabel=outcomeCN(predOutcome);
+    const actualLabel=outcomeCN(r.outcome);
+    const hitIcon=r.hit?'✅':'❌';
+    const scoreHitIcon=r.scoreHit?'✅':'—';
+    const predScoreClass=r.scoreHit?'pred-score correct':'pred-score';
+    const confPct=r.actualProb.toFixed(0);
+
+    html+=`<tr class="${hitClass}">
+  <td class="date-cell">${r.date}</td>
+  <td><span class="group-badge">組 ${r.group}</span></td>
+  <td class="teams-cell">
+    <div class="team-row">${flag(r.t1)} <span class="team-name">${teamName(r.t1)}</span></div>
+  </td>
+  <td style="text-align:center">
+    <div class="score-big">${r.s1} — ${r.s2}</div>
+  </td>
+  <td class="teams-cell">
+    <div class="team-row">${flag(r.t2)} <span class="team-name">${teamName(r.t2)}</span></div>
+  </td>
+  <td><span class="badge ${r.outcome}">${actualLabel}</span></td>
+  <td>
+    <div class="prob-bar-wrap">
+      <div class="prob-bar">
+        <div class="prob-h" style="width:${ph}%"></div>
+        <div class="prob-d" style="width:${pd}%"></div>
+        <div class="prob-a" style="width:${pa}%"></div>
+      </div>
+      <div class="prob-nums">
+        <span style="color:var(--green)">${ph}%</span>
+        <span style="color:var(--gold)">${pd}%</span>
+        <span style="color:var(--blue)">${pa}%</span>
+      </div>
+    </div>
+  </td>
+  <td class="result-icon">${hitIcon}</td>
+  <td class="${predScoreClass}">${r.predScore}</td>
+  <td class="result-icon">${scoreHitIcon}</td>
+  <td>
+    <div class="cal-bar-wrap">
+      <div class="cal-bar-bg"><div class="cal-bar-fill" style="width:${confPct}%"></div></div>
+      <span class="cal-pct">${confPct}%</span>
+    </div>
+  </td>
+</tr>`;
+  }
+  html+=`</tbody></table>`;
+  wrap.innerHTML=html;
+}
+
+function renderSummary(rows){
+  const total=rows.length;
+  if(!total)return;
+  const hits=rows.filter(r=>r.hit).length;
+  const scoreHits=rows.filter(r=>r.scoreHit).length;
+  const avgConf=rows.reduce((s,r)=>s+r.actualProb,0)/total;
+  const brier=rows.reduce((s,r)=>s+r.brier,0)/total;
+  // calibration: did we assign meaningful prob to actual outcome?
+  const homeDraws=rows.filter(r=>r.outcome==='draw').length;
+  const predictedDraws=rows.filter(r=>{const mx=Math.max(r.ph,r.pd,r.pa);return r.pd===mx;}).length;
+
+  document.getElementById('summary-cards').innerHTML=`
+    <div class="stat-card">
+      <div class="stat-val green">${total}</div>
+      <div class="stat-label">已完賽</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val ${hits/total>=0.5?'green':'orange'}">${hits}/${total}</div>
+      <div class="stat-label">結果命中</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val gold">${(hits/total*100).toFixed(0)}%</div>
+      <div class="stat-label">結果準確率</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val blue">${scoreHits}/${total}</div>
+      <div class="stat-label">比分命中</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val ${avgConf>=40?'green':'orange'}">${avgConf.toFixed(1)}%</div>
+      <div class="stat-label">平均信心度</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val ${brier<=0.22?'green':brier<=0.28?'gold':'orange'}">${brier.toFixed(3)}</div>
+      <div class="stat-label">Brier 分數 ↓</div>
+    </div>
+  `;
+}
+
+async function main(){
+  const res=await fetch('data/results.json');
+  const data=await res.json();
+  const played=data.matches.filter(m=>m.played);
+
+  const promises=played.map(async m=>{
+    const pred=await loadMatch(m.t1,m.t2);
+    if(!pred||!pred.result)return null;
+    const r=pred.result;
+    const ph=parseFloat(r.p_home.toFixed(1));
+    const pd=parseFloat(r.p_draw.toFixed(1));
+    const pa=parseFloat(r.p_away.toFixed(1));
+    const outcome=outcomeLabel(m.score1,m.score2);
+    const predOutcome=ph>=pd&&ph>=pa?'home':pd>=ph&&pd>=pa?'draw':'away';
+    const hit=predOutcome===outcome;
+    // top predicted score
+    const top=(r.top10||[])[0];
+    const predScore=top?`${top.home}-${top.away}`:'—';
+    const scoreHit=top?(top.home===m.score1&&top.away===m.score2):false;
+    // probability assigned to actual outcome
+    const actualProb=outcome==='home'?ph:outcome==='draw'?pd:pa;
+    // Brier score contribution
+    const brier=brierContrib(ph,pd,pa,outcome);
+    return {t1:m.t1,t2:m.t2,date:m.date,group:m.group,
+      s1:m.score1,s2:m.score2,ph,pd,pa,outcome,hit,predScore,scoreHit,actualProb,brier};
+  });
+
+  allRows=(await Promise.all(promises)).filter(Boolean);
+  // sort by date desc
+  allRows.sort((a,b)=>b.date.localeCompare(a.date));
+
+  renderSummary(allRows);
+  renderTable(allRows);
+  document.getElementById('loading').classList.add('hidden');
+}
+
+document.getElementById('filter-row').addEventListener('click',e=>{
+  const btn=e.target.closest('[data-f]');
+  if(!btn)return;
+  document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter=btn.dataset.f;
+  renderTable(allRows);
+});
+
+main().catch(err=>{
+  console.error(err);
+  document.getElementById('loading').classList.add('hidden');
+  document.getElementById('match-table').innerHTML=
+    '<div class="no-data">載入失敗，請刷新頁面</div>';
+});
+</script>
+</body>
+</html>

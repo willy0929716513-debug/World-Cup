@@ -226,6 +226,15 @@
       "group": "A",
       "played": true,
       "date": "2026-06-18"
+    },
+    {
+      "t1": "SUI",
+      "t2": "BIH",
+      "score1": 4,
+      "score2": 1,
+      "group": "B",
+      "played": true,
+      "date": "2026-06-18"
     }
   ]
 }

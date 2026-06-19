@@ -27,7 +27,7 @@ from src.tournament.simulator import (
     simulate_tournament, GROUPS, GROUP_LIST, TEAM_NAMES,
     CONFEDERATIONS, ALL_ELOS, elo_to_lambdas,
 )
-from src.data.loader import get_team, get_market_data, list_teams
+from src.data.loader import get_team, get_market_data, get_match_market_data, list_teams
 from src.models import ensemble
 
 NOW = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -189,6 +189,50 @@ def _compute_fair_ah(score_probs: dict) -> tuple[float, float, float]:
     return best_line, ah_h, ah_a
 
 
+def _build_movement(market) -> dict | None:
+    """Build market-movement summary dict for the betting section."""
+    if market is None:
+        return None
+    has_open = market.odds_open_home > 1.01 and market.odds_open_draw > 1.01
+    has_ah   = market.ah_open_line < 900
+
+    # 1X2 drift
+    home_drift = away_drift = None
+    if has_open:
+        def fair(oh, od, oa):
+            r = 1/oh + 1/od + 1/oa
+            return (1/oh)/r, (1/oa)/r
+        fh_o, fa_o = fair(market.odds_open_home, market.odds_open_draw, market.odds_open_away)
+        fh_c, fa_c = fair(market.odds_home, market.odds_draw, market.odds_away)
+        home_drift = round((fh_c - fh_o) * 100, 1)   # % implied prob change
+        away_drift = round((fa_c - fa_o) * 100, 1)
+
+    # AH movement
+    ah_move = round(market.asian_handicap_line - market.ah_open_line, 2) if has_ah else None
+
+    # Sharp index → direction label
+    si = market.sharp_index
+    if si >= 0.68:   signal = "home_strong"
+    elif si >= 0.58: signal = "home_mild"
+    elif si <= 0.32: signal = "away_strong"
+    elif si <= 0.42: signal = "away_mild"
+    else:            signal = "neutral"
+
+    return {
+        "open_home":   round(market.odds_open_home, 2) if has_open else None,
+        "open_draw":   round(market.odds_open_draw, 2) if has_open else None,
+        "open_away":   round(market.odds_open_away, 2) if has_open else None,
+        "home_drift":  home_drift,
+        "away_drift":  away_drift,
+        "ah_open":     market.ah_open_line if has_ah else None,
+        "ah_close":    market.asian_handicap_line if has_ah else None,
+        "ah_move":     ah_move,
+        "sharp_index": round(si, 2),
+        "signal":      signal,
+        "steam":       market.steam,
+    }
+
+
 def _result_to_dict(result, market=None) -> dict:
     score_matrix = [
         [round(result.score_probs.get((h, a), 0.0) * 100, 2) for a in range(6)]
@@ -253,6 +297,8 @@ def _result_to_dict(result, market=None) -> dict:
                 ("ah_line", "ah_home_odds", "ah_away_odds"),
                 _compute_fair_ah(result.score_probs)
             )),
+            # Market movement / sharp-money signals
+            "movement": _build_movement(market),
         }
     return {
         "p_home":       round(result.p_home * 100, 1),
@@ -361,7 +407,7 @@ for home_code, away_code in pairs:
     try:
         home_team = get_team(home_code)
         away_team = get_team(away_code)
-        market    = get_market_data(home_code)
+        market    = get_match_market_data(home_code, away_code) or get_market_data(home_code)
         res       = ensemble.run(home_team, away_team, market_data=market, neutral=True)
 
         home_d   = _team_to_dict(home_team)

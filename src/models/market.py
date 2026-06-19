@@ -8,7 +8,7 @@ a simple iterative Poisson inversion.
 from __future__ import annotations
 import math
 from src.data.structures import TeamData, ModelResult, MarketData
-from src.data.loader import get_market_data
+from src.data.loader import get_market_data, get_match_market_data
 
 
 def _remove_overround(odds_h: float, odds_d: float, odds_a: float
@@ -74,10 +74,59 @@ def _lambda_from_probs(p_home: float, p_draw: float) -> tuple[float, float]:
     return max(0.30, lam_h), max(0.30, lam_a)
 
 
+def _movement_signal(market: MarketData) -> tuple[float, float, float]:
+    """
+    Additive probability adjustments (adj_h, adj_d, adj_a) from three signals:
+
+    1. 1X2 implied-probability drift (closing vs opening odds) — tracks where
+       money flowed; 65% of the drift is treated as signal, rest as noise.
+    2. Asian Handicap line movement — each 0.5-ball move ≈ 5-6% probability
+       shift and is a very reliable sharp-money indicator.
+    3. Sharp money index — composite 0-1 score: >0.5 = smart money on home,
+       <0.5 = smart money on away; max ±4% effect.
+
+    Total adjustment is capped at ±15% per outcome to prevent over-reaction.
+    """
+    adj_h = adj_d = adj_a = 0.0
+
+    # 1. 1X2 drift
+    if market.odds_open_home > 1.01 and market.odds_open_draw > 1.01:
+        def fair(oh, od, oa):
+            r = 1/oh + 1/od + 1/oa
+            return (1/oh)/r, (1/od)/r, (1/oa)/r
+        fh_o, fd_o, fa_o = fair(market.odds_open_home, market.odds_open_draw, market.odds_open_away)
+        fh_c, fd_c, fa_c = fair(market.odds_home, market.odds_draw, market.odds_away)
+        dh = fh_c - fh_o   # positive = home odds shortened (money came in)
+        da = fa_c - fa_o
+        dd = fd_c - fd_o
+        adj_h += dh * 0.65
+        adj_a += da * 0.65
+        adj_d += dd * 0.50
+
+    # 2. AH line movement
+    if market.ah_open_line < 900:
+        ah_move = market.asian_handicap_line - market.ah_open_line
+        # negative ah_move = home handicap grew (more money on home)
+        ah_boost = -ah_move * 0.055
+        adj_h += ah_boost
+        adj_a -= ah_boost
+
+    # 3. Sharp index (0.5=neutral; ±0.5 range → ±4% max effect)
+    sharp_boost = (market.sharp_index - 0.5) * 0.08
+    adj_h += sharp_boost
+    adj_a -= sharp_boost
+
+    return (
+        max(-0.15, min(0.15, adj_h)),
+        max(-0.08, min(0.08, adj_d)),
+        max(-0.15, min(0.15, adj_a)),
+    )
+
+
 def predict(home: TeamData, away: TeamData,
             market: MarketData | None = None) -> ModelResult:
     if market is None:
-        market = get_market_data(home.code)
+        market = get_match_market_data(home.code, away.code) or get_market_data(home.code)
 
     if market is None:
         # Fallback: use xG lambdas as proxy
@@ -109,6 +158,14 @@ def predict(home: TeamData, away: TeamData,
     p_home = 0.70 * p_h + 0.30 * p_home
     p_draw = 0.70 * p_d + 0.30 * p_draw
     p_away = 0.70 * p_a + 0.30 * p_away
+    total = p_home + p_draw + p_away
+    p_home /= total; p_draw /= total; p_away /= total
+
+    # Apply market movement / sharp-money signal
+    adj_h, adj_d, adj_a = _movement_signal(market)
+    p_home = max(0.02, p_home + adj_h)
+    p_draw = max(0.02, p_draw + adj_d)
+    p_away = max(0.02, p_away + adj_a)
     total = p_home + p_draw + p_away
     p_home /= total; p_draw /= total; p_away /= total
 

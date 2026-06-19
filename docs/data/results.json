@@ -228,6 +228,15 @@
       "date": "2026-06-18"
     },
     {
+      "t1": "MEX",
+      "t2": "KOR",
+      "score1": 1,
+      "score2": 0,
+      "group": "A",
+      "played": true,
+      "date": "2026-06-18"
+    },
+    {
       "t1": "SUI",
       "t2": "BIH",
       "score1": 4,

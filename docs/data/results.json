@@ -253,6 +253,15 @@
       "group": "B",
       "played": true,
       "date": "2026-06-18"
+    },
+    {
+      "t1": "USA",
+      "t2": "AUS",
+      "score1": 2,
+      "score2": 0,
+      "group": "D",
+      "played": true,
+      "date": "2026-06-19"
     }
   ]
 }

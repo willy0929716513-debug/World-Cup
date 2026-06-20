@@ -40,6 +40,11 @@ jobs:
       - name: Update ELO from actual results
         run: python scripts/update_elo_from_results.py || echo "⚠ ELO update skipped (no results yet)"
 
+      - name: Fetch live odds (skipped if no API key)
+        env:
+          THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+        run: python scripts/fetch_odds.py
+
       - name: Generate static JSON data
         run: python scripts/generate_static_data.py
 
@@ -53,8 +58,8 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # Stage generated data + ELO-updated teams.json
-          git add docs/data/ data/teams.json
+          # Stage generated data + ELO-updated teams.json + odds status
+          git add docs/data/ data/teams.json data/market_odds.json
           if git diff --staged --quiet; then
             echo "No data changes to commit."
           else

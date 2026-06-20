@@ -745,9 +745,10 @@ document.getElementById('loading-text').textContent = `載入 ${HC} vs ${AC} 預
 Promise.all([
   fetch(`data/matches/${HC}_vs_${AC}.json`)
     .then(r=>{ if(!r.ok) throw new Error(`尚無 ${HC} vs ${AC} 的預測資料（404）`); return r.json(); }),
-  fetch('data/results.json').then(r=>r.ok?r.json():{matches:[]}).catch(()=>({matches:[]}))
+  fetch('data/results.json').then(r=>r.ok?r.json():{matches:[]}).catch(()=>({matches:[]})),
+  fetch('data/odds_status.json').then(r=>r.ok?r.json():null).catch(()=>null)
 ])
-  .then(([data, resultsData])=>{
+  .then(([data, resultsData, oddsStatus])=>{
     data.match.date  = MATCH_DATE;
     data.match.stage = MATCH_STAGE;
     data.match.venue = MATCH_VENUE;
@@ -769,6 +770,7 @@ Promise.all([
       ];
     }
     initReport(data);
+    _initOddsSourceBadge(oddsStatus);
     if(data.result.betting) fetchLiveOdds(data.home, data.away, data.result);
   })
   .catch(err=>{
@@ -1188,6 +1190,16 @@ function _calcEdge(modelProb, decimalOdds){
   return Math.round((modelProb - 1.0/decimalOdds)*1000)/10;
 }
 function _r1(x){ return Math.round(x*10)/10; }
+
+function _initOddsSourceBadge(status){
+  if(!status || !status.ok || status.source !== 'the-odds-api') return;
+  // Server-side fetch succeeded — show time until user's own key overrides
+  try{
+    const dt = new Date(status.fetched_at);
+    const hhmm = dt.toISOString().slice(11,16);
+    _setOddsSourceBadge('📡 Pinnacle · ' + hhmm + ' UTC', true);
+  }catch(e){}
+}
 
 function _setOddsSourceBadge(label, isLive){
   const el = document.getElementById('odds-source-badge');

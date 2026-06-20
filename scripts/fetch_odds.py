@@ -18,7 +18,7 @@ STATUS_PATH      = ROOT / "data" / "odds_status.json"
 STATUS_DOCS_PATH = ROOT / "docs" / "data" / "odds_status.json"
 
 API_KEY  = os.environ.get("THE_ODDS_API_KEY", "")
-BASE_URL = "https://api.the-odds-api.com/v4/sports/soccer_world_cup/odds"
+BASE_URL = "https://api.the-odds-api.com/v4/sports/soccer_fifa_world_cup/odds"
 
 # ── Team name → our 3-letter code ─────────────────────────────────────────────
 NAME_TO_CODE = {
@@ -248,13 +248,13 @@ def main():
         write_status(True, summary)
     except urllib.error.HTTPError as e:
         msg = f"HTTP {e.code}: {e.reason}"
-        print(f"❌ {msg}")
+        print(f"⚠ {msg} — odds unavailable, keeping existing estimates")
         write_status(False, {}, msg)
-        sys.exit(1)
+        sys.exit(0)   # non-fatal: CI continues with existing market_odds.json
     except Exception as e:
-        print(f"❌ {e}")
+        print(f"⚠ {e} — odds fetch skipped")
         write_status(False, {}, str(e))
-        sys.exit(1)
+        sys.exit(0)   # non-fatal
 
 
 if __name__ == "__main__":

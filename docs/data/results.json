@@ -291,6 +291,15 @@
       "date": "2026-06-19"
     },
     {
+      "t1": "GER",
+      "t2": "CIV",
+      "score1": 2,
+      "score2": 1,
+      "group": "E",
+      "played": true,
+      "date": "2026-06-20"
+    },
+    {
       "t1": "NED",
       "t2": "SWE",
       "score1": 5,

@@ -79,12 +79,11 @@ def _fetch_json(url: str) -> dict | list:
 
 
 def fetch_odds() -> list[dict]:
-    """Fetch 1X2 + Asian Handicap odds from The Odds API."""
+    """Fetch 1X2 + spreads (handicap) odds from The Odds API."""
     params = (
         f"?apiKey={API_KEY}"
         f"&regions=eu"
-        f"&markets=h2h,asian_handicap"
-        f"&bookmakers=pinnacle,bet365,unibet"
+        f"&markets=h2h,spreads"
         f"&oddsFormat=decimal"
     )
     url = BASE_URL + params
@@ -106,14 +105,14 @@ def _best_h2h(bookmakers: list[dict]) -> tuple[float, float, float] | None:
 
 
 def _best_ah(bookmakers: list[dict], home_team: str) -> tuple[float, float] | None:
-    """Return (line, home_odds) for Asian Handicap, perspective of home_team."""
+    """Return (line, home_odds) for spreads market, perspective of home_team."""
     priority = ["pinnacle", "bet365", "unibet"]
     bk_map = {b["key"]: b for b in bookmakers}
     for bk_key in priority:
         if bk_key not in bk_map:
             continue
         for mkt in bk_map[bk_key].get("markets", []):
-            if mkt["key"] == "asian_handicap":
+            if mkt["key"] == "spreads":
                 for oc in mkt["outcomes"]:
                     if home_team.lower() in oc["name"].lower():
                         return oc.get("point", 0.0), oc["price"]

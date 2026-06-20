@@ -297,6 +297,11 @@ def _result_to_dict(result, market=None) -> dict:
                 ("ah_line", "ah_home_odds", "ah_away_odds"),
                 _compute_fair_ah(result.score_probs)
             )),
+            # Both Teams To Score
+            "btts": {
+                "yes": round(result.btts_prob() * 100, 1),
+                "no":  round((1 - result.btts_prob()) * 100, 1),
+            },
             # Market movement / sharp-money signals
             "movement": _build_movement(market),
         }

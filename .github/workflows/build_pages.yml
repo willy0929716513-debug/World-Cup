@@ -53,11 +53,15 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/data/
+          # Stage generated data + ELO-updated teams.json
+          git add docs/data/ data/teams.json
           if git diff --staged --quiet; then
             echo "No data changes to commit."
           else
             git commit -m "chore: regenerate static prediction data [skip ci]"
+            # Stash any remaining unstaged changes before pull (prevents rebase failure)
+            git stash push --include-untracked -m "pre-rebase stash" 2>/dev/null || true
             git pull --rebase origin ${{ github.ref_name }}
+            git stash pop 2>/dev/null || true
             git push origin ${{ github.ref_name }}
           fi

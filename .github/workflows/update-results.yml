@@ -55,5 +55,8 @@ jobs:
             echo "No changes to commit."
           else
             git commit -m "⚽ auto: results + ELO + predictions ($(date -u '+%Y-%m-%d %H:%M UTC')) [skip ci]"
+            git stash push --include-untracked -m "pre-rebase stash" 2>/dev/null || true
+            git pull --rebase origin main
+            git stash pop 2>/dev/null || true
             git push origin main
           fi

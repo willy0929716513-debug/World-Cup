@@ -280,6 +280,15 @@
       "group": "D",
       "played": true,
       "date": "2026-06-19"
+    },
+    {
+      "t1": "TUR",
+      "t2": "PAR",
+      "score1": 0,
+      "score2": 1,
+      "group": "D",
+      "played": true,
+      "date": "2026-06-19"
     }
   ]
 }

@@ -1112,6 +1112,30 @@ function buildBetting(HOME, AWAY, R){
     row.innerHTML=`<span class="bet-label" style="color:${color}">${label}</span><span class="bet-num">${info.odds}</span><span class="bet-num" style="color:var(--dim2)">${info.implied}%</span><span class="bet-num" style="color:${color}">${info.model}%</span><span class="edge-badge ${edgeClass}">${edgeSign}${info.edge}%</span>`;
     c.appendChild(row);
   });
+
+  // BTTS panel
+  if(b.btts){
+    const sep=document.createElement('div');
+    sep.style.cssText='margin:.9rem 0 .5rem;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);padding-left:.1rem';
+    sep.textContent='雙方是否進球 (BTTS)';
+    c.appendChild(sep);
+    const panel=document.createElement('div');
+    panel.className='btts-row';
+    const yPct=b.btts.yes; const nPct=b.btts.no;
+    const yStrong=yPct>=60; const nStrong=nPct>=60;
+    panel.innerHTML=`
+      <div class="btts-cell btts-yes" style="${yStrong?'background:rgba(0,230,118,.1)':''}">
+        <span class="btts-pct" style="font-size:1.6rem">${yPct}%</span>
+        <span class="btts-label">雙方進球 YES</span>
+        ${yStrong?'<span style="font-size:.6rem;color:var(--green);margin-top:.3rem;display:block">▲ 傾向進球</span>':''}
+      </div>
+      <div class="btts-cell btts-no" style="${nStrong?'background:rgba(255,68,68,.08)':''}">
+        <span class="btts-pct" style="font-size:1.6rem">${nPct}%</span>
+        <span class="btts-label">至少一方掛零 NO</span>
+        ${nStrong?'<span style="font-size:.6rem;color:var(--red);margin-top:.3rem;display:block">▼ 傾向掛零</span>':''}
+      </div>`;
+    c.appendChild(panel);
+  }
 }
 
 // ── Players ───────────────────────────────────────────────────────────────────

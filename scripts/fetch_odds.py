@@ -90,17 +90,33 @@ def fetch_odds() -> list[dict]:
     return _fetch_json(url)
 
 
-def _best_h2h(bookmakers: list[dict]) -> tuple[float, float, float] | None:
-    """Return (home, draw, away) decimal odds from the sharpest available book."""
+def _best_h2h(bookmakers: list[dict], home_name: str, away_name: str) -> tuple[float, float, float] | None:
+    """Return (home, draw, away) decimal odds — outcomes keyed by team name in The Odds API."""
     priority = ["pinnacle", "bet365", "unibet"]
     bk_map = {b["key"]: b for b in bookmakers}
-    for bk_key in priority:
-        if bk_key not in bk_map:
-            continue
-        for mkt in bk_map[bk_key].get("markets", []):
-            if mkt["key"] == "h2h" and len(mkt["outcomes"]) == 3:
-                oc = {o["name"]: o["price"] for o in mkt["outcomes"]}
-                return oc.get("home"), oc.get("Draw") or oc.get("draw"), oc.get("away")
+    # Try priority books first, then fall back to any available bookmaker
+    ordered = [bk_map[k] for k in priority if k in bk_map] + \
+              [b for b in bookmakers if b["key"] not in priority]
+    for bk in ordered:
+        for mkt in bk.get("markets", []):
+            if mkt["key"] != "h2h" or len(mkt["outcomes"]) != 3:
+                continue
+            oc = {o["name"]: o["price"] for o in mkt["outcomes"]}
+            draw_p = oc.get("Draw") or oc.get("draw")
+            # Outcomes use team names, not "home"/"away"
+            home_p = oc.get(home_name)
+            away_p = oc.get(away_name)
+            # Fuzzy fallback: match by substring
+            if not home_p or not away_p:
+                for name, price in oc.items():
+                    if name == "Draw" or name == "draw":
+                        continue
+                    if home_name.lower() in name.lower() or name.lower() in home_name.lower():
+                        home_p = price
+                    elif away_name.lower() in name.lower() or name.lower() in away_name.lower():
+                        away_p = price
+            if home_p and draw_p and away_p:
+                return home_p, draw_p, away_p
     return None
 
 
@@ -150,7 +166,7 @@ def update_market_odds(events: list[dict]) -> dict:
         match_key = f"{t1}_{t2}"
 
         bks = ev.get("bookmakers", [])
-        h2h = _best_h2h(bks)
+        h2h = _best_h2h(bks, home_name, away_name)
         if h2h is None:
             errors.append(f"No H2H odds for {match_key}")
             continue

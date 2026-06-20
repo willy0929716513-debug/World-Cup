@@ -8,7 +8,8 @@ from .structures import (
     TacticalProfile, MarketData, PlayerInfo, MatchResult
 )
 
-_DATA_PATH = os.path.join(os.path.dirname(__file__), "../../data/teams.json")
+_DATA_PATH        = os.path.join(os.path.dirname(__file__), "../../data/teams.json")
+_MARKET_ODDS_PATH = os.path.join(os.path.dirname(__file__), "../../data/market_odds.json")
 
 
 def _load_raw() -> dict:
@@ -138,8 +139,16 @@ def get_team(code: str) -> TeamData:
     return _build_team(raw_db[code_upper])
 
 
+def _load_market_odds() -> dict:
+    path = os.path.abspath(_MARKET_ODDS_PATH)
+    if not os.path.exists(path):
+        return {}
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
 def get_market_data(code: str) -> Optional[MarketData]:
-    """Return MarketData for a team or None if not present."""
+    """Return generic MarketData for a home team (fallback when no match key)."""
     raw_db = _load_raw()
     code_upper = code.upper()
     if code_upper not in raw_db:
@@ -158,6 +167,51 @@ def get_market_data(code: str) -> Optional[MarketData]:
         ou_line=md["ou_line"],
         over_odds=md["over_odds"],
         under_odds=md["under_odds"],
+    )
+
+
+def get_match_market_data(t1: str, t2: str) -> Optional[MarketData]:
+    """
+    Return match-specific MarketData with opening odds and movement signals.
+
+    Loads closing odds from teams.json (keyed by home team t1) and enriches
+    them with per-match opening odds and sharp index from market_odds.json.
+    Falls back to generic get_market_data(t1) when no match entry exists.
+    """
+    key = f"{t1.upper()}_{t2.upper()}"
+    mo = _load_market_odds().get(key)
+
+    # Base closing odds from teams.json (home = t1)
+    base = get_market_data(t1)
+    if base is None:
+        return None
+
+    if mo is None:
+        return base  # no match-specific data; use generic
+
+    # Override closing 1X2 with match-specific closing if present
+    close_home = mo.get("close_home", base.odds_home)
+    close_draw = mo.get("close_draw", base.odds_draw)
+    close_away = mo.get("close_away", base.odds_away)
+    ah_close   = mo.get("ah_close",   base.asian_handicap_line)
+
+    return MarketData(
+        odds_home=close_home,
+        odds_draw=close_draw,
+        odds_away=close_away,
+        asian_handicap_line=ah_close,
+        asian_handicap_home_odds=base.asian_handicap_home_odds,
+        asian_handicap_away_odds=base.asian_handicap_away_odds,
+        ou_line=base.ou_line,
+        over_odds=base.over_odds,
+        under_odds=base.under_odds,
+        # Movement fields
+        odds_open_home=mo.get("open_home", 0.0),
+        odds_open_draw=mo.get("open_draw", 0.0),
+        odds_open_away=mo.get("open_away", 0.0),
+        ah_open_line=mo.get("ah_open", 999.0),
+        sharp_index=mo.get("sharp_index", 0.5),
+        steam=mo.get("steam", False),
     )
 
 

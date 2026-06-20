@@ -595,6 +595,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     主隊賠率 <strong style="color:var(--home)" id="ah-home-odds"></strong> &nbsp;|&nbsp;
     客隊賠率 <strong style="color:var(--away)" id="ah-away-odds"></strong>
   </div>
+  <div id="market-movement-wrap" style="display:none;margin-top:.8rem"></div>
 </div>
 
 <div class="section fade-up" id="players">
@@ -859,6 +860,7 @@ function initReport(data){
     fill('ah-line', R.betting.ah_line); fill('ah-home-odds', R.betting.ah_home_odds);
     fill('ah-away-odds', R.betting.ah_away_odds);
     buildBetting(HOME, AWAY, R);
+    buildMovement(HOME, AWAY, R);
   }
 
   // Build dynamic sections
@@ -990,6 +992,95 @@ function buildModels(R){
   const tr=document.createElement('tr'); tr.className='ensemble-row';
   tr.innerHTML=`<td class="model-name" style="color:var(--gold)">★ Ensemble</td><td class="p-home-val" style="font-size:.95rem">${R.p_home}%</td><td class="p-draw-val" style="font-size:.95rem">${R.p_draw}%</td><td class="p-away-val" style="font-size:.95rem">${R.p_away}%</td><td class="lam-val">${R.lambda_home} / ${R.lambda_away}</td>`;
   tbody.appendChild(tr);
+}
+
+// ── Market Movement ──────────────────────────────────────────────────────────
+function buildMovement(HOME, AWAY, R){
+  const wrap=document.getElementById('market-movement-wrap');
+  if(!wrap) return;
+  const mv=R.betting&&R.betting.movement;
+  if(!mv){wrap.style.display='none';return;}
+
+  const hasOpen=mv.open_home!=null;
+  const hasAH=mv.ah_open!=null;
+  const si=mv.sharp_index||0.5;
+
+  // Signal badge
+  const SIGNAL_MAP={
+    home_strong:{label:'強力精明資金→主隊',color:'#00e676'},
+    home_mild:{label:'精明資金偏向主隊',color:'#7eff9a'},
+    away_strong:{label:'強力精明資金→客隊',color:'#00d4ff'},
+    away_mild:{label:'精明資金偏向客隊',color:'#7ee4ff'},
+    neutral:{label:'中性 / 大眾市場',color:'rgba(255,255,255,.4)'},
+  };
+  const sig=SIGNAL_MAP[mv.signal]||SIGNAL_MAP.neutral;
+
+  // Direction arrows for odds
+  function driftArrow(d){
+    if(d==null) return '';
+    if(d>0.5) return `<span style="color:#00e676;font-size:.9rem">↑</span><span style="font-size:.65rem;color:#00e676">+${d.toFixed(1)}%</span>`;
+    if(d<-0.5) return `<span style="color:#ff4444;font-size:.9rem">↓</span><span style="font-size:.65rem;color:#ff4444">${d.toFixed(1)}%</span>`;
+    return `<span style="color:rgba(255,255,255,.3);font-size:.75rem">→</span>`;
+  }
+
+  let html=`<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:1rem 1.1rem">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem;flex-wrap:wrap;gap:.5rem">
+      <span style="font-size:.72rem;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.4)">市場動向 · 精明資金分析</span>
+      <span style="font-size:.72rem;padding:.2rem .75rem;border-radius:20px;border:1px solid ${sig.color};color:${sig.color}">${mv.steam?'⚡ STEAM · ':''} ${sig.label}</span>
+    </div>`;
+
+  // Odds drift table
+  if(hasOpen){
+    const hName=HOME.short_name||HOME.code;
+    const aName=AWAY.short_name||AWAY.code;
+    html+=`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.9rem">
+      ${['主勝','平局','客勝'].map((label,i)=>{
+        const opens=[mv.open_home,mv.open_draw,mv.open_away][i];
+        const closes=[R.betting.home.odds,R.betting.draw.odds,R.betting.away.odds][i];
+        const drifts=[mv.home_drift,null,mv.away_drift][i];
+        const colors=['var(--home)','var(--gold)','var(--away)'];
+        return `<div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.6rem .7rem;text-align:center">
+          <div style="font-size:.62rem;color:rgba(255,255,255,.38);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:1px">${label}</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.35);margin-bottom:.15rem">開盤 ${opens}</div>
+          <div style="font-size:1rem;font-weight:700;color:${colors[i]}">${closes}</div>
+          <div style="margin-top:.2rem">${i!==1?driftArrow(drifts):''}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
+
+  // AH movement + sharp gauge
+  html+=`<div style="display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap">`;
+
+  if(hasAH){
+    const ahDir=mv.ah_move<0?`<span style="color:#00e676">↑ 主隊</span>`:(mv.ah_move>0?`<span style="color:#00d4ff">↓ 客隊</span>`:'<span style="color:rgba(255,255,255,.35)">無移動</span>');
+    html+=`<div style="flex:1;min-width:160px">
+      <div style="font-size:.65rem;color:rgba(255,255,255,.38);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:1px">亞洲盤線移動</div>
+      <div style="font-size:.82rem"><span style="color:rgba(255,255,255,.5)">${mv.ah_open} → ${mv.ah_close}</span> &nbsp;${ahDir}</div>
+    </div>`;
+  }
+
+  // Sharp money gauge
+  const pctLeft=Math.round((1-si)*100);
+  const pctRight=Math.round(si*100);
+  html+=`<div style="flex:2;min-width:200px">
+    <div style="font-size:.65rem;color:rgba(255,255,255,.38);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:1px">精明資金分佈</div>
+    <div style="display:flex;align-items:center;gap:.5rem;font-size:.7rem">
+      <span style="color:var(--away);width:36px;text-align:right">${pctLeft}%</span>
+      <div style="flex:1;height:8px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden;position:relative">
+        <div style="position:absolute;left:0;top:0;height:100%;width:${pctLeft}%;background:var(--away);border-radius:4px 0 0 4px"></div>
+        <div style="position:absolute;right:0;top:0;height:100%;width:${pctRight}%;background:var(--home);border-radius:0 4px 4px 0"></div>
+      </div>
+      <span style="color:var(--home);width:36px">${pctRight}%</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:.6rem;color:rgba(255,255,255,.28);margin-top:.2rem;padding:0 36px">
+      <span>${AWAY.short_name||AWAY.code}</span><span>${HOME.short_name||HOME.code}</span>
+    </div>
+  </div>`;
+
+  html+=`</div></div>`;
+  wrap.innerHTML=html;
+  wrap.style.display='block';
 }
 
 // ── Betting ───────────────────────────────────────────────────────────────────

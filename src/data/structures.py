@@ -98,15 +98,22 @@ class TacticalProfile:
 
 @dataclass
 class MarketData:
-    odds_home: float                # 1X2 decimal odds
+    odds_home: float                # 1X2 decimal odds (closing)
     odds_draw: float
     odds_away: float
-    asian_handicap_line: float      # e.g. -0.5, +1.5
+    asian_handicap_line: float      # e.g. -0.5, +1.5 (closing)
     asian_handicap_home_odds: float
     asian_handicap_away_odds: float
     ou_line: float                  # Over/Under line, e.g. 2.5
     over_odds: float
     under_odds: float
+    # Market movement signals (optional; 0.0/999 = not available)
+    odds_open_home: float = 0.0     # Opening 1X2 odds
+    odds_open_draw: float = 0.0
+    odds_open_away: float = 0.0
+    ah_open_line: float = 999.0     # Opening AH line (999 = unavailable)
+    sharp_index: float = 0.5        # 0-1: >0.5 = sharp money on home, <0.5 = on away
+    steam: bool = False             # True if sudden large line move detected
 
 
 @dataclass

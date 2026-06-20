@@ -1,7 +1,7 @@
 {
   "ARG": {
-    "name": "阿根廷",
-    "short_name": "阿根廷",
+    "name": "\u963f\u6839\u5ef7",
+    "short_name": "\u963f\u6839\u5ef7",
     "code": "ARG",
     "confederation": "CONMEBOL",
     "fifa_ranking": 1,
@@ -34,8 +34,8 @@
       "pass_accuracy_pct": 88.2
     },
     "defense": {
-      "goals_against_per_game": 0.04,
-      "xga_per_game": 0.04,
+      "goals_against_per_game": 0.8,
+      "xga_per_game": 0.82,
       "clean_sheet_pct": 52,
       "shots_against_per_game": 8.9,
       "sot_against_per_game": 3.1,
@@ -225,9 +225,9 @@
         "injury_detail": ""
       },
       {
-        "name": "Julián Álvarez",
+        "name": "Juli\u00e1n \u00c1lvarez",
         "position": "FWD",
-        "club": "Atlético Madrid",
+        "club": "Atl\u00e9tico Madrid",
         "age": 24,
         "market_value_m": 90,
         "goals_season": 24,
@@ -240,7 +240,7 @@
       {
         "name": "Rodrigo De Paul",
         "position": "MID",
-        "club": "Atlético Madrid",
+        "club": "Atl\u00e9tico Madrid",
         "age": 30,
         "market_value_m": 40,
         "goals_season": 5,
@@ -251,7 +251,7 @@
         "injury_detail": ""
       },
       {
-        "name": "Enzo Fernández",
+        "name": "Enzo Fern\u00e1ndez",
         "position": "MID",
         "club": "Chelsea",
         "age": 23,
@@ -264,7 +264,7 @@
         "injury_detail": ""
       },
       {
-        "name": "Emiliano Martínez",
+        "name": "Emiliano Mart\u00ednez",
         "position": "GK",
         "club": "Aston Villa",
         "age": 31,
@@ -292,8 +292,8 @@
     }
   },
   "BRA": {
-    "name": "巴西",
-    "short_name": "巴西",
+    "name": "\u5df4\u897f",
+    "short_name": "\u5df4\u897f",
     "code": "BRA",
     "confederation": "CONMEBOL",
     "fifa_ranking": 3,
@@ -530,7 +530,7 @@
         "injury_detail": ""
       },
       {
-        "name": "Bruno Guimarães",
+        "name": "Bruno Guimar\u00e3es",
         "position": "MID",
         "club": "Newcastle",
         "age": 27,
@@ -581,7 +581,7 @@
         "form_rating": 6.0,
         "is_injured": true,
         "is_suspended": false,
-        "injury_detail": "ACL recovery – doubtful"
+        "injury_detail": "ACL recovery \u2013 doubtful"
       }
     ],
     "suspended_players": [],
@@ -598,8 +598,8 @@
     }
   },
   "FRA": {
-    "name": "法國",
-    "short_name": "法國",
+    "name": "\u6cd5\u570b",
+    "short_name": "\u6cd5\u570b",
     "code": "FRA",
     "confederation": "UEFA",
     "fifa_ranking": 2,
@@ -810,7 +810,7 @@
     ],
     "key_players": [
       {
-        "name": "Kylian Mbappé",
+        "name": "Kylian Mbapp\u00e9",
         "position": "FWD",
         "club": "Real Madrid",
         "age": 27,
@@ -825,7 +825,7 @@
       {
         "name": "Antoine Griezmann",
         "position": "MID",
-        "club": "Atlético Madrid",
+        "club": "Atl\u00e9tico Madrid",
         "age": 35,
         "market_value_m": 20,
         "goals_season": 14,
@@ -836,7 +836,7 @@
         "injury_detail": ""
       },
       {
-        "name": "Aurélien Tchouaméni",
+        "name": "Aur\u00e9lien Tchouam\u00e9ni",
         "position": "MID",
         "club": "Real Madrid",
         "age": 24,
@@ -890,8 +890,8 @@
     }
   },
   "ENG": {
-    "name": "英格蘭",
-    "short_name": "英格蘭",
+    "name": "\u82f1\u683c\u862d",
+    "short_name": "\u82f1\u683c\u862d",
     "code": "ENG",
     "confederation": "UEFA",
     "fifa_ranking": 5,
@@ -907,8 +907,8 @@
     "coach": "Gareth Southgate",
     "coach_rating": 7.5,
     "attack": {
-      "goals_per_game": 3.83,
-      "xg_per_game": 3.68,
+      "goals_per_game": 2.05,
+      "xg_per_game": 2.1,
       "npxg_per_game": 1.72,
       "shots_per_game": 15.5,
       "shots_on_target_per_game": 5.6,
@@ -1182,8 +1182,8 @@
     }
   },
   "ESP": {
-    "name": "西班牙",
-    "short_name": "西班牙",
+    "name": "\u897f\u73ed\u7259",
+    "short_name": "\u897f\u73ed\u7259",
     "code": "ESP",
     "confederation": "UEFA",
     "fifa_ranking": 4,
@@ -1199,8 +1199,8 @@
     "coach": "Luis de la Fuente",
     "coach_rating": 8.8,
     "attack": {
-      "goals_per_game": 0.09,
-      "xg_per_game": 0.09,
+      "goals_per_game": 2.0,
+      "xg_per_game": 2.05,
       "npxg_per_game": 2.05,
       "shots_per_game": 18.5,
       "shots_on_target_per_game": 6.8,
@@ -1216,8 +1216,8 @@
       "pass_accuracy_pct": 92.5
     },
     "defense": {
-      "goals_against_per_game": 0.03,
-      "xga_per_game": 0.03,
+      "goals_against_per_game": 0.8,
+      "xga_per_game": 0.82,
       "clean_sheet_pct": 60,
       "shots_against_per_game": 7.8,
       "sot_against_per_game": 2.7,
@@ -1446,7 +1446,7 @@
         "injury_detail": ""
       },
       {
-        "name": "Unai Simón",
+        "name": "Unai Sim\u00f3n",
         "position": "GK",
         "club": "Athletic Club",
         "age": 27,
@@ -1474,8 +1474,8 @@
     }
   },
   "GER": {
-    "name": "德國",
-    "short_name": "德國",
+    "name": "\u5fb7\u570b",
+    "short_name": "\u5fb7\u570b",
     "code": "GER",
     "confederation": "UEFA",
     "fifa_ranking": 6,
@@ -1491,8 +1491,8 @@
     "coach": "Julian Nagelsmann",
     "coach_rating": 8.5,
     "attack": {
-      "goals_per_game": 6.92,
-      "xg_per_game": 6.65,
+      "goals_per_game": 2.05,
+      "xg_per_game": 2.1,
       "npxg_per_game": 1.85,
       "shots_per_game": 16.0,
       "shots_on_target_per_game": 5.9,
@@ -1766,8 +1766,8 @@
     }
   },
   "POR": {
-    "name": "葡萄牙",
-    "short_name": "葡萄牙",
+    "name": "\u8461\u8404\u7259",
+    "short_name": "\u8461\u8404\u7259",
     "code": "POR",
     "confederation": "UEFA",
     "fifa_ranking": 7,
@@ -1780,7 +1780,7 @@
     "wc_titles": 0,
     "wc_best_result": "3rd Place",
     "wc_appearances": 8,
-    "coach": "Roberto Martínez",
+    "coach": "Roberto Mart\u00ednez",
     "coach_rating": 8.2,
     "attack": {
       "goals_per_game": 1.09,
@@ -2004,7 +2004,7 @@
         "injury_detail": ""
       },
       {
-        "name": "Rafael Leão",
+        "name": "Rafael Le\u00e3o",
         "position": "FWD",
         "club": "AC Milan",
         "age": 25,
@@ -2030,7 +2030,7 @@
         "injury_detail": ""
       },
       {
-        "name": "Rui Patrício",
+        "name": "Rui Patr\u00edcio",
         "position": "GK",
         "club": "Roma",
         "age": 36,
@@ -2058,8 +2058,8 @@
     }
   },
   "NED": {
-    "name": "荷蘭",
-    "short_name": "荷蘭",
+    "name": "\u8377\u862d",
+    "short_name": "\u8377\u862d",
     "code": "NED",
     "confederation": "UEFA",
     "fifa_ranking": 8,
@@ -2350,8 +2350,8 @@
     }
   },
   "URU": {
-    "name": "烏拉圭",
-    "short_name": "烏拉圭",
+    "name": "\u70cf\u62c9\u572d",
+    "short_name": "\u70cf\u62c9\u572d",
     "code": "URU",
     "confederation": "CONMEBOL",
     "fifa_ranking": 12,
@@ -2562,7 +2562,7 @@
     ],
     "key_players": [
       {
-        "name": "Darwin Núñez",
+        "name": "Darwin N\u00fa\u00f1ez",
         "position": "FWD",
         "club": "Liverpool",
         "age": 25,
@@ -2601,9 +2601,9 @@
         "injury_detail": ""
       },
       {
-        "name": "José María Giménez",
+        "name": "Jos\u00e9 Mar\u00eda Gim\u00e9nez",
         "position": "DEF",
-        "club": "Atlético Madrid",
+        "club": "Atl\u00e9tico Madrid",
         "age": 29,
         "market_value_m": 40,
         "goals_season": 2,
@@ -2642,8 +2642,8 @@
     }
   },
   "USA": {
-    "name": "美國",
-    "short_name": "美國",
+    "name": "\u7f8e\u570b",
+    "short_name": "\u7f8e\u570b",
     "code": "USA",
     "confederation": "CONCACAF",
     "fifa_ranking": 13,
@@ -2659,8 +2659,8 @@
     "coach": "Mauricio Pochettino",
     "coach_rating": 8.8,
     "attack": {
-      "goals_per_game": 3.07,
-      "xg_per_game": 2.94,
+      "goals_per_game": 1.48,
+      "xg_per_game": 1.5,
       "npxg_per_game": 1.55,
       "shots_per_game": 13.8,
       "shots_on_target_per_game": 4.8,
@@ -2934,8 +2934,8 @@
     }
   },
   "MAR": {
-    "name": "摩洛哥",
-    "short_name": "摩洛哥",
+    "name": "\u6469\u6d1b\u54e5",
+    "short_name": "\u6469\u6d1b\u54e5",
     "code": "MAR",
     "confederation": "CAF",
     "fifa_ranking": 14,
@@ -3174,7 +3174,7 @@
       {
         "name": "Youssef En-Nesyri",
         "position": "FWD",
-        "club": "Fenerbahçe",
+        "club": "Fenerbah\u00e7e",
         "age": 27,
         "market_value_m": 30,
         "goals_season": 18,
@@ -3226,8 +3226,8 @@
     }
   },
   "BEL": {
-    "name": "比利時",
-    "short_name": "比利時",
+    "name": "\u6bd4\u5229\u6642",
+    "short_name": "\u6bd4\u5229\u6642",
     "code": "BEL",
     "confederation": "UEFA",
     "fifa_ranking": 5,
@@ -3435,8 +3435,8 @@
     }
   },
   "ITA": {
-    "name": "義大利",
-    "short_name": "義大利",
+    "name": "\u7fa9\u5927\u5229",
+    "short_name": "\u7fa9\u5927\u5229",
     "code": "ITA",
     "confederation": "UEFA",
     "fifa_ranking": 9,
@@ -3644,8 +3644,8 @@
     }
   },
   "CRO": {
-    "name": "克羅埃西亞",
-    "short_name": "克羅埃西亞",
+    "name": "\u514b\u7f85\u57c3\u897f\u4e9e",
+    "short_name": "\u514b\u7f85\u57c3\u897f\u4e9e",
     "code": "CRO",
     "confederation": "UEFA",
     "fifa_ranking": 13,
@@ -3678,8 +3678,8 @@
       "pass_accuracy_pct": 81.457
     },
     "defense": {
-      "goals_against_per_game": 3.76,
-      "xga_per_game": 3.87,
+      "goals_against_per_game": 1.05,
+      "xga_per_game": 1.08,
       "clean_sheet_pct": 39.487,
       "shots_against_per_game": 11.19,
       "sot_against_per_game": 4.017,
@@ -3853,8 +3853,8 @@
     }
   },
   "SUI": {
-    "name": "瑞士",
-    "short_name": "瑞士",
+    "name": "\u745e\u58eb",
+    "short_name": "\u745e\u58eb",
     "code": "SUI",
     "confederation": "UEFA",
     "fifa_ranking": 19,
@@ -4062,8 +4062,8 @@
     }
   },
   "AUT": {
-    "name": "奧地利",
-    "short_name": "奧地利",
+    "name": "\u5967\u5730\u5229",
+    "short_name": "\u5967\u5730\u5229",
     "code": "AUT",
     "confederation": "UEFA",
     "fifa_ranking": 26,
@@ -4271,8 +4271,8 @@
     }
   },
   "DEN": {
-    "name": "丹麥",
-    "short_name": "丹麥",
+    "name": "\u4e39\u9ea5",
+    "short_name": "\u4e39\u9ea5",
     "code": "DEN",
     "confederation": "UEFA",
     "fifa_ranking": 17,
@@ -4480,8 +4480,8 @@
     }
   },
   "SRB": {
-    "name": "塞爾維亞",
-    "short_name": "塞爾維亞",
+    "name": "\u585e\u723e\u7dad\u4e9e",
+    "short_name": "\u585e\u723e\u7dad\u4e9e",
     "code": "SRB",
     "confederation": "UEFA",
     "fifa_ranking": 33,
@@ -4689,8 +4689,8 @@
     }
   },
   "TUR": {
-    "name": "土耳其",
-    "short_name": "土耳其",
+    "name": "\u571f\u8033\u5176",
+    "short_name": "\u571f\u8033\u5176",
     "code": "TUR",
     "confederation": "UEFA",
     "fifa_ranking": 29,
@@ -4706,8 +4706,8 @@
     "coach": "Vincenzo Montella",
     "coach_rating": 7.2,
     "attack": {
-      "goals_per_game": 0.01,
-      "xg_per_game": 0.01,
+      "goals_per_game": 1.08,
+      "xg_per_game": 1.1,
       "npxg_per_game": 1.214,
       "shots_per_game": 11.835,
       "shots_on_target_per_game": 4.123,
@@ -4898,8 +4898,8 @@
     }
   },
   "POL": {
-    "name": "波蘭",
-    "short_name": "波蘭",
+    "name": "\u6ce2\u862d",
+    "short_name": "\u6ce2\u862d",
     "code": "POL",
     "confederation": "UEFA",
     "fifa_ranking": 25,
@@ -5107,8 +5107,8 @@
     }
   },
   "SCO": {
-    "name": "蘇格蘭",
-    "short_name": "蘇格蘭",
+    "name": "\u8607\u683c\u862d",
+    "short_name": "\u8607\u683c\u862d",
     "code": "SCO",
     "confederation": "UEFA",
     "fifa_ranking": 34,
@@ -5316,8 +5316,8 @@
     }
   },
   "COL": {
-    "name": "哥倫比亞",
-    "short_name": "哥倫比亞",
+    "name": "\u54e5\u502b\u6bd4\u4e9e",
+    "short_name": "\u54e5\u502b\u6bd4\u4e9e",
     "code": "COL",
     "confederation": "CONMEBOL",
     "fifa_ranking": 11,
@@ -5525,8 +5525,8 @@
     }
   },
   "ECU": {
-    "name": "厄瓜多",
-    "short_name": "厄瓜多",
+    "name": "\u5384\u74dc\u591a",
+    "short_name": "\u5384\u74dc\u591a",
     "code": "ECU",
     "confederation": "CONMEBOL",
     "fifa_ranking": 41,
@@ -5542,8 +5542,8 @@
     "coach": "Sebastian Beccacece",
     "coach_rating": 7.0,
     "attack": {
-      "goals_per_game": 0.03,
-      "xg_per_game": 0.02,
+      "goals_per_game": 1.03,
+      "xg_per_game": 1.05,
       "npxg_per_game": 1.205,
       "shots_per_game": 10.76,
       "shots_on_target_per_game": 3.886,
@@ -5734,8 +5734,8 @@
     }
   },
   "PAR": {
-    "name": "巴拉圭",
-    "short_name": "巴拉圭",
+    "name": "\u5df4\u62c9\u572d",
+    "short_name": "\u5df4\u62c9\u572d",
     "code": "PAR",
     "confederation": "CONMEBOL",
     "fifa_ranking": 60,
@@ -5768,8 +5768,8 @@
       "pass_accuracy_pct": 80.821
     },
     "defense": {
-      "goals_against_per_game": 2.34,
-      "xga_per_game": 2.41,
+      "goals_against_per_game": 1.48,
+      "xga_per_game": 1.52,
       "clean_sheet_pct": 25.569,
       "shots_against_per_game": 13.01,
       "sot_against_per_game": 5.076,
@@ -5943,8 +5943,8 @@
     }
   },
   "JPN": {
-    "name": "日本",
-    "short_name": "日本",
+    "name": "\u65e5\u672c",
+    "short_name": "\u65e5\u672c",
     "code": "JPN",
     "confederation": "AFC",
     "fifa_ranking": 16,
@@ -6152,8 +6152,8 @@
     }
   },
   "KOR": {
-    "name": "南韓",
-    "short_name": "南韓",
+    "name": "\u5357\u97d3",
+    "short_name": "\u5357\u97d3",
     "code": "KOR",
     "confederation": "AFC",
     "fifa_ranking": 22,
@@ -6361,8 +6361,8 @@
     }
   },
   "KSA": {
-    "name": "沙烏地阿拉伯",
-    "short_name": "沙烏地阿拉伯",
+    "name": "\u6c99\u70cf\u5730\u963f\u62c9\u4f2f",
+    "short_name": "\u6c99\u70cf\u5730\u963f\u62c9\u4f2f",
     "code": "KSA",
     "confederation": "AFC",
     "fifa_ranking": 56,
@@ -6570,8 +6570,8 @@
     }
   },
   "AUS": {
-    "name": "澳洲",
-    "short_name": "澳洲",
+    "name": "\u6fb3\u6d32",
+    "short_name": "\u6fb3\u6d32",
     "code": "AUS",
     "confederation": "AFC",
     "fifa_ranking": 23,
@@ -6779,8 +6779,8 @@
     }
   },
   "IRN": {
-    "name": "伊朗",
-    "short_name": "伊朗",
+    "name": "\u4f0a\u6717",
+    "short_name": "\u4f0a\u6717",
     "code": "IRN",
     "confederation": "AFC",
     "fifa_ranking": 20,
@@ -6988,8 +6988,8 @@
     }
   },
   "QAT": {
-    "name": "卡達",
-    "short_name": "卡達",
+    "name": "\u5361\u9054",
+    "short_name": "\u5361\u9054",
     "code": "QAT",
     "confederation": "AFC",
     "fifa_ranking": 35,
@@ -7022,8 +7022,8 @@
       "pass_accuracy_pct": 79.624
     },
     "defense": {
-      "goals_against_per_game": 3.4,
-      "xga_per_game": 3.5,
+      "goals_against_per_game": 2.0,
+      "xga_per_game": 2.05,
       "clean_sheet_pct": 19.617,
       "shots_against_per_game": 14.052,
       "sot_against_per_game": 5.298,
@@ -7197,8 +7197,8 @@
     }
   },
   "IRQ": {
-    "name": "伊拉克",
-    "short_name": "伊拉克",
+    "name": "\u4f0a\u62c9\u514b",
+    "short_name": "\u4f0a\u62c9\u514b",
     "code": "IRQ",
     "confederation": "AFC",
     "fifa_ranking": 58,
@@ -7231,8 +7231,8 @@
       "pass_accuracy_pct": 77.867
     },
     "defense": {
-      "goals_against_per_game": 3.89,
-      "xga_per_game": 4.01,
+      "goals_against_per_game": 1.7,
+      "xga_per_game": 1.75,
       "clean_sheet_pct": 21.233,
       "shots_against_per_game": 14.144,
       "sot_against_per_game": 5.145,
@@ -7406,8 +7406,8 @@
     }
   },
   "UZB": {
-    "name": "烏茲別克",
-    "short_name": "烏茲別克",
+    "name": "\u70cf\u8332\u5225\u514b",
+    "short_name": "\u70cf\u8332\u5225\u514b",
     "code": "UZB",
     "confederation": "AFC",
     "fifa_ranking": 65,
@@ -7440,8 +7440,8 @@
       "pass_accuracy_pct": 77.26
     },
     "defense": {
-      "goals_against_per_game": 2.83,
-      "xga_per_game": 2.91,
+      "goals_against_per_game": 1.78,
+      "xga_per_game": 1.82,
       "clean_sheet_pct": 23.18,
       "shots_against_per_game": 13.953,
       "sot_against_per_game": 5.28,
@@ -7615,8 +7615,8 @@
     }
   },
   "SEN": {
-    "name": "塞內加爾",
-    "short_name": "塞內加爾",
+    "name": "\u585e\u5167\u52a0\u723e",
+    "short_name": "\u585e\u5167\u52a0\u723e",
     "code": "SEN",
     "confederation": "CAF",
     "fifa_ranking": 15,
@@ -7649,8 +7649,8 @@
       "pass_accuracy_pct": 79.991
     },
     "defense": {
-      "goals_against_per_game": 2.94,
-      "xga_per_game": 3.03,
+      "goals_against_per_game": 1.28,
+      "xga_per_game": 1.3,
       "clean_sheet_pct": 30.168,
       "shots_against_per_game": 12.801,
       "sot_against_per_game": 4.775,
@@ -7824,8 +7824,8 @@
     }
   },
   "NGA": {
-    "name": "奈及利亞",
-    "short_name": "奈及利亞",
+    "name": "\u5948\u53ca\u5229\u4e9e",
+    "short_name": "\u5948\u53ca\u5229\u4e9e",
     "code": "NGA",
     "confederation": "CAF",
     "fifa_ranking": 40,
@@ -8033,8 +8033,8 @@
     }
   },
   "EGY": {
-    "name": "埃及",
-    "short_name": "埃及",
+    "name": "\u57c3\u53ca",
+    "short_name": "\u57c3\u53ca",
     "code": "EGY",
     "confederation": "CAF",
     "fifa_ranking": 37,
@@ -8242,12 +8242,12 @@
     }
   },
   "CIV": {
-    "name": "象牙海岸",
-    "short_name": "象牙海岸",
+    "name": "\u8c61\u7259\u6d77\u5cb8",
+    "short_name": "\u8c61\u7259\u6d77\u5cb8",
     "code": "CIV",
     "confederation": "CAF",
     "fifa_ranking": 43,
-    "elo_rating": 2042,
+    "elo_rating": 1680,
     "spi_rating": 67.5,
     "squad_value_m": 280,
     "avg_age": 27.8,
@@ -8276,8 +8276,8 @@
       "pass_accuracy_pct": 77.983
     },
     "defense": {
-      "goals_against_per_game": 0.03,
-      "xga_per_game": 0.03,
+      "goals_against_per_game": 1.33,
+      "xga_per_game": 1.35,
       "clean_sheet_pct": 26.642,
       "shots_against_per_game": 13.009,
       "sot_against_per_game": 4.858,
@@ -8451,8 +8451,8 @@
     }
   },
   "ALG": {
-    "name": "阿爾及利亞",
-    "short_name": "阿爾及利亞",
+    "name": "\u963f\u723e\u53ca\u5229\u4e9e",
+    "short_name": "\u963f\u723e\u53ca\u5229\u4e9e",
     "code": "ALG",
     "confederation": "CAF",
     "fifa_ranking": 38,
@@ -8468,8 +8468,8 @@
     "coach": "Vladimir Petkovic",
     "coach_rating": 7.0,
     "attack": {
-      "goals_per_game": 0.07,
-      "xg_per_game": 0.07,
+      "goals_per_game": 1.03,
+      "xg_per_game": 1.05,
       "npxg_per_game": 1.023,
       "shots_per_game": 10.207,
       "shots_on_target_per_game": 3.745,
@@ -8485,8 +8485,8 @@
       "pass_accuracy_pct": 79.312
     },
     "defense": {
-      "goals_against_per_game": 2.92,
-      "xga_per_game": 3.01,
+      "goals_against_per_game": 1.4,
+      "xga_per_game": 1.45,
       "clean_sheet_pct": 27.438,
       "shots_against_per_game": 12.593,
       "sot_against_per_game": 4.842,
@@ -8660,8 +8660,8 @@
     }
   },
   "CMR": {
-    "name": "喀麥隆",
-    "short_name": "喀麥隆",
+    "name": "\u5580\u9ea5\u9686",
+    "short_name": "\u5580\u9ea5\u9686",
     "code": "CMR",
     "confederation": "CAF",
     "fifa_ranking": 48,
@@ -8869,8 +8869,8 @@
     }
   },
   "RSA": {
-    "name": "南非",
-    "short_name": "南非",
+    "name": "\u5357\u975e",
+    "short_name": "\u5357\u975e",
     "code": "RSA",
     "confederation": "CAF",
     "fifa_ranking": 62,
@@ -9078,8 +9078,8 @@
     }
   },
   "TUN": {
-    "name": "突尼西亞",
-    "short_name": "突尼西亞",
+    "name": "\u7a81\u5c3c\u897f\u4e9e",
+    "short_name": "\u7a81\u5c3c\u897f\u4e9e",
     "code": "TUN",
     "confederation": "CAF",
     "fifa_ranking": 30,
@@ -9112,8 +9112,8 @@
       "pass_accuracy_pct": 78.303
     },
     "defense": {
-      "goals_against_per_game": 4.94,
-      "xga_per_game": 5.09,
+      "goals_against_per_game": 1.6,
+      "xga_per_game": 1.65,
       "clean_sheet_pct": 23.385,
       "shots_against_per_game": 14.0,
       "sot_against_per_game": 5.223,
@@ -9287,8 +9287,8 @@
     }
   },
   "MEX": {
-    "name": "墨西哥",
-    "short_name": "墨西哥",
+    "name": "\u58a8\u897f\u54e5",
+    "short_name": "\u58a8\u897f\u54e5",
     "code": "MEX",
     "confederation": "CONCACAF",
     "fifa_ranking": 13,
@@ -9321,8 +9321,8 @@
       "pass_accuracy_pct": 85.364
     },
     "defense": {
-      "goals_against_per_game": 0.01,
-      "xga_per_game": 0.01,
+      "goals_against_per_game": 1.12,
+      "xga_per_game": 1.15,
       "clean_sheet_pct": 32.716,
       "shots_against_per_game": 12.237,
       "sot_against_per_game": 4.662,
@@ -9496,8 +9496,8 @@
     }
   },
   "CAN": {
-    "name": "加拿大",
-    "short_name": "加拿大",
+    "name": "\u52a0\u62ff\u5927",
+    "short_name": "\u52a0\u62ff\u5927",
     "code": "CAN",
     "confederation": "CONCACAF",
     "fifa_ranking": 49,
@@ -9513,8 +9513,8 @@
     "coach": "Jesse Marsch",
     "coach_rating": 7.8,
     "attack": {
-      "goals_per_game": 3.4,
-      "xg_per_game": 3.26,
+      "goals_per_game": 1.58,
+      "xg_per_game": 1.55,
       "npxg_per_game": 1.338,
       "shots_per_game": 12.365,
       "shots_on_target_per_game": 4.224,
@@ -9705,8 +9705,8 @@
     }
   },
   "PAN": {
-    "name": "巴拿馬",
-    "short_name": "巴拿馬",
+    "name": "\u5df4\u62ff\u99ac",
+    "short_name": "\u5df4\u62ff\u99ac",
     "code": "PAN",
     "confederation": "CONCACAF",
     "fifa_ranking": 81,
@@ -9722,8 +9722,8 @@
     "coach": "Thomas Christiansen",
     "coach_rating": 6.5,
     "attack": {
-      "goals_per_game": 0.1,
-      "xg_per_game": 0.1,
+      "goals_per_game": 0.8,
+      "xg_per_game": 0.82,
       "npxg_per_game": 0.855,
       "shots_per_game": 9.133,
       "shots_on_target_per_game": 3.19,
@@ -9914,8 +9914,8 @@
     }
   },
   "HON": {
-    "name": "宏都拉斯",
-    "short_name": "宏都拉斯",
+    "name": "\u5b8f\u90fd\u62c9\u65af",
+    "short_name": "\u5b8f\u90fd\u62c9\u65af",
     "code": "HON",
     "confederation": "CONCACAF",
     "fifa_ranking": 89,
@@ -10123,8 +10123,8 @@
     }
   },
   "JAM": {
-    "name": "牙買加",
-    "short_name": "牙買加",
+    "name": "\u7259\u8cb7\u52a0",
+    "short_name": "\u7259\u8cb7\u52a0",
     "code": "JAM",
     "confederation": "CONCACAF",
     "fifa_ranking": 47,
@@ -10332,8 +10332,8 @@
     }
   },
   "NZL": {
-    "name": "紐西蘭",
-    "short_name": "紐西蘭",
+    "name": "\u7d10\u897f\u862d",
+    "short_name": "\u7d10\u897f\u862d",
     "code": "NZL",
     "confederation": "OFC",
     "fifa_ranking": 96,
@@ -10541,8 +10541,8 @@
     }
   },
   "VEN": {
-    "name": "委內瑞拉",
-    "short_name": "委內瑞拉",
+    "name": "\u59d4\u5167\u745e\u62c9",
+    "short_name": "\u59d4\u5167\u745e\u62c9",
     "code": "VEN",
     "confederation": "CONMEBOL",
     "fifa_ranking": 50,
@@ -10750,8 +10750,8 @@
     }
   },
   "IDN": {
-    "name": "印尼",
-    "short_name": "印尼",
+    "name": "\u5370\u5c3c",
+    "short_name": "\u5370\u5c3c",
     "code": "IDN",
     "confederation": "AFC",
     "fifa_ranking": 130,
@@ -10959,8 +10959,8 @@
     }
   },
   "SWE": {
-    "name": "瑞典",
-    "short_name": "瑞典",
+    "name": "\u745e\u5178",
+    "short_name": "\u745e\u5178",
     "code": "SWE",
     "confederation": "UEFA",
     "fifa_ranking": 25,
@@ -10976,8 +10976,8 @@
     "coach": "Jon Dahl Tomasson",
     "coach_rating": 7.5,
     "attack": {
-      "goals_per_game": 4.94,
-      "xg_per_game": 4.74,
+      "goals_per_game": 1.72,
+      "xg_per_game": 1.7,
       "npxg_per_game": 1.311,
       "shots_per_game": 12.053,
       "shots_on_target_per_game": 4.499,
@@ -11168,8 +11168,8 @@
     }
   },
   "NOR": {
-    "name": "挪威",
-    "short_name": "挪威",
+    "name": "\u632a\u5a01",
+    "short_name": "\u632a\u5a01",
     "code": "NOR",
     "confederation": "UEFA",
     "fifa_ranking": 30,
@@ -11185,8 +11185,8 @@
     "coach": "Stale Solbakken",
     "coach_rating": 7.2,
     "attack": {
-      "goals_per_game": 3.89,
-      "xg_per_game": 3.73,
+      "goals_per_game": 2.1,
+      "xg_per_game": 2.15,
       "npxg_per_game": 1.332,
       "shots_per_game": 11.637,
       "shots_on_target_per_game": 4.444,
@@ -11377,8 +11377,8 @@
     }
   },
   "CZE": {
-    "name": "捷克",
-    "short_name": "捷克",
+    "name": "\u6377\u514b",
+    "short_name": "\u6377\u514b",
     "code": "CZE",
     "confederation": "UEFA",
     "fifa_ranking": 36,
@@ -11586,8 +11586,8 @@
     }
   },
   "GHA": {
-    "name": "迦納",
-    "short_name": "迦納",
+    "name": "\u8fe6\u7d0d",
+    "short_name": "\u8fe6\u7d0d",
     "code": "GHA",
     "confederation": "CAF",
     "fifa_ranking": 65,
@@ -11795,8 +11795,8 @@
     }
   },
   "COD": {
-    "name": "剛果民主共和國",
-    "short_name": "剛果民主共和國",
+    "name": "\u525b\u679c\u6c11\u4e3b\u5171\u548c\u570b",
+    "short_name": "\u525b\u679c\u6c11\u4e3b\u5171\u548c\u570b",
     "code": "COD",
     "confederation": "CAF",
     "fifa_ranking": 55,
@@ -12004,8 +12004,8 @@
     }
   },
   "BIH": {
-    "name": "波士尼亞",
-    "short_name": "波士尼亞",
+    "name": "\u6ce2\u58eb\u5c3c\u4e9e",
+    "short_name": "\u6ce2\u58eb\u5c3c\u4e9e",
     "code": "BIH",
     "confederation": "UEFA",
     "fifa_ranking": 60,
@@ -12213,8 +12213,8 @@
     }
   },
   "CPV": {
-    "name": "維德角",
-    "short_name": "維德角",
+    "name": "\u7dad\u5fb7\u89d2",
+    "short_name": "\u7dad\u5fb7\u89d2",
     "code": "CPV",
     "confederation": "CAF",
     "fifa_ranking": 70,
@@ -12230,8 +12230,8 @@
     "coach": "Pedro Brito",
     "coach_rating": 6.5,
     "attack": {
-      "goals_per_game": 0.04,
-      "xg_per_game": 0.04,
+      "goals_per_game": 0.71,
+      "xg_per_game": 0.72,
       "npxg_per_game": 0.925,
       "shots_per_game": 9.557,
       "shots_on_target_per_game": 3.267,
@@ -12247,8 +12247,8 @@
       "pass_accuracy_pct": 75.555
     },
     "defense": {
-      "goals_against_per_game": 0.06,
-      "xga_per_game": 0.06,
+      "goals_against_per_game": 1.48,
+      "xga_per_game": 1.5,
       "clean_sheet_pct": 21.941,
       "shots_against_per_game": 13.427,
       "sot_against_per_game": 5.226,
@@ -12422,8 +12422,8 @@
     }
   },
   "JOR": {
-    "name": "約旦",
-    "short_name": "約旦",
+    "name": "\u7d04\u65e6",
+    "short_name": "\u7d04\u65e6",
     "code": "JOR",
     "confederation": "AFC",
     "fifa_ranking": 80,
@@ -12456,8 +12456,8 @@
       "pass_accuracy_pct": 77.348
     },
     "defense": {
-      "goals_against_per_game": 2.92,
-      "xga_per_game": 3.01,
+      "goals_against_per_game": 1.78,
+      "xga_per_game": 1.82,
       "clean_sheet_pct": 20.657,
       "shots_against_per_game": 14.308,
       "sot_against_per_game": 5.453,
@@ -12631,8 +12631,8 @@
     }
   },
   "CUW": {
-    "name": "庫拉索",
-    "short_name": "庫拉索",
+    "name": "\u5eab\u62c9\u7d22",
+    "short_name": "\u5eab\u62c9\u7d22",
     "code": "CUW",
     "confederation": "CONCACAF",
     "fifa_ranking": 85,
@@ -12665,8 +12665,8 @@
       "pass_accuracy_pct": 75.503
     },
     "defense": {
-      "goals_against_per_game": 6.91,
-      "xga_per_game": 7.11,
+      "goals_against_per_game": 2.2,
+      "xga_per_game": 2.25,
       "clean_sheet_pct": 17.232,
       "shots_against_per_game": 14.567,
       "sot_against_per_game": 5.73,
@@ -12840,8 +12840,8 @@
     }
   },
   "HAI": {
-    "name": "海地",
-    "short_name": "海地",
+    "name": "\u6d77\u5730",
+    "short_name": "\u6d77\u5730",
     "code": "HAI",
     "confederation": "CONCACAF",
     "fifa_ranking": 110,
@@ -12857,8 +12857,8 @@
     "coach": "Marc Collat",
     "coach_rating": 6.2,
     "attack": {
-      "goals_per_game": 0.01,
-      "xg_per_game": 0.01,
+      "goals_per_game": 0.7,
+      "xg_per_game": 0.72,
       "npxg_per_game": 0.687,
       "shots_per_game": 8.202,
       "shots_on_target_per_game": 2.85,

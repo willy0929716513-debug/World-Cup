@@ -1,9 +1,9 @@
 {
-  "ok": false,
-  "fetched_at": "2026-06-20T17:20:09Z",
+  "ok": true,
+  "fetched_at": "2026-06-20T17:29:06Z",
   "source": "the-odds-api",
-  "matches_updated": 0,
-  "total_events": 0,
+  "matches_updated": 40,
+  "total_events": 40,
   "errors": [],
-  "error_msg": "unsupported operand type(s) for /: 'int' and 'NoneType'"
+  "error_msg": ""
 }

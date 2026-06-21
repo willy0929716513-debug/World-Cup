@@ -326,8 +326,8 @@
       "pass_accuracy_pct": 90.1
     },
     "defense": {
-      "goals_against_per_game": 0.65,
-      "xga_per_game": 0.67,
+      "goals_against_per_game": 0.7,
+      "xga_per_game": 0.72,
       "clean_sheet_pct": 44,
       "shots_against_per_game": 9.2,
       "sot_against_per_game": 3.4,
@@ -926,7 +926,7 @@
     "defense": {
       "goals_against_per_game": 1.05,
       "xga_per_game": 1.08,
-      "clean_sheet_pct": 55,
+      "clean_sheet_pct": 40,
       "shots_against_per_game": 8.5,
       "sot_against_per_game": 3.0,
       "tackle_success_pct": 71,
@@ -1783,8 +1783,8 @@
     "coach": "Roberto Martínez",
     "coach_rating": 8.2,
     "attack": {
-      "goals_per_game": 1.77,
-      "xg_per_game": 1.7,
+      "goals_per_game": 1.9,
+      "xg_per_game": 1.85,
       "npxg_per_game": 1.57,
       "shots_per_game": 15.8,
       "shots_on_target_per_game": 5.7,
@@ -2367,8 +2367,8 @@
     "coach": "Marcelo Bielsa",
     "coach_rating": 8.5,
     "attack": {
-      "goals_per_game": 1.47,
-      "xg_per_game": 1.41,
+      "goals_per_game": 1.55,
+      "xg_per_game": 1.5,
       "npxg_per_game": 0.83,
       "shots_per_game": 12.5,
       "shots_on_target_per_game": 4.5,
@@ -2676,8 +2676,8 @@
       "pass_accuracy_pct": 86.5
     },
     "defense": {
-      "goals_against_per_game": 0.88,
-      "xga_per_game": 0.9,
+      "goals_against_per_game": 1.0,
+      "xga_per_game": 1.05,
       "clean_sheet_pct": 42,
       "shots_against_per_game": 10.5,
       "sot_against_per_game": 3.8,
@@ -2951,8 +2951,8 @@
     "coach": "Walid Regragui",
     "coach_rating": 8.8,
     "attack": {
-      "goals_per_game": 1.14,
-      "xg_per_game": 1.09,
+      "goals_per_game": 1.18,
+      "xg_per_game": 1.15,
       "npxg_per_game": 1.3,
       "shots_per_game": 11.5,
       "shots_on_target_per_game": 4.0,
@@ -2968,8 +2968,8 @@
       "pass_accuracy_pct": 83.5
     },
     "defense": {
-      "goals_against_per_game": 0.65,
-      "xga_per_game": 0.67,
+      "goals_against_per_game": 0.7,
+      "xga_per_game": 0.72,
       "clean_sheet_pct": 58,
       "shots_against_per_game": 9.8,
       "sot_against_per_game": 3.5,
@@ -3243,8 +3243,8 @@
     "coach": "Domenico Tedesco",
     "coach_rating": 7.5,
     "attack": {
-      "goals_per_game": 1.64,
-      "xg_per_game": 1.58,
+      "goals_per_game": 1.75,
+      "xg_per_game": 1.75,
       "npxg_per_game": 1.49,
       "shots_per_game": 12.784,
       "shots_on_target_per_game": 4.787,
@@ -3657,8 +3657,8 @@
     "coach": "Murat Yakin",
     "coach_rating": 7.2,
     "attack": {
-      "goals_per_game": 1.79,
-      "xg_per_game": 1.72,
+      "goals_per_game": 1.55,
+      "xg_per_game": 1.5,
       "npxg_per_game": 1.27,
       "shots_per_game": 12.207,
       "shots_on_target_per_game": 4.167,
@@ -3795,8 +3795,8 @@
     "coach": "Ralf Rangnick",
     "coach_rating": 8.5,
     "attack": {
-      "goals_per_game": 1.54,
-      "xg_per_game": 1.48,
+      "goals_per_game": 1.3,
+      "xg_per_game": 1.3,
       "npxg_per_game": 1.1,
       "shots_per_game": 12.323,
       "shots_on_target_per_game": 4.56,
@@ -4485,8 +4485,8 @@
     "coach": "Steve Clarke",
     "coach_rating": 7.0,
     "attack": {
-      "goals_per_game": 0.95,
-      "xg_per_game": 0.91,
+      "goals_per_game": 1.1,
+      "xg_per_game": 1.1,
       "npxg_per_game": 0.94,
       "shots_per_game": 11.2,
       "shots_on_target_per_game": 4.102,
@@ -4502,8 +4502,8 @@
       "pass_accuracy_pct": 80.113
     },
     "defense": {
-      "goals_against_per_game": 1.17,
-      "xga_per_game": 1.21,
+      "goals_against_per_game": 1.4,
+      "xga_per_game": 1.45,
       "clean_sheet_pct": 25.0,
       "shots_against_per_game": 12.577,
       "sot_against_per_game": 4.546,
@@ -4623,8 +4623,8 @@
     "coach": "Nestor Lorenzo",
     "coach_rating": 7.5,
     "attack": {
-      "goals_per_game": 1.97,
-      "xg_per_game": 1.89,
+      "goals_per_game": 1.8,
+      "xg_per_game": 1.8,
       "npxg_per_game": 1.53,
       "shots_per_game": 13.13,
       "shots_on_target_per_game": 4.699,
@@ -5037,8 +5037,8 @@
     "coach": "Hajime Moriyasu",
     "coach_rating": 7.5,
     "attack": {
-      "goals_per_game": 1.84,
-      "xg_per_game": 1.76,
+      "goals_per_game": 1.45,
+      "xg_per_game": 1.45,
       "npxg_per_game": 1.23,
       "shots_per_game": 11.878,
       "shots_on_target_per_game": 4.03,
@@ -5054,8 +5054,8 @@
       "pass_accuracy_pct": 79.64
     },
     "defense": {
-      "goals_against_per_game": 1.11,
-      "xga_per_game": 1.15,
+      "goals_against_per_game": 1.15,
+      "xga_per_game": 1.2,
       "clean_sheet_pct": 32.567,
       "shots_against_per_game": 12.065,
       "sot_against_per_game": 4.701,
@@ -5175,8 +5175,8 @@
     "coach": "Hong Myung-bo",
     "coach_rating": 7.2,
     "attack": {
-      "goals_per_game": 1.17,
-      "xg_per_game": 1.12,
+      "goals_per_game": 1.22,
+      "xg_per_game": 1.2,
       "npxg_per_game": 1.072,
       "shots_per_game": 10.63,
       "shots_on_target_per_game": 3.888,
@@ -5589,8 +5589,8 @@
     "coach": "Amir Ghalenoei",
     "coach_rating": 6.8,
     "attack": {
-      "goals_per_game": 1.27,
-      "xg_per_game": 1.22,
+      "goals_per_game": 1.15,
+      "xg_per_game": 1.15,
       "npxg_per_game": 0.98,
       "shots_per_game": 10.126,
       "shots_on_target_per_game": 3.799,
@@ -5606,8 +5606,8 @@
       "pass_accuracy_pct": 76.861
     },
     "defense": {
-      "goals_against_per_game": 1.7,
-      "xga_per_game": 1.75,
+      "goals_against_per_game": 1.65,
+      "xga_per_game": 1.7,
       "clean_sheet_pct": 25.721,
       "shots_against_per_game": 12.778,
       "sot_against_per_game": 4.833,
@@ -6141,8 +6141,8 @@
     "coach": "Aliou Cisse",
     "coach_rating": 7.5,
     "attack": {
-      "goals_per_game": 1.27,
-      "xg_per_game": 1.22,
+      "goals_per_game": 1.32,
+      "xg_per_game": 1.3,
       "npxg_per_game": 1.127,
       "shots_per_game": 11.485,
       "shots_on_target_per_game": 3.917,
@@ -7400,8 +7400,8 @@
       "pass_accuracy_pct": 85.87
     },
     "defense": {
-      "goals_against_per_game": 1.06,
-      "xga_per_game": 1.09,
+      "goals_against_per_game": 1.25,
+      "xga_per_game": 1.3,
       "clean_sheet_pct": 28.0,
       "shots_against_per_game": 11.439,
       "sot_against_per_game": 4.381,
@@ -7935,8 +7935,8 @@
     "coach": "Darren Bazeley",
     "coach_rating": 6.2,
     "attack": {
-      "goals_per_game": 0.97,
-      "xg_per_game": 0.93,
+      "goals_per_game": 0.8,
+      "xg_per_game": 0.75,
       "npxg_per_game": 0.64,
       "shots_per_game": 8.744,
       "shots_on_target_per_game": 3.048,

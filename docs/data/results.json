@@ -327,6 +327,15 @@
       "date": "2026-06-21"
     },
     {
+      "t1": "BEL",
+      "t2": "IRN",
+      "score1": 0,
+      "score2": 0,
+      "group": "G",
+      "played": true,
+      "date": "2026-06-21"
+    },
+    {
       "t1": "ESP",
       "t2": "KSA",
       "score1": 4,

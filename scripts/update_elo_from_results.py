@@ -3,18 +3,18 @@
 Update team ELO ratings and strength metrics based on actual WC2026 results.
 
 Reads docs/data/results.json → updates data/teams.json + ALL_ELOS in
-src/tournament/simulator.py → re-runs generate_static_data.py to refresh
-tournament.json with improved predictions.
+src/tournament/simulator.py.
 
 ELO formula: K=40 (FIFA standard for major tournaments)
-Strength update: Bayesian blend of prior estimates with observed goals
+Strength update: Bayesian blend of pre-WC baseline with observed goals.
+The pre_wc_attack / pre_wc_defense fields in teams.json are the FIXED priors
+— they never change. This makes each CI run fully idempotent.
 """
 
 from __future__ import annotations
 
 import json
 import re
-import subprocess
 import sys
 from pathlib import Path
 
@@ -24,7 +24,7 @@ TEAMS_FILE     = REPO_ROOT / "data" / "teams.json"
 SIMULATOR_FILE = REPO_ROOT / "src" / "tournament" / "simulator.py"
 
 K = 40          # FIFA K-factor for major international tournaments
-PRIOR_WEIGHT = 6  # virtual games' worth of confidence in pre-tournament prior
+PRIOR_WEIGHT = 10  # virtual games' worth of confidence in pre-tournament prior
 
 
 def _expected(elo_a: float, elo_b: float) -> float:
@@ -112,19 +112,25 @@ def main() -> None:
             updated += 1
 
         if code in goals_scored:
-            n     = len(goals_scored[code])
+            n      = len(goals_scored[code])
             gf_act = sum(goals_scored[code]) / n
             ga_act = sum(goals_conceded[code]) / n
 
-            # Bayesian blend: prior weighted vs. actual observed
-            prior_gf = team["attack"].get("goals_per_game", gf_act)
-            prior_ga = team["defense"].get("goals_against_per_game", ga_act)
+            # ALWAYS use pre-WC baseline as prior (not current, which may be
+            # compounded from prior CI runs). This makes each run idempotent.
+            attack  = team["attack"]
+            defense = team["defense"]
+            pre_atk = team.get("pre_wc_attack", attack)
+            pre_def = team.get("pre_wc_defense", defense)
+
+            prior_gf = pre_atk.get("goals_per_game", gf_act)
+            prior_ga = pre_def.get("goals_against_per_game", ga_act)
 
             blend_gf = (prior_gf * PRIOR_WEIGHT + gf_act * n) / (PRIOR_WEIGHT + n)
             blend_ga = (prior_ga * PRIOR_WEIGHT + ga_act * n) / (PRIOR_WEIGHT + n)
 
-            team["attack"]["goals_per_game"]         = round(blend_gf, 2)
-            team["attack"]["xg_per_game"]            = round(blend_gf * 0.96, 2)
+            team["attack"]["goals_per_game"]          = round(blend_gf, 2)
+            team["attack"]["xg_per_game"]             = round(blend_gf * 0.96, 2)
             team["defense"]["goals_against_per_game"] = round(blend_ga, 2)
             team["defense"]["xga_per_game"]           = round(blend_ga * 1.03, 2)
 
@@ -144,20 +150,6 @@ def main() -> None:
 
     SIMULATOR_FILE.write_text(new_sim)
     print(f"💾  simulator.py: {patched} ALL_ELOS entry/entries updated")
-
-    # ── Regenerate static JSON data ───────────────────────────────────────────
-    print("\n🔄  Regenerating docs/data/tournament.json …")
-    proc = subprocess.run(
-        [sys.executable, str(REPO_ROOT / "scripts" / "generate_static_data.py")],
-        cwd=str(REPO_ROOT),
-        capture_output=True,
-        text=True,
-    )
-    if proc.returncode == 0:
-        print("  ✅  tournament.json regenerated successfully")
-    else:
-        print(f"  ❌  generate_static_data.py failed:\n{proc.stderr[-2000:]}")
-        sys.exit(1)
 
 
 if __name__ == "__main__":

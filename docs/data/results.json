@@ -325,6 +325,15 @@
       "group": "F",
       "played": true,
       "date": "2026-06-21"
+    },
+    {
+      "t1": "ESP",
+      "t2": "KSA",
+      "score1": 4,
+      "score2": 0,
+      "group": "H",
+      "played": true,
+      "date": "2026-06-21"
     }
   ]
 }

@@ -2,18 +2,21 @@
 
 # ── Model Weights (must sum to 1.0) ──────────────────────────────────────────
 # Calibrated against WC2026 group stage results (16 matches, 50% draw rate):
-# - ELO boosted: most reliable signal for international football
-# - xG reduced: club xG stats don't transfer well to WC neutral-venue matches
+# - Market: highest weight — closing odds are the best single predictor
+# - ML: new LogisticRegression model trained on WC2018+WC2022+WC2026 data
+# - ELO: reliable signal for international football
+# - Dixon-Coles + xG: reduced — club stats don't fully transfer to WC
 MODEL_WEIGHTS = {
-    "dixon_coles": 0.25,
-    "xg":          0.15,   # was 0.25 — xG over-inflates favourites vs weak teams
-    "elo":         0.30,   # was 0.20 — ELO more stable for international tournaments
-    "market":      0.20,
+    "dixon_coles": 0.10,
+    "xg":          0.10,
+    "elo":         0.20,
+    "market":      0.30,
+    "lgbm":        0.20,   # ML model (LogisticRegression)
     "monte_carlo": 0.10,
 }
 
 # ── Monte Carlo ───────────────────────────────────────────────────────────────
-MONTE_CARLO_SIMULATIONS = 100_000
+MONTE_CARLO_SIMULATIONS = 500_000
 
 # ── ELO ───────────────────────────────────────────────────────────────────────
 ELO_HOME_ADVANTAGE = 100        # ELO points added for true home team

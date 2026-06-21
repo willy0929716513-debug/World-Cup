@@ -2,11 +2,16 @@
 Ensemble model — weighted combination of all prediction models.
 
 Weight order (configurable in settings.py):
-  Dixon-Coles (25%) + xG (25%) + ELO (20%) + Market (20%) + MC (10%)
+  Dixon-Coles (10%) + xG (10%) + ELO (20%) + Market (30%) + ML (20%) + MC (10%)
 
 Monte Carlo receives the ensemble lambdas and contributes its uncertainty
 structure to the final score matrix.  Its weight applies to 3-way probs only;
 it does not double-count any other model's lambdas.
+
+Form multiplier (from WC2026 actual results) adjusts lambdas AFTER computing
+the base ensemble lambdas.
+
+Calibration is applied as the final step to the ensemble probabilities.
 
 Optional: altitude_m (metres above sea level) applies a small goal-rate
 multiplier based on historical World Cup data (~+9% at Mexico City 2240m).
@@ -16,7 +21,7 @@ import numpy as np
 from config.settings import MODEL_WEIGHTS, MONTE_CARLO_SIMULATIONS, MAX_GOALS_MATRIX, GROUP_STAGE_DRAW_BOOST
 from src.data.structures import TeamData, ModelResult, EnsembleResult, MarketData
 
-from . import elo, poisson, dixon_coles, xg_model, market, monte_carlo
+from . import elo, poisson, dixon_coles, xg_model, market, monte_carlo, lgbm_model, form_model, calibration
 
 
 def run(
@@ -28,27 +33,36 @@ def run(
     group_stage: bool = True,
 ) -> EnsembleResult:
     # ── Run individual models ────────────────────────────────────────────────
-    r_elo = elo.predict(home, away, neutral=neutral)
-    r_poi = poisson.predict(home, away)
-    r_dc  = dixon_coles.predict(home, away)
-    r_xg  = xg_model.predict(home, away)
-    r_mkt = market.predict(home, away, market_data)
+    r_elo  = elo.predict(home, away, neutral=neutral)
+    r_poi  = poisson.predict(home, away)
+    r_dc   = dixon_coles.predict(home, away)
+    r_xg   = xg_model.predict(home, away)
+    r_mkt  = market.predict(home, away, market_data)
+    r_lgbm = lgbm_model.predict(home, away)
 
     # ── Ensemble lambdas (weighted average, MC excluded — it uses these) ────
     w = MODEL_WEIGHTS
-    base_w = w["dixon_coles"] + w["xg"] + w["elo"] + w["market"]   # excludes MC
+    base_w = w["dixon_coles"] + w["xg"] + w["elo"] + w["market"] + w["lgbm"]
     lam_h = (
         w["dixon_coles"] * r_dc.lambda_home +
         w["xg"]          * r_xg.lambda_home +
         w["elo"]         * r_elo.lambda_home +
-        w["market"]      * r_mkt.lambda_home
+        w["market"]      * r_mkt.lambda_home +
+        w["lgbm"]        * r_lgbm.lambda_home
     ) / base_w
     lam_a = (
         w["dixon_coles"] * r_dc.lambda_away +
         w["xg"]          * r_xg.lambda_away +
         w["elo"]         * r_elo.lambda_away +
-        w["market"]      * r_mkt.lambda_away
+        w["market"]      * r_mkt.lambda_away +
+        w["lgbm"]        * r_lgbm.lambda_away
     ) / base_w
+
+    # ── Form adjustment (from WC2026 actual results) ─────────────────────────
+    home_form = form_model.get_form_multiplier(home.code)
+    away_form = form_model.get_form_multiplier(away.code)
+    lam_h *= home_form
+    lam_a *= away_form
 
     # ── Altitude factor: thin air increases goal rates ───────────────────────
     # Calibrated to ~+9% at Mexico City (2240 m); capped at 2500 m.
@@ -77,7 +91,7 @@ def run(
     # ── Monte Carlo with ensemble lambdas ────────────────────────────────────
     r_mc = monte_carlo.simulate(lam_h, lam_a, n=MONTE_CARLO_SIMULATIONS)
 
-    model_results = [r_elo, r_poi, r_dc, r_xg, r_mkt, r_mc]
+    model_results = [r_elo, r_poi, r_dc, r_xg, r_mkt, r_lgbm, r_mc]
 
     # ── Weighted 3-way probabilities ─────────────────────────────────────────
     model_map = {
@@ -85,6 +99,7 @@ def run(
         "xg":          r_xg,
         "elo":         r_elo,
         "market":      r_mkt,
+        "lgbm":        r_lgbm,
         "monte_carlo": r_mc,
     }
 
@@ -94,12 +109,14 @@ def run(
 
     # Group stage tactical conservatism boost: teams play more defensively early
     # on, producing more draws than club-football models predict.
-    # Observed WC2026: 8/16 draws (50%). Historical WC group avg ~27-30%.
     if group_stage:
         p_draw *= GROUP_STAGE_DRAW_BOOST
 
     total  = p_home + p_draw + p_away
     p_home /= total; p_draw /= total; p_away /= total
+
+    # ── Probability calibration (final step) ────────────────────────────────
+    p_home, p_draw, p_away = calibration.calibrate(p_home, p_draw, p_away)
 
     # ── Build ensemble score probability matrix ───────────────────────────────
     # 60 % from DC matrix, 40 % from Monte Carlo simulation

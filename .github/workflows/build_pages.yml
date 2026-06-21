@@ -45,6 +45,9 @@ jobs:
           THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
         run: python scripts/fetch_odds.py
 
+      - name: Train ML models and calibration
+        run: python scripts/train_models.py
+
       - name: Generate static JSON data
         run: python scripts/generate_static_data.py
 
@@ -59,7 +62,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # Stage generated data + ELO-updated teams.json + odds status
-          git add docs/data/ data/teams.json data/market_odds.json
+          git add docs/data/ data/teams.json data/market_odds.json data/ml_coefficients.json data/calibration.json
           if git diff --staged --quiet; then
             echo "No data changes to commit."
           else

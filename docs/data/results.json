@@ -336,6 +336,15 @@
       "date": "2026-06-21"
     },
     {
+      "t1": "NZL",
+      "t2": "EGY",
+      "score1": 1,
+      "score2": 3,
+      "group": "G",
+      "played": true,
+      "date": "2026-06-21"
+    },
+    {
       "t1": "ESP",
       "t2": "KSA",
       "score1": 4,

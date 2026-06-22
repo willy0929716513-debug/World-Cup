@@ -27,29 +27,29 @@
     "open_home": 1.87,
     "open_draw": 4.39,
     "open_away": 7.86,
-    "close_home": 1.94,
-    "close_draw": 3.99,
-    "close_away": 3.63,
+    "close_home": 1.93,
+    "close_draw": 4.0,
+    "close_away": 3.64,
     "ah_open": 0.5,
     "ah_close": 0.5,
     "sharp_index": 0.15,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715795+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845606+00:00"
   },
   "RSA_KOR": {
     "open_home": 6.81,
     "open_draw": 4.19,
     "open_away": 1.98,
-    "close_home": 5.68,
-    "close_draw": 4.03,
-    "close_away": 1.61,
+    "close_home": 5.47,
+    "close_draw": 3.98,
+    "close_away": 1.64,
     "ah_open": -0.25,
     "ah_close": 0.75,
-    "sharp_index": 0.44,
+    "sharp_index": 0.48,
     "steam": false,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715809+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845620+00:00"
   },
   "RSA_CZE": {
     "open_home": 4.75,
@@ -87,7 +87,7 @@
     "sharp_index": 0.15,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715749+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845561+00:00"
   },
   "CAN_QAT": {
     "open_home": 3.03,
@@ -141,15 +141,15 @@
     "open_home": 3.51,
     "open_draw": 3.36,
     "open_away": 3.16,
-    "close_home": 6.87,
-    "close_draw": 4.95,
+    "close_home": 6.89,
+    "close_draw": 4.98,
     "close_away": 1.43,
     "ah_open": 0.0,
     "ah_close": -1.25,
     "sharp_index": 0.15,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715734+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845545+00:00"
   },
   "BRA_MAR": {
     "open_home": 3.14,
@@ -175,7 +175,7 @@
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715766+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845576+00:00"
   },
   "BRA_HAI": {
     "open_home": 1.98,
@@ -213,7 +213,7 @@
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715781+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845592+00:00"
   },
   "SCO_HAI": {
     "open_home": 2.18,
@@ -255,15 +255,15 @@
     "open_home": 1.74,
     "open_draw": 5.12,
     "open_away": 8.59,
-    "close_home": 1.98,
-    "close_draw": 4.12,
-    "close_away": 3.41,
+    "close_home": 1.97,
+    "close_draw": 4.09,
+    "close_away": 3.46,
     "ah_open": 0.5,
     "ah_close": 0.5,
     "sharp_index": 0.15,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715909+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845716+00:00"
   },
   "PAR_AUS": {
     "open_home": 7.08,
@@ -277,7 +277,7 @@
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715894+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845700+00:00"
   },
   "PAR_TUR": {
     "open_home": 2.81,
@@ -341,21 +341,21 @@
     "sharp_index": 0.15,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715846+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845650+00:00"
   },
   "CUW_CIV": {
     "open_home": 7.01,
     "open_draw": 4.34,
     "open_away": 1.93,
-    "close_home": 17.12,
-    "close_draw": 8.03,
+    "close_home": 17.2,
+    "close_draw": 8.05,
     "close_away": 1.14,
     "ah_open": -0.5,
     "ah_close": 2.25,
     "sharp_index": 0.15,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715829+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845636+00:00"
   },
   "CUW_ECU": {
     "open_home": 3.26,
@@ -414,14 +414,14 @@
     "open_draw": 4.62,
     "open_away": 6.65,
     "close_home": 1.13,
-    "close_draw": 8.46,
-    "close_away": 19.61,
+    "close_draw": 8.48,
+    "close_away": 19.66,
     "ah_open": 0.5,
     "ah_close": 2.25,
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715878+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845684+00:00"
   },
   "JPN_SWE": {
     "open_home": 4.68,
@@ -435,7 +435,7 @@
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715863+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845668+00:00"
   },
   "JPN_TUN": {
     "open_home": 1.97,
@@ -495,27 +495,27 @@
     "open_away": 4.32,
     "close_home": 1.2,
     "close_draw": 6.29,
-    "close_away": 11.94,
+    "close_away": 11.93,
     "ah_open": 0.25,
     "ah_close": 1.75,
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715979+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845786+00:00"
   },
   "EGY_IRN": {
     "open_home": 3.4,
     "open_draw": 3.62,
     "open_away": 3.07,
-    "close_home": 2.27,
-    "close_draw": 2.81,
+    "close_home": 2.4,
+    "close_draw": 2.64,
     "close_away": 3.69,
     "ah_open": 0.0,
     "ah_close": -0.25,
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715989+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845799+00:00"
   },
   "EGY_NZL": {
     "open_home": 3.06,
@@ -581,7 +581,7 @@
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715966+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845771+00:00"
   },
   "CPV_KSA": {
     "open_home": 4.3,
@@ -595,7 +595,7 @@
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715952+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845758+00:00"
   },
   "CPV_URU": {
     "open_home": 4.91,
@@ -640,14 +640,14 @@
     "open_draw": 5.19,
     "open_away": 10.27,
     "close_home": 1.07,
-    "close_draw": 11.82,
-    "close_away": 29.69,
+    "close_draw": 12.62,
+    "close_away": 32.63,
     "ah_open": 0.5,
     "ah_close": -2.75,
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715592+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845411+00:00"
   },
   "FRA_NOR": {
     "open_home": 2.64,
@@ -661,7 +661,7 @@
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715924+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845730+00:00"
   },
   "SEN_IRQ": {
     "open_home": 2.77,
@@ -675,7 +675,7 @@
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715939+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845744+00:00"
   },
   "SEN_NOR": {
     "open_home": 5.44,
@@ -683,13 +683,13 @@
     "open_away": 2.01,
     "close_home": 3.22,
     "close_draw": 3.61,
-    "close_away": 2.25,
+    "close_away": 2.24,
     "ah_open": -0.25,
     "ah_close": -0.25,
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715616+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845431+00:00"
   },
   "IRQ_NOR": {
     "open_home": 6.85,
@@ -719,15 +719,15 @@
     "open_home": 2.12,
     "open_draw": 4.01,
     "open_away": 5.79,
-    "close_home": 1.53,
-    "close_draw": 4.09,
-    "close_away": 7.13,
+    "close_home": 1.51,
+    "close_draw": 4.19,
+    "close_away": 7.33,
     "ah_open": 0.25,
     "ah_close": -1.0,
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715570+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845364+00:00"
   },
   "ARG_JOR": {
     "open_home": 1.72,
@@ -741,7 +741,7 @@
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.716083+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845878+00:00"
   },
   "ALG_AUT": {
     "open_home": 6.05,
@@ -755,21 +755,21 @@
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.716071+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845865+00:00"
   },
   "ALG_JOR": {
     "open_home": 3.79,
     "open_draw": 3.75,
     "open_away": 2.74,
     "close_home": 1.56,
-    "close_draw": 4.3,
+    "close_draw": 4.29,
     "close_away": 6.02,
     "ah_open": 0.0,
     "ah_close": 1.0,
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715636+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845451+00:00"
   },
   "AUT_JOR": {
     "open_home": 2.01,
@@ -807,7 +807,7 @@
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715653+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845468+00:00"
   },
   "POR_COL": {
     "open_home": 2.93,
@@ -821,7 +821,7 @@
     "sharp_index": 0.82,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.716044+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845840+00:00"
   },
   "COD_UZB": {
     "open_home": 3.05,
@@ -835,21 +835,21 @@
     "sharp_index": 0.76,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.716057+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845852+00:00"
   },
   "COD_COL": {
     "open_home": 4.3,
     "open_draw": 3.69,
     "open_away": 2.55,
-    "close_home": 6.93,
-    "close_draw": 4.21,
+    "close_home": 7.02,
+    "close_draw": 4.23,
     "close_away": 1.52,
     "ah_open": -0.25,
     "ah_close": -1.0,
     "sharp_index": 0.15,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715716+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845526+00:00"
   },
   "UZB_COL": {
     "open_home": 4.68,
@@ -887,7 +887,7 @@
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715668+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845484+00:00"
   },
   "ENG_PAN": {
     "open_home": 2.01,
@@ -901,7 +901,7 @@
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.716030+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845826+00:00"
   },
   "CRO_GHA": {
     "open_home": 2.7,
@@ -915,7 +915,7 @@
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.716008+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845813+00:00"
   },
   "CRO_PAN": {
     "open_home": 2.36,
@@ -929,7 +929,7 @@
     "sharp_index": 0.85,
     "steam": true,
     "source": "the-odds-api",
-    "fetched_at": "2026-06-22T02:06:08.715697+00:00"
+    "fetched_at": "2026-06-22T04:07:28.845500+00:00"
   },
   "GHA_PAN": {
     "open_home": 2.84,

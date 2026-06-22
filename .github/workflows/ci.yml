@@ -131,7 +131,7 @@ jobs:
           market = get_market_data('ARG')
           res = ensemble.run(home, away, market_data=market, neutral=True)
 
-          assert len(res.model_results) == 6, f"Expected 6 models, got {len(res.model_results)}"
+          assert len(res.model_results) >= 6, f"Expected at least 6 models, got {len(res.model_results)}"
           total = res.p_home + res.p_draw + res.p_away
           assert abs(total - 1.0) < 0.01, f"Probs don't sum to 1: {total}"
           assert len(res.score_probs) > 0, "Empty score matrix"

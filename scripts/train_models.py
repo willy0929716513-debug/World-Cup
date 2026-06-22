@@ -143,12 +143,18 @@ def _build_historical_features(
     that also appear in WC2026. For other teams, estimate from ELO.
 
     Feature scale targets (to match real data distribution):
-      elo_diff:       [-600, +600]
-      spi_diff:       [-60, +60]
-      xg_diff:        [-2, +2]
-      xga_diff:       [-2, +2]
-      ppda_ratio:     [0.5, 2.0] (ratio of away/home PPDA, ~1.0 neutral)
-      field_tilt_diff:[-25, +25] (real field_tilt is 38-65%, diff is ±20)
+      elo_diff:                  [-600, +600]
+      spi_diff:                  [-60, +60]
+      xg_diff:                   [-2, +2]
+      xga_diff:                  [-2, +2]
+      ppda_ratio:                [0.5, 2.0] (ratio of away/home PPDA, ~1.0 neutral)
+      field_tilt_diff:           [-25, +25] (real field_tilt is 38-65%, diff is ±20)
+      coach_rating_diff:         [-3, +3]
+      squad_depth_diff:          [-5, +5]
+      gk_quality_diff:           [-0.3, +0.3]
+      set_piece_diff:            [-5, +5]
+      shots_in_box_diff:         [-5, +5]
+      goal_creating_actions_diff:[-2, +2]
     """
     X = []
     y = []
@@ -167,12 +173,20 @@ def _build_historical_features(
             a_def = away.get("defense", {})
             h_adv = home.get("advanced", {})
             a_adv = away.get("advanced", {})
+            h_tac = home.get("tactics", {})
+            a_tac = away.get("tactics", {})
             xg_diff = h_atk.get("xg_per_game", 1.3) - a_atk.get("xg_per_game", 1.3)
             xga_diff = h_def.get("xga_per_game", 1.1) - a_def.get("xga_per_game", 1.1)
             home_ppda = max(h_adv.get("ppda", 11.0), 0.1)
             away_ppda = max(a_adv.get("ppda", 11.0), 0.1)
             ppda_ratio = away_ppda / home_ppda
             field_tilt_diff = h_adv.get("field_tilt", 48.0) - a_adv.get("field_tilt", 48.0)
+            coach_rating_diff = home.get("coach_rating", 7.0) - away.get("coach_rating", 7.0)
+            squad_depth_diff = home.get("squad_depth", 5.0) - away.get("squad_depth", 5.0)
+            gk_quality_diff = h_def.get("gk_psxg_ga", 0.0) - a_def.get("gk_psxg_ga", 0.0)
+            set_piece_diff = h_tac.get("set_piece_quality", 5.0) - a_tac.get("set_piece_quality", 5.0)
+            shots_in_box_diff = h_atk.get("shots_in_box_per_game", 5.0) - a_atk.get("shots_in_box_per_game", 5.0)
+            goal_creating_actions_diff = h_adv.get("goal_creating_actions", 2.0) - a_adv.get("goal_creating_actions", 2.0)
         else:
             # Estimate from ELO — use realistic scales matching actual data
             # xg_diff: +300 ELO → ~+0.5 xG, scaled to match real data range
@@ -182,8 +196,19 @@ def _build_historical_features(
             ppda_ratio = max(0.5, min(2.0, 1.0 - elo_diff / 3000.0))
             # field_tilt_diff: stronger team dominates territory (~+5 per 300 ELO)
             field_tilt_diff = elo_diff / 60.0
+            # New features estimated from ELO for historical data
+            coach_rating_diff = elo_diff / 600.0    # rough proxy
+            squad_depth_diff = elo_diff / 300.0     # rough proxy
+            gk_quality_diff = elo_diff / 6000.0     # small signal
+            set_piece_diff = elo_diff / 300.0        # rough proxy
+            shots_in_box_diff = elo_diff / 150.0     # rough proxy
+            goal_creating_actions_diff = elo_diff / 300.0  # rough proxy
 
-        X.append([elo_diff, spi_diff, xg_diff, xga_diff, ppda_ratio, field_tilt_diff])
+        X.append([
+            elo_diff, spi_diff, xg_diff, xga_diff, ppda_ratio, field_tilt_diff,
+            coach_rating_diff, squad_depth_diff, gk_quality_diff, set_piece_diff,
+            shots_in_box_diff, goal_creating_actions_diff,
+        ])
         y.append(result)
     return X, y
 
@@ -237,8 +262,20 @@ def _build_wc2026_features(
         away_ppda = max(a_adv.get("ppda", 10.0), 0.1)
         ppda_ratio = away_ppda / home_ppda
         field_tilt_diff = h_adv.get("field_tilt", 0.5) - a_adv.get("field_tilt", 0.5)
+        h_tac = home.get("tactics", {})
+        a_tac = away.get("tactics", {})
+        coach_rating_diff = home.get("coach_rating", 7.0) - away.get("coach_rating", 7.0)
+        squad_depth_diff = home.get("squad_depth", 5.0) - away.get("squad_depth", 5.0)
+        gk_quality_diff = h_def.get("gk_psxg_ga", 0.0) - a_def.get("gk_psxg_ga", 0.0)
+        set_piece_diff = h_tac.get("set_piece_quality", 5.0) - a_tac.get("set_piece_quality", 5.0)
+        shots_in_box_diff = h_atk.get("shots_in_box_per_game", 5.0) - a_atk.get("shots_in_box_per_game", 5.0)
+        goal_creating_actions_diff = h_adv.get("goal_creating_actions", 2.0) - a_adv.get("goal_creating_actions", 2.0)
 
-        X.append([elo_diff, spi_diff, xg_diff, xga_diff, ppda_ratio, field_tilt_diff])
+        X.append([
+            elo_diff, spi_diff, xg_diff, xga_diff, ppda_ratio, field_tilt_diff,
+            coach_rating_diff, squad_depth_diff, gk_quality_diff, set_piece_diff,
+            shots_in_box_diff, goal_creating_actions_diff,
+        ])
 
         if s1 > s2:
             y.append(1)
@@ -278,7 +315,11 @@ def train_ml_model(X: np.ndarray, y: np.ndarray, out_path: str) -> None:
         "coef": clf.coef_.tolist(),        # shape (n_classes, n_features)
         "intercept": clf.intercept_.tolist(),
         "classes": classes,
-        "feature_names": ["elo_diff", "spi_diff", "xg_diff", "xga_diff", "ppda_ratio", "field_tilt_diff"],
+        "feature_names": [
+            "elo_diff", "spi_diff", "xg_diff", "xga_diff", "ppda_ratio", "field_tilt_diff",
+            "coach_rating_diff", "squad_depth_diff", "gk_quality_diff", "set_piece_diff",
+            "shots_in_box_diff", "goal_creating_actions_diff",
+        ],
         "n_samples": int(len(X)),
         "training_accuracy": float(acc),
     }
@@ -354,14 +395,26 @@ def train_calibration(
         a_def = away.get("defense", {})
         h_adv = home.get("advanced", {})
         a_adv = away.get("advanced", {})
+        h_tac = home.get("tactics", {})
+        a_tac = away.get("tactics", {})
         xg_diff = h_atk.get("xg_per_game", 1.3) - a_atk.get("xg_per_game", 1.3)
         xga_diff = h_def.get("xga_per_game", 1.1) - a_def.get("xga_per_game", 1.1)
         home_ppda = max(h_adv.get("ppda", 10.0), 0.1)
         away_ppda = max(a_adv.get("ppda", 10.0), 0.1)
         ppda_ratio = away_ppda / home_ppda
         field_tilt_diff = h_adv.get("field_tilt", 0.5) - a_adv.get("field_tilt", 0.5)
+        coach_rating_diff = home.get("coach_rating", 7.0) - away.get("coach_rating", 7.0)
+        squad_depth_diff = home.get("squad_depth", 5.0) - away.get("squad_depth", 5.0)
+        gk_quality_diff = h_def.get("gk_psxg_ga", 0.0) - a_def.get("gk_psxg_ga", 0.0)
+        set_piece_diff = h_tac.get("set_piece_quality", 5.0) - a_tac.get("set_piece_quality", 5.0)
+        shots_in_box_diff = h_atk.get("shots_in_box_per_game", 5.0) - a_atk.get("shots_in_box_per_game", 5.0)
+        goal_creating_actions_diff = h_adv.get("goal_creating_actions", 2.0) - a_adv.get("goal_creating_actions", 2.0)
 
-        feat = np.array([elo_diff, spi_diff, xg_diff, xga_diff, ppda_ratio, field_tilt_diff])
+        feat = np.array([
+            elo_diff, spi_diff, xg_diff, xga_diff, ppda_ratio, field_tilt_diff,
+            coach_rating_diff, squad_depth_diff, gk_quality_diff, set_piece_diff,
+            shots_in_box_diff, goal_creating_actions_diff,
+        ])
         std_safe = np.where(std < 1e-9, 1.0, std)
         x = (feat - mean) / std_safe
         scores = coef @ x + intercept

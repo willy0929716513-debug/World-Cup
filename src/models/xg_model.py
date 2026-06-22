@@ -4,9 +4,11 @@ Expected Goals (xG) model.
 Factors applied:
   - xG/xGA base (blended with actual goals via XG_REGRESSION_WEIGHT)
   - Opponent defence quality
+  - GK quality (PSxG-GA adjustment, ±15%)
   - Player availability (injuries/suspensions), partially offset by squad depth
   - Exponentially-weighted recent form (last 10 matches)
   - Coach rating modifier (±3%)
+  - xThreat proxy multiplier (0.85–1.15, based on chance quality)
   - Set-piece quality differential (±6%)
   - Press-intensity vs PPDA matchup (≤+4%)
 """
@@ -16,6 +18,7 @@ import numpy as np
 from config.settings import XG_REGRESSION_WEIGHT, MAX_GOALS_MATRIX, XG_LAMBDA_CAP, XG_DEF_FACTOR_WEIGHT
 from src.data.structures import TeamData, ModelResult
 from .dixon_coles import score_matrix as dc_matrix
+from .xthreat import xt_multiplier
 
 
 def _availability_modifier(team: TeamData) -> float:
@@ -97,6 +100,13 @@ def _compute_xg_lambdas(home: TeamData, away: TeamData) -> tuple[float, float]:
     lam_h *= max(0.60, min(1.50, away_def_factor))
     lam_a *= max(0.60, min(1.50, home_def_factor))
 
+    # GK quality: gk_psxg_ga > 0 means GK saves more than expected
+    # e.g. +0.15 per game → reduce opponent lambda by ~4.5%
+    gk_adj_h = max(-0.15, min(0.15, away.defense.gk_psxg_ga * 0.30))
+    gk_adj_a = max(-0.15, min(0.15, home.defense.gk_psxg_ga * 0.30))
+    lam_h = max(0.30, lam_h * (1.0 - gk_adj_h))
+    lam_a = max(0.30, lam_a * (1.0 - gk_adj_a))
+
     # Player availability (injuries / suspensions)
     lam_h *= _availability_modifier(home)
     lam_a *= _availability_modifier(away)
@@ -108,6 +118,10 @@ def _compute_xg_lambdas(home: TeamData, away: TeamData) -> tuple[float, float]:
     # Coach quality
     lam_h *= _coach_modifier(home)
     lam_a *= _coach_modifier(away)
+
+    # xThreat proxy: chance quality multiplier (0.85–1.15)
+    lam_h *= xt_multiplier(home)
+    lam_a *= xt_multiplier(away)
 
     # Tactical matchup (set pieces + press vs PPDA)
     tac_h, tac_a = _tactical_modifier(home, away)

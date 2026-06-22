@@ -16,7 +16,7 @@ MODEL_WEIGHTS = {
 }
 
 # ── Monte Carlo ───────────────────────────────────────────────────────────────
-MONTE_CARLO_SIMULATIONS = 500_000
+MONTE_CARLO_SIMULATIONS = 750_000
 
 # ── ELO ───────────────────────────────────────────────────────────────────────
 ELO_HOME_ADVANTAGE = 100        # ELO points added for true home team

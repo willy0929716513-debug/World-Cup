@@ -361,6 +361,15 @@
       "group": "H",
       "played": true,
       "date": "2026-06-21"
+    },
+    {
+      "t1": "ARG",
+      "t2": "AUT",
+      "score1": 2,
+      "score2": 0,
+      "group": "J",
+      "played": true,
+      "date": "2026-06-22"
     }
   ]
 }

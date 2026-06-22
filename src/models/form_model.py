@@ -6,6 +6,7 @@ returns a lambda multiplier per team based on:
   - Points per game (W=3, D=1, L=0), normalised to [0, 1]
   - Goal difference per game
   - Momentum: recent 2 games weighted 1.5× vs earlier games
+  - Opponent ELO weighting: results vs stronger opponents weighted higher
 
 Range: 0.85 – 1.15 (1.0 = neutral / no data)
 """
@@ -19,12 +20,30 @@ _FORM_CACHE: dict[str, float] | None = None
 _RESULTS_PATH = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "../../docs/data/results.json")
 )
+_TEAMS_PATH = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "../../data/teams.json")
+)
+
+
+def _load_elo_lookup() -> dict[str, float]:
+    """Load ELO ratings from teams.json as a code → elo_rating dict."""
+    if not os.path.exists(_TEAMS_PATH):
+        return {}
+    try:
+        with open(_TEAMS_PATH, "r", encoding="utf-8") as f:
+            raw = json.load(f)
+        return {code: float(data.get("elo_rating", 1800)) for code, data in raw.items()}
+    except Exception:
+        return {}
 
 
 def _compute_form_cache() -> dict[str, float]:
     """
     Parse docs/data/results.json and compute a form multiplier for each team
     that has played at least one WC2026 match.
+
+    Each match contribution is weighted by opponent ELO / 1800 so that
+    results against stronger opponents carry more weight.
     """
     if not os.path.exists(_RESULTS_PATH):
         return {}
@@ -36,9 +55,12 @@ def _compute_form_cache() -> dict[str, float]:
     if not matches:
         return {}
 
+    # Load ELO lookup for opponent weighting
+    elo_lookup = _load_elo_lookup()
+
     # Collect per-team match records in chronological order
-    # Each entry: (goals_for, goals_against, date)
-    team_records: dict[str, list[tuple[int, int, str]]] = {}
+    # Each entry: (goals_for, goals_against, date, opponent_code)
+    team_records: dict[str, list[tuple[int, int, str, str]]] = {}
     for m in matches:
         if not m.get("played", True):
             continue
@@ -49,9 +71,9 @@ def _compute_form_cache() -> dict[str, float]:
         date = m.get("date", "2026-01-01")
 
         if t1:
-            team_records.setdefault(t1, []).append((s1, s2, date))
+            team_records.setdefault(t1, []).append((s1, s2, date, t2))
         if t2:
-            team_records.setdefault(t2, []).append((s2, s1, date))
+            team_records.setdefault(t2, []).append((s2, s1, date, t1))
 
     form_scores: dict[str, float] = {}
 
@@ -65,7 +87,8 @@ def _compute_form_cache() -> dict[str, float]:
         # Points: W=3, D=1, L=0
         pts = []
         gd = []
-        for gf, ga, _ in records:
+        opp_elo_weights = []
+        for gf, ga, _, opp_code in records:
             if gf > ga:
                 pts.append(3)
             elif gf == ga:
@@ -73,11 +96,17 @@ def _compute_form_cache() -> dict[str, float]:
             else:
                 pts.append(0)
             gd.append(gf - ga)
+            # Opponent ELO weight: default 1800 if not found → weight 1.0
+            opp_elo = elo_lookup.get(opp_code, 1800)
+            opp_elo_weights.append(opp_elo / 1800.0)
 
         # Momentum weighting: last 2 games get 1.5× weight
-        weights = [1.0] * n
+        momentum_weights = [1.0] * n
         for i in range(max(0, n - 2), n):
-            weights[i] = 1.5
+            momentum_weights[i] = 1.5
+
+        # Combined weight: momentum × opponent ELO strength
+        weights = [m * e for m, e in zip(momentum_weights, opp_elo_weights)]
 
         total_w = sum(weights)
         weighted_pts = sum(w * p for w, p in zip(weights, pts))

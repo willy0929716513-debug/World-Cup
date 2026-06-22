@@ -17,11 +17,24 @@ Optional: altitude_m (metres above sea level) applies a small goal-rate
 multiplier based on historical World Cup data (~+9% at Mexico City 2240m).
 """
 from __future__ import annotations
+import json
+import os
 import numpy as np
 from config.settings import MODEL_WEIGHTS, MONTE_CARLO_SIMULATIONS, MAX_GOALS_MATRIX, GROUP_STAGE_DRAW_BOOST
 from src.data.structures import TeamData, ModelResult, EnsembleResult, MarketData
 
 from . import elo, poisson, dixon_coles, xg_model, market, monte_carlo, lgbm_model, form_model, calibration
+
+# ── H2H bias cache (loaded once at module import) ───────────────────────────
+_H2H_BIAS: dict = {}
+try:
+    _h2h_path = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "../../data/h2h_bias.json")
+    )
+    with open(_h2h_path, "r", encoding="utf-8") as _f:
+        _H2H_BIAS = {k: v for k, v in json.load(_f).items() if not k.startswith("_")}
+except Exception:
+    pass
 
 
 def run(
@@ -114,6 +127,16 @@ def run(
 
     total  = p_home + p_draw + p_away
     p_home /= total; p_draw /= total; p_away /= total
+
+    # ── H2H historical bias (small adjustment for key rivalries) ─────────────
+    h2h_key = f"{home.code}_vs_{away.code}"
+    if h2h_key in _H2H_BIAS:
+        bias = _H2H_BIAS[h2h_key]
+        p_home = max(0.04, p_home + bias.get("h", 0))
+        p_draw = max(0.04, p_draw + bias.get("d", 0))
+        p_away = max(0.04, p_away + bias.get("a", 0))
+        total = p_home + p_draw + p_away
+        p_home /= total; p_draw /= total; p_away /= total
 
     # ── Probability calibration (final step) ────────────────────────────────
     p_home, p_draw, p_away = calibration.calibrate(p_home, p_draw, p_away)

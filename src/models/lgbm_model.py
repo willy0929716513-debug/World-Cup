@@ -5,13 +5,19 @@ Despite the filename (kept for historical reasons), this uses scikit-learn's
 LogisticRegression which is more stable than LightGBM on small datasets and
 requires no extra binary dependency.
 
-Features computed from two TeamData objects:
-  elo_diff       : home.elo - away.elo
-  spi_diff       : home.spi - away.spi
-  xg_diff        : home.attack.xg_per_game - away.attack.xg_per_game
-  xga_diff       : home.defense.xga_per_game - away.defense.xga_per_game
-  ppda_ratio     : away.ppda / home.ppda  (>1 = home presses harder)
-  field_tilt_diff: home.field_tilt - away.field_tilt
+Features computed from two TeamData objects (12 total):
+  elo_diff                  : home.elo - away.elo
+  spi_diff                  : home.spi - away.spi
+  xg_diff                   : home.attack.xg_per_game - away.attack.xg_per_game
+  xga_diff                  : home.defense.xga_per_game - away.defense.xga_per_game
+  ppda_ratio                : away.ppda / home.ppda  (>1 = home presses harder)
+  field_tilt_diff           : home.field_tilt - away.field_tilt
+  coach_rating_diff         : home.coach_rating - away.coach_rating
+  squad_depth_diff          : home.squad_depth - away.squad_depth
+  gk_quality_diff           : home.defense.gk_psxg_ga - away.defense.gk_psxg_ga
+  set_piece_diff            : home.tactics.set_piece_quality - away.tactics.set_piece_quality
+  shots_in_box_diff         : home.attack.shots_in_box_per_game - away.attack.shots_in_box_per_game
+  goal_creating_actions_diff: home.advanced.goal_creating_actions - away.advanced.goal_creating_actions
 
 Trained coefficients are stored in data/ml_coefficients.json.
 If that file does not exist (first CI run), falls back to a statistical
@@ -57,7 +63,7 @@ def reset_cache() -> None:
 
 
 def _extract_features(home: TeamData, away: TeamData) -> np.ndarray:
-    """Return a (1, 6) feature array for the given matchup."""
+    """Return a (1, 12) feature array for the given matchup."""
     elo_diff = home.elo_rating - away.elo_rating
     spi_diff = home.spi_rating - away.spi_rating
     xg_diff = home.attack.xg_per_game - away.attack.xg_per_game
@@ -66,8 +72,17 @@ def _extract_features(home: TeamData, away: TeamData) -> np.ndarray:
     away_ppda = max(away.advanced.ppda, 0.1)
     ppda_ratio = away_ppda / home_ppda
     field_tilt_diff = home.advanced.field_tilt - away.advanced.field_tilt
-    return np.array([elo_diff, spi_diff, xg_diff, xga_diff, ppda_ratio, field_tilt_diff],
-                    dtype=float)
+    coach_rating_diff = home.coach_rating - away.coach_rating
+    squad_depth_diff = home.squad_depth - away.squad_depth
+    gk_quality_diff = home.defense.gk_psxg_ga - away.defense.gk_psxg_ga
+    set_piece_diff = home.tactics.set_piece_quality - away.tactics.set_piece_quality
+    shots_in_box_diff = home.attack.shots_in_box_per_game - away.attack.shots_in_box_per_game
+    goal_creating_actions_diff = home.advanced.goal_creating_actions - away.advanced.goal_creating_actions
+    return np.array([
+        elo_diff, spi_diff, xg_diff, xga_diff, ppda_ratio, field_tilt_diff,
+        coach_rating_diff, squad_depth_diff, gk_quality_diff, set_piece_diff,
+        shots_in_box_diff, goal_creating_actions_diff,
+    ], dtype=float)
 
 
 def _softmax(x: np.ndarray) -> np.ndarray:

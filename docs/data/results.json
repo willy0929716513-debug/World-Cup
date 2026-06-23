@@ -388,6 +388,15 @@
       "group": "J",
       "played": true,
       "date": "2026-06-22"
+    },
+    {
+      "t1": "JOR",
+      "t2": "ALG",
+      "score1": 1,
+      "score2": 2,
+      "group": "J",
+      "played": true,
+      "date": "2026-06-22"
     }
   ]
 }

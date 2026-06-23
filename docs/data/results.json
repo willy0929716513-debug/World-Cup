@@ -1,6 +1,6 @@
 {
   "note": "實際比賽結果 — 自動更新 (GitHub Actions)",
-  "updated": "2026-06-22",
+  "updated": "2026-06-23",
   "matches": [
     {
       "t1": "MEX",
@@ -361,6 +361,24 @@
       "group": "H",
       "played": true,
       "date": "2026-06-21"
+    },
+    {
+      "t1": "FRA",
+      "t2": "IRQ",
+      "score1": 3,
+      "score2": 0,
+      "group": "I",
+      "played": true,
+      "date": "2026-06-22"
+    },
+    {
+      "t1": "NOR",
+      "t2": "SEN",
+      "score1": 3,
+      "score2": 2,
+      "group": "I",
+      "played": true,
+      "date": "2026-06-22"
     },
     {
       "t1": "ARG",

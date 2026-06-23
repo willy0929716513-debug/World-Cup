@@ -397,6 +397,15 @@
       "group": "J",
       "played": true,
       "date": "2026-06-22"
+    },
+    {
+      "t1": "POR",
+      "t2": "UZB",
+      "score1": 5,
+      "score2": 0,
+      "group": "K",
+      "played": true,
+      "date": "2026-06-23"
     }
   ]
 }

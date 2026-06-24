@@ -433,6 +433,24 @@
       "group": "L",
       "played": true,
       "date": "2026-06-23"
+    },
+    {
+      "t1": "BIH",
+      "t2": "QAT",
+      "score1": 3,
+      "score2": 1,
+      "group": "B",
+      "played": true,
+      "date": "2026-06-24"
+    },
+    {
+      "t1": "SUI",
+      "t2": "CAN",
+      "score1": 2,
+      "score2": 1,
+      "group": "B",
+      "played": true,
+      "date": "2026-06-24"
     }
   ]
 }

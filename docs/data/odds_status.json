@@ -1,9 +1,9 @@
 {
   "ok": true,
-  "fetched_at": "2026-06-23T09:00:05Z",
+  "fetched_at": "2026-06-24T08:54:00Z",
   "source": "the-odds-api",
-  "matches_updated": 28,
-  "total_events": 28,
+  "matches_updated": 24,
+  "total_events": 24,
   "errors": [],
   "error_msg": ""
 }

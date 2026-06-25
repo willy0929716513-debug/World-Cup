@@ -435,6 +435,24 @@
       "date": "2026-06-23"
     },
     {
+      "t1": "CZE",
+      "t2": "MEX",
+      "score1": 0,
+      "score2": 3,
+      "group": "A",
+      "played": true,
+      "date": "2026-06-24"
+    },
+    {
+      "t1": "RSA",
+      "t2": "KOR",
+      "score1": 1,
+      "score2": 0,
+      "group": "A",
+      "played": true,
+      "date": "2026-06-24"
+    },
+    {
       "t1": "BIH",
       "t2": "QAT",
       "score1": 3,

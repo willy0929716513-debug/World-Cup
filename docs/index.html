@@ -261,6 +261,7 @@ footer a{color:var(--gold);text-decoration:none}
 @media(max-width:600px){
   #nav{padding-left:1rem;padding-right:1rem;gap:.5rem}
   #nav .na:not(.gold){display:none}
+  #nav .nd-hamburger{display:flex}
   #hero{padding:calc(68px + env(safe-area-inset-top)) 1.2rem 2rem}
   h1.ht{font-size:2.6rem}
   .trow{grid-template-columns:1fr}
@@ -291,13 +292,13 @@ footer a{color:var(--gold);text-decoration:none}
 
 <!-- NAV -->
 <nav id="nav">
+  <button class="nd-hamburger" onclick="ndOpen()" aria-label="選單">☰</button>
   <span class="nl">WC2026</span>
   <span class="nai">AI</span>
   <span class="nsp"></span>
   <div class="nlv"><div class="nld"></div>LIVE</div>
   <a href="groups.html" class="na">小組賽</a>
   <a href="bracket.html" class="na gold">淘汰賽 ★</a>
-  <a href="accuracy.html" class="na">準確度</a>
 </nav>
 
 <!-- HERO -->
@@ -934,6 +935,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')simClose();});
   </div>
 </div>
 <script src="help.js"></script>
+<script src="js/nav-menu.js"></script>
 <script src="js/security.js"></script>
 <script>
 (function detectStage() {

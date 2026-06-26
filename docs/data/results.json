@@ -541,6 +541,24 @@
       "group": "F",
       "played": true,
       "date": "2026-06-25"
+    },
+    {
+      "t1": "NOR",
+      "t2": "FRA",
+      "score1": 1,
+      "score2": 4,
+      "group": "I",
+      "played": true,
+      "date": "2026-06-26"
+    },
+    {
+      "t1": "SEN",
+      "t2": "IRQ",
+      "score1": 5,
+      "score2": 0,
+      "group": "I",
+      "played": true,
+      "date": "2026-06-26"
     }
   ]
 }

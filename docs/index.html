@@ -274,6 +274,8 @@ footer a{color:var(--gold);text-decoration:none}
 </head>
 <body>
 
+<div id="stage-banner" style="display:none;position:relative;z-index:300;background:#0d4a25;color:#e8f5e9;text-align:center;padding:11px 1rem;font-size:1rem;font-weight:600;border-bottom:1px solid rgba(0,255,136,.2);letter-spacing:.02em;"></div>
+
 <div id="cglow"></div>
 <canvas id="pcv"></canvas>
 <div class="floods"><div class="flood fl"></div><div class="flood fr"></div></div>
@@ -933,5 +935,56 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')simClose();});
 </div>
 <script src="help.js"></script>
 <script src="js/security.js"></script>
+<script>
+(function detectStage() {
+  fetch('data/tournament.json')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var s = data.current_stage;
+      if (!s) return;
+
+      var STAGE_LABEL = {
+        group: '小組賽', r32: '32強', r16: '16強',
+        qf: '8強', sf: '4強', final: '決賽', champion: '冠軍'
+      };
+
+      var banner = document.getElementById('stage-banner');
+      if (s.stage !== 'group') {
+        if (banner) {
+          if (s.stage === 'champion') {
+            banner.innerHTML = '🏆 世界盃已結束！ — <a href="bracket.html" style="color:#ffd700;text-decoration:underline;">查看完整賽程 →</a>';
+          } else {
+            banner.innerHTML = '🏆 現在階段：<strong>' + STAGE_LABEL[s.stage] + '</strong>（' + s.played + '/' + s.total + ' 場已完成）— <a href="bracket.html" style="color:#ffd700;text-decoration:underline;">查看淘汰賽 →</a>';
+          }
+          banner.style.display = 'block';
+        }
+
+        // Auto-redirect to bracket unless user explicitly stayed on index
+        if (!sessionStorage.getItem('stayOnIndex')) {
+          var count = 3;
+          if (banner) {
+            var baseHTML = banner.innerHTML;
+            var countSpan = document.createElement('span');
+            countSpan.style.cssText = 'margin-left:.6rem;font-size:.85rem;opacity:.7';
+            countSpan.textContent = '（' + count + ' 秒後自動跳轉…）';
+            banner.appendChild(countSpan);
+            var iv = setInterval(function() {
+              count--;
+              if (count <= 0) {
+                clearInterval(iv);
+                window.location.href = 'bracket.html';
+              } else {
+                countSpan.textContent = '（' + count + ' 秒後自動跳轉…）';
+              }
+            }, 1000);
+          } else {
+            setTimeout(function() { window.location.href = 'bracket.html'; }, 3000);
+          }
+        }
+      }
+    })
+    .catch(function() {}); // Silently fail if no data
+})();
+</script>
 </body>
 </html>

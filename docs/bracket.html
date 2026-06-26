@@ -168,6 +168,7 @@ footer a{color:var(--c);text-decoration:none}
 </style>
 </head>
 <body>
+<div id="stage-indicator" style="display:none;background:#0a2a4a;color:#9ed8f5;text-align:center;padding:8px 1rem;font-size:.88rem;font-weight:500;border-bottom:1px solid rgba(0,229,255,.15);position:relative;z-index:200;"></div>
 <div class="floods"><div class="flood fl"></div><div class="flood fr"></div></div>
 
 <div id="loading">
@@ -398,5 +399,29 @@ fetch('data/tournament.json')
 </script>
 <script src="help.js"></script>
 <script src="js/security.js"></script>
+<script>
+// Mark that the user has been on bracket — if they press Back to index, don't re-redirect
+sessionStorage.setItem('stayOnIndex', '1');
+
+var STAGE_LABEL = {
+  group: '小組賽', r32: '32強', r16: '16強',
+  qf: '8強', sf: '4強', final: '決賽', champion: '冠軍'
+};
+
+fetch('data/tournament.json').then(function(r){return r.json();}).then(function(d){
+  var s = d.current_stage;
+  if (!s) return;
+  var el = document.getElementById('stage-indicator');
+  if (!el) return;
+  el.style.display = 'block';
+  if (s.stage === 'group') {
+    el.textContent = '⚽ 小組賽進行中（' + s.played + '/' + s.total + ' 場已完成）— 淘汰賽預測僅供參考';
+  } else if (s.stage === 'champion') {
+    el.textContent = '🏆 世界盃已落幕 — 感謝收看！';
+  } else {
+    el.textContent = '🏆 現在階段：' + STAGE_LABEL[s.stage] + '（' + s.played + '/' + s.total + ' 場已完成）';
+  }
+}).catch(function(){});
+</script>
 </body>
 </html>

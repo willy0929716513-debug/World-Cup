@@ -420,6 +420,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 </style>
 </head>
 <body>
+<div id="stage-indicator" style="display:none;background:#0a3d1e;color:#9ef5a0;text-align:center;padding:8px 1rem;font-size:.88rem;font-weight:500;border-bottom:1px solid rgba(0,230,118,.18);position:relative;z-index:200;"></div>
 <div class="floodlights"><div class="flood flood-l"></div><div class="flood flood-r"></div></div>
 <div class="pitch-circle"></div>
 
@@ -880,5 +881,23 @@ function injectActualResults() {
 </script>
 <script src="help.js"></script>
 <script src="js/security.js"></script>
+<script>
+fetch('data/tournament.json').then(function(r){return r.json();}).then(function(d){
+  var s = d.current_stage;
+  if (!s) return;
+  var el = document.getElementById('stage-indicator');
+  if (!el) return;
+  el.style.display = 'block';
+  if (s.stage === 'group') {
+    el.textContent = '⚽ 小組賽進行中：' + s.played + '/' + s.total + ' 場已完成';
+  } else if (s.stage === 'champion') {
+    el.innerHTML = '✅ 小組賽已結束 — 世界盃已落幕 <a href="bracket.html" style="color:#ffd700;text-decoration:underline;">查看完整賽程 →</a>';
+  } else {
+    el.innerHTML = '✅ 小組賽已結束 — 現在是 <a href="bracket.html" style="color:#ffd700;text-decoration:underline;">淘汰賽階段</a>';
+    // Also set stayOnIndex so back-navigation from bracket won't immediately re-redirect
+    sessionStorage.setItem('stayOnIndex', '1');
+  }
+}).catch(function(){});
+</script>
 </body>
 </html>

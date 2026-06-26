@@ -332,6 +332,24 @@ def _confidence(p_home, p_draw, p_away):
     return 4, "低信心"
 
 
+def _get_current_stage(results: list) -> dict:
+    """Detect current tournament stage from results.json data."""
+    GROUP_TOTAL = 72  # 12 groups × 6 matches per group
+
+    group_played = sum(1 for m in results if m.get('played') and m.get('group'))
+
+    if group_played < GROUP_TOTAL:
+        return {"stage": "group", "played": group_played, "total": GROUP_TOTAL}
+
+    # Group stage complete — check knockout rounds
+    for rnd, total in [("r32", 16), ("r16", 8), ("qf", 4), ("sf", 2), ("final", 1)]:
+        played = sum(1 for m in results if m.get('played') and m.get('round') == rnd)
+        if played < total:
+            return {"stage": rnd, "played": played, "total": total}
+
+    return {"stage": "champion", "played": 31, "total": 31}
+
+
 # ── 1. Tournament simulation ───────────────────────────────────────────────────
 
 print("▶ Running tournament simulation (n=10000)…")
@@ -363,6 +381,14 @@ for grp in GROUP_LIST:
                        "p_home": 0, "p_draw": 0, "p_away": 0})
     group_matches[grp] = ms
 
+# Load results.json to detect current tournament stage
+_results_path = ROOT / 'docs' / 'data' / 'results.json'
+try:
+    with open(_results_path, encoding='utf-8') as _f:
+        _results_data = json.load(_f).get('matches', [])
+except Exception:
+    _results_data = []
+
 tournament_doc = {
     "generated_at":             NOW,
     "n_sim":                    10_000,
@@ -374,6 +400,7 @@ tournament_doc = {
     "team_names":               TEAM_NAMES,
     "confederations":           CONFEDERATIONS,
     "groups":                   GROUPS,
+    "current_stage":            _get_current_stage(_results_data),
 }
 
 with open(DOCS_DATA / "tournament.json", "w", encoding="utf-8") as f:

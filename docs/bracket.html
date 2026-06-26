@@ -177,7 +177,7 @@ footer a{color:var(--c);text-decoration:none}
 </div>
 
 <nav>
-  <a href="index.html" class="na">← 首頁</a>
+  <button class="nd-hamburger" onclick="ndOpen()" aria-label="選單">☰</button>
   <span class="nl">WC2026</span>
   <span class="nsp"></span>
   <a href="groups.html" class="na">小組賽</a>
@@ -247,27 +247,44 @@ function cc(c){return CC[c]||CC.INT}
 function tvc(v){return v>=40?'hi':v>=15?'md':v>0?'lo':'z'}
 function vcell(v,ch){return v>0?`<span class="tv ${ch?'ch':tvc(v)}">${v.toFixed(1)}%</span>`:`<span class="tv z">—</span>`}
 
+// Actual knockout results lookup: "T1_T2" -> {s1,s2}
+var KRES = {};
+
 function buildMatch(m,isFin){
   const p1=parseFloat(m.p1)||50,p2=+(100-p1).toFixed(1);
   const el=document.createElement('div');
   el.className='bm'+(isFin?' fin-m':'');
+  // Check for actual result
+  const rk=KRES[m.team1+'_'+m.team2]||KRES[m.team2+'_'+m.team1];
+  const winner=rk?(rk.s1>rk.s2?m.team1:(rk.s2>rk.s1?m.team2:'draw')):null;
+  const scoreStr=rk?`<div class="bsc" style="color:var(--g);font-weight:700">✅ ${rk.s1} – ${rk.s2}</div>`
+    :(m.score?`<div class="bsc">預測 ${m.score}</div>`:'');
   el.innerHTML=`
-    <div class="brow${p1>=50?' fav':''}">
-      <span class="bcd">${FL[m.team1]||''} ${m.team1}</span>
+    <div class="brow${p1>=50&&!winner?' fav':''}${winner===m.team1?' fav':''}">
+      <span class="bcd">${FL[m.team1]||''} ${m.team1}${winner===m.team1?' ✓':''}</span>
       <span class="bpb">${p1.toFixed(0)}%</span>
     </div>
-    <div class="brow${p2>p1?' fav':''}">
-      <span class="bcd">${FL[m.team2]||''} ${m.team2}</span>
+    <div class="brow${p2>p1&&!winner?' fav':''}${winner===m.team2?' fav':''}">
+      <span class="bcd">${FL[m.team2]||''} ${m.team2}${winner===m.team2?' ✓':''}</span>
       <span class="bpb">${p2.toFixed(0)}%</span>
     </div>
-    ${m.score?`<div class="bsc">預測 ${m.score}</div>`:''}
+    ${scoreStr}
     ${isFin?'<div class="btroph">🏆</div>':''}`;
   return el;
 }
 
-fetch('data/tournament.json')
-  .then(r=>{if(!r.ok)throw new Error(r.status);return r.json()})
-  .then(d=>{
+Promise.all([
+  fetch('data/tournament.json').then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}),
+  fetch('data/results.json').then(r=>r.ok?r.json():{matches:[]}).catch(()=>({matches:[]}))
+])
+  .then(([d,res])=>{
+    // Build knockout results lookup
+    (res.matches||[]).forEach(m=>{
+      if(m.played&&m.round){
+        KRES[m.t1+'_'+m.t2]={s1:m.score1,s2:m.score2};
+        KRES[m.t2+'_'+m.t1]={s1:m.score2,s2:m.score1};
+      }
+    });
     document.getElementById('loading').classList.add('gone');
     document.getElementById('main').style.display='block';
 
@@ -398,6 +415,7 @@ fetch('data/tournament.json')
   });
 </script>
 <script src="help.js"></script>
+<script src="js/nav-menu.js"></script>
 <script src="js/security.js"></script>
 <script>
 // Mark that the user has been on bracket — if they press Back to index, don't re-redirect

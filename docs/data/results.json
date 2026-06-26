@@ -489,6 +489,24 @@
       "date": "2026-06-24"
     },
     {
+      "t1": "PAR",
+      "t2": "AUS",
+      "score1": 0,
+      "score2": 0,
+      "group": "D",
+      "played": true,
+      "date": "2026-06-25"
+    },
+    {
+      "t1": "TUR",
+      "t2": "USA",
+      "score1": 3,
+      "score2": 2,
+      "group": "D",
+      "played": true,
+      "date": "2026-06-25"
+    },
+    {
       "t1": "CUW",
       "t2": "CIV",
       "score1": 0,

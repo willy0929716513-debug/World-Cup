@@ -543,6 +543,24 @@
       "date": "2026-06-25"
     },
     {
+      "t1": "EGY",
+      "t2": "IRN",
+      "score1": 1,
+      "score2": 1,
+      "group": "G",
+      "played": true,
+      "date": "2026-06-26"
+    },
+    {
+      "t1": "NZL",
+      "t2": "BEL",
+      "score1": 1,
+      "score2": 5,
+      "group": "G",
+      "played": true,
+      "date": "2026-06-26"
+    },
+    {
       "t1": "CPV",
       "t2": "KSA",
       "score1": 0,

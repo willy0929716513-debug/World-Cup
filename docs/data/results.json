@@ -1,6 +1,6 @@
 {
   "note": "實際比賽結果 — 自動更新 (GitHub Actions)",
-  "updated": "2026-06-26",
+  "updated": "2026-06-27",
   "matches": [
     {
       "t1": "MEX",
@@ -541,6 +541,24 @@
       "group": "F",
       "played": true,
       "date": "2026-06-25"
+    },
+    {
+      "t1": "CPV",
+      "t2": "KSA",
+      "score1": 0,
+      "score2": 0,
+      "group": "H",
+      "played": true,
+      "date": "2026-06-26"
+    },
+    {
+      "t1": "URU",
+      "t2": "ESP",
+      "score1": 0,
+      "score2": 1,
+      "group": "H",
+      "played": true,
+      "date": "2026-06-26"
     },
     {
       "t1": "NOR",

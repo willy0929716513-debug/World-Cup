@@ -275,7 +275,7 @@ footer a{color:var(--gold);text-decoration:none}
 </head>
 <body>
 
-<div id="stage-banner" style="display:none;position:relative;z-index:300;background:#0d4a25;color:#e8f5e9;text-align:center;padding:11px 1rem;font-size:1rem;font-weight:600;border-bottom:1px solid rgba(0,255,136,.2);letter-spacing:.02em;"></div>
+<div id="stage-banner" style="display:none;position:relative;z-index:300;background:#0d4a25;color:#e8f5e9;text-align:center;padding:11px 1rem;padding-top:max(11px,env(safe-area-inset-top));font-size:.85rem;font-weight:600;border-bottom:1px solid rgba(0,255,136,.2);letter-spacing:.02em;"></div>
 
 <div id="cglow"></div>
 <canvas id="pcv"></canvas>
@@ -580,6 +580,23 @@ const SCHEDULE=[
   {d:'2026-06-27',t:'23:30',g:'K',t1:'COD',t2:'UZB',v:'AKR'},
   {d:'2026-06-28',t:'02:00',g:'J',t1:'JOR',t2:'ARG',v:'AKR'},
   {d:'2026-06-28',t:'02:00',g:'J',t1:'ALG',t2:'AUT',v:'AZT'},
+  // ── Round of 32 (AI predicted bracket, approximate UTC kickoff times) ────
+  {d:'2026-06-28',t:'17:00',r:'r32',t1:'ARG',t2:'RSA'},
+  {d:'2026-06-28',t:'20:00',r:'r32',t1:'FRA',t2:'ECU'},
+  {d:'2026-06-29',t:'00:00',r:'r32',t1:'MEX',t2:'BIH'},
+  {d:'2026-06-29',t:'03:00',r:'r32',t1:'MAR',t2:'CAN'},
+  {d:'2026-06-29',t:'17:00',r:'r32',t1:'BRA',t2:'COD'},
+  {d:'2026-06-29',t:'20:00',r:'r32',t1:'NED',t2:'IRN'},
+  {d:'2026-06-30',t:'00:00',r:'r32',t1:'COL',t2:'PAR'},
+  {d:'2026-06-30',t:'03:00',r:'r32',t1:'ENG',t2:'CPV'},
+  {d:'2026-06-30',t:'17:00',r:'r32',t1:'NOR',t2:'AUS'},
+  {d:'2026-06-30',t:'20:00',r:'r32',t1:'SUI',t2:'ALG'},
+  {d:'2026-07-01',t:'00:00',r:'r32',t1:'ESP',t2:'CRO'},
+  {d:'2026-07-01',t:'03:00',r:'r32',t1:'JPN',t2:'SWE'},
+  {d:'2026-07-01',t:'17:00',r:'r32',t1:'GHA',t2:'CIV'},
+  {d:'2026-07-01',t:'20:00',r:'r32',t1:'USA',t2:'AUT'},
+  {d:'2026-07-02',t:'00:00',r:'r32',t1:'EGY',t2:'BEL'},
+  {d:'2026-07-02',t:'03:00',r:'r32',t1:'GER',t2:'POR'},
 ];
 
 /* Countdown */
@@ -587,6 +604,8 @@ function cdTick(){
   const now=new Date();
   const next=SCHEDULE.find(s=>new Date(s.d+'T'+s.t+':00Z')>now);
   if(!next){
+    const nm=document.getElementById('nmatch');
+    if(nm)nm.innerHTML='<span style="color:var(--gold);font-size:.78rem">🏆 淘汰賽進行中</span>';
     ['cdh','cdm','cds'].forEach(id=>document.getElementById(id).textContent='--');
     return;
   }
@@ -596,7 +615,8 @@ function cdTick(){
   document.getElementById('cdm').textContent=Math.floor((diff%3600000)/60000).toString().padStart(2,'0');
   document.getElementById('cds').textContent=Math.floor((diff%60000)/1000).toString().padStart(2,'0');
   const nm=document.getElementById('nmatch');
-  if(nm)nm.innerHTML=`${FLAGS[next.t1]||''} ${next.t1} <span style="color:var(--gold)">vs</span> ${next.t2} ${FLAGS[next.t2]||''}&nbsp;<span style="color:var(--dim2);font-size:.58rem;font-weight:400">Group ${next.g} · ${next.t} UTC</span>`;
+  const stageLabel=next.r?next.r.toUpperCase():`Group ${next.g}`;
+  if(nm)nm.innerHTML=`${FLAGS[next.t1]||''} ${next.t1} <span style="color:var(--gold)">vs</span> ${next.t2} ${FLAGS[next.t2]||''}&nbsp;<span style="color:var(--dim2);font-size:.58rem;font-weight:400">${stageLabel} · ${next.t} UTC</span>`;
 }
 setInterval(cdTick,1000);cdTick();
 
@@ -621,20 +641,30 @@ Promise.all([
   fetch('data/tournament.json').then(r=>r.json()),
   fetch('data/results.json').then(r=>r.ok?r.json():{matches:[]}).catch(()=>({matches:[]}))
 ]).then(([data,res])=>{
-  const{group_matches,team_names,groups,n_sim}=data;
+  const{group_matches,team_names,groups,n_sim,expected_bracket}=data;
   if(n_sim) document.getElementById('snsim').textContent=n_sim>=1000?Math.round(n_sim/1000)+'K':n_sim.toLocaleString();
   const RES={};
   (res.matches||[]).forEach(m=>{if(m.played){RES[`${m.t1}_${m.t2}`]={s1:m.score1,s2:m.score2};RES[`${m.t2}_${m.t1}`]={s1:m.score2,s2:m.score1}}});
 
-  // Build probability lookup from tournament data
+  // Build probability lookup from group stage data
   const matchData={};
   Object.entries(group_matches).forEach(([g,ms])=>ms.forEach(m=>{matchData[`${m.t1}_${m.t2}`]={...m,group:g}}));
+
+  // Build R32 lookup from expected bracket
+  const r32Data={};
+  ((expected_bracket||{}).r32||[]).forEach(m=>{
+    const p1=m.p1||50,p2=100-p1;
+    const parts=(m.score||'1-1').split('-').map(Number);
+    const xh=parts[0]||1,xa=parts[1]||1;
+    r32Data[`${m.team1}_${m.team2}`]={p_home:p1,p_draw:0,p_away:p2,xg_home:xh,xg_away:xa};
+    r32Data[`${m.team2}_${m.team1}`]={p_home:p2,p_draw:0,p_away:p1,xg_home:xa,xg_away:xh};
+  });
 
   const now2=new Date();
   const todayStr=now2.toISOString().split('T')[0];
   const SIM_DATA={};
 
-  // Only show upcoming matches (today's remaining + future days) — no completed matches
+  // Show upcoming group stage matches OR upcoming R32 matches (up to 5)
   const todayUpcoming=SCHEDULE.filter(s=>s.d===todayStr&&new Date(s.d+'T'+s.t+':00Z')>now2);
   const futureUpcoming=SCHEDULE.filter(s=>s.d>todayStr);
   const showList=[...todayUpcoming,...futureUpcoming].slice(0,5);
@@ -642,22 +672,28 @@ Promise.all([
   const scroll=document.getElementById('mscroll');
   showList.forEach(sc=>{
     const key=`${sc.t1}_${sc.t2}`;
-    const md=matchData[key]||matchData[`${sc.t2}_${sc.t1}`];
+    const isKO=!!sc.r;
+    const md=isKO?(r32Data[key]||r32Data[`${sc.t2}_${sc.t1}`]):(matchData[key]||matchData[`${sc.t2}_${sc.t1}`]);
     if(!md)return;
-    const swapped=!matchData[key];
+    const swapped=isKO?!!r32Data[`${sc.t2}_${sc.t1}`]&&!r32Data[key]:!matchData[key];
     const t1=sc.t1,t2=sc.t2;
     const n1=team_names[t1]||t1,n2=team_names[t2]||t2;
     const f1=FLAGS[t1]||'🏳',f2=FLAGS[t2]||'🏳';
-    const ph=swapped?(md.p_away||0).toFixed(0):(md.p_home||0).toFixed(0);
+    const ph=(swapped?(md.p_away||0):(md.p_home||0)).toFixed(0);
     const pd=(md.p_draw||0).toFixed(0);
-    const pa=swapped?(md.p_home||0).toFixed(0):(md.p_away||0).toFixed(0);
-    const xh=swapped?(md.xg_away!=null?md.xg_away.toFixed(1):'-'):(md.xg_home!=null?md.xg_home.toFixed(1):'-');
-    const xa=swapped?(md.xg_home!=null?md.xg_home.toFixed(1):'-'):(md.xg_away!=null?md.xg_away.toFixed(1):'-');
+    const pa=(swapped?(md.p_home||0):(md.p_away||0)).toFixed(0);
+    const xhRaw=swapped?md.xg_away:md.xg_home;
+    const xaRaw=swapped?md.xg_home:md.xg_away;
+    const xh=xhRaw!=null?xhRaw.toFixed(isKO?0:1):'-';
+    const xa=xaRaw!=null?xaRaw.toFixed(isKO?0:1):'-';
     const r=RES[key];
     const mt=new Date(sc.d+'T'+sc.t+':00Z');
     const isPast=mt<=now2;
     const isToday=sc.d===todayStr;
     const timeLabel=sc.t+' UTC';
+    const stageBadge=isKO
+      ?`<span class="mcgb" style="color:var(--gold);background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.25)">🏆 R32</span>`
+      :`<span class="mcgb">GROUP ${sc.g}</span>`;
     let statusHTML;
     if(r){statusHTML='<span class="mcst">✓ FINAL</span>'}
     else if(isPast){statusHTML='<span class="mcst">已結束</span>'}
@@ -669,9 +705,9 @@ Promise.all([
     card.dataset.t1=t1;card.dataset.t2=t2;
     const predH=Math.floor(parseFloat(xh)||0),predA=Math.floor(parseFloat(xa)||0);
     const oddsSlot=r?'':`<div class="mc-odds" id="mco-${t1}-${t2}" style="display:none"><span class="mc-odds-lbl">市場賠率</span><span class="mc-odds-h" id="mco-h-${t1}-${t2}">H -</span><span class="mc-odds-sep">·</span><span class="mc-odds-x" id="mco-x-${t1}-${t2}">X -</span><span class="mc-odds-sep">·</span><span class="mc-odds-a" id="mco-a-${t1}-${t2}">A -</span></div>`;
-    if(!r){SIM_DATA[`${t1}_${t2}`]={t1,t2,predH,predA,n1,n2,f1,f2,ph,pd,pa,g:sc.g,v:sc.v};}
+    if(!r){SIM_DATA[`${t1}_${t2}`]={t1,t2,predH,predA,n1,n2,f1,f2,ph,pd,pa,g:sc.g||'R32',v:sc.v};}
     const simSlot=r?'':`<div class="mc-sim" onclick="event.preventDefault();event.stopPropagation();_doSim('${t1}','${t2}')"><span class="mc-sim-ico">🎲</span>即時模擬比賽</div>`;
-    card.innerHTML=`<div class="mch"><span class="mcgb">GROUP ${sc.g}</span>${statusHTML}</div><div class="mct"><div class="mctm"><span class="mcfl">${f1}</span><span class="mcco">${t1}</span><span class="mcnm">${n1}</span></div><div class="mcvs">${r?`<span class="mcfin">${r.s1} – ${r.s2}</span><span class="mcfinl">FINAL</span>`:`<span class="mcspr">${predH} – ${predA}</span><span class="mcvsl">AI 預測</span>`}</div><div class="mctm"><span class="mcfl">${f2}</span><span class="mcco">${t2}</span><span class="mcnm">${n2}</span></div></div><div class="mcpr"><span class="mcph">${ph}%</span><div class="mcpb"><div class="mph" style="width:${ph}%"></div><div class="mpd" style="width:${pd}%"></div><div class="mpa" style="width:${pa}%"></div></div><span class="mcpa">${pa}%</span></div>${oddsSlot}${simSlot}<span class="mcbtn">⚡ 完整 AI 分析 →</span>`;
+    card.innerHTML=`<div class="mch">${stageBadge}${statusHTML}</div><div class="mct"><div class="mctm"><span class="mcfl">${f1}</span><span class="mcco">${t1}</span><span class="mcnm">${n1}</span></div><div class="mcvs">${r?`<span class="mcfin">${r.s1} – ${r.s2}</span><span class="mcfinl">FINAL</span>`:`<span class="mcspr">${predH} – ${predA}</span><span class="mcvsl">AI 預測</span>`}</div><div class="mctm"><span class="mcfl">${f2}</span><span class="mcco">${t2}</span><span class="mcnm">${n2}</span></div></div><div class="mcpr"><span class="mcph">${ph}%</span><div class="mcpb"><div class="mph" style="width:${ph}%"></div><div class="mpd" style="width:${pd}%"></div><div class="mpa" style="width:${pa}%"></div></div><span class="mcpa">${pa}%</span></div>${oddsSlot}${simSlot}<span class="mcbtn">⚡ 完整 AI 分析 →</span>`;
     scroll.appendChild(card);
   });
 
@@ -976,7 +1012,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')simClose();});
           if (s.stage === 'champion') {
             banner.innerHTML = '🏆 世界盃已結束！ — <a href="bracket.html" style="color:#ffd700;text-decoration:underline;">查看完整賽程 →</a>';
           } else {
-            banner.innerHTML = '🏆 現在階段：<strong>' + STAGE_LABEL[s.stage] + '</strong>（' + s.played + '/' + s.total + ' 場已完成）— <a href="bracket.html" style="color:#ffd700;text-decoration:underline;">查看淘汰賽 →</a>';
+            banner.innerHTML = '🏆 <strong>' + STAGE_LABEL[s.stage] + '</strong>（' + s.played + '/' + s.total + ' 場）&nbsp;·&nbsp; <a href="bracket.html" style="color:#ffd700;text-decoration:underline;">查看淘汰賽 →</a>';
           }
           banner.style.display = 'block';
         }

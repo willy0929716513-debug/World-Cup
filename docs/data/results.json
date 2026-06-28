@@ -649,6 +649,15 @@
       "group": "L",
       "played": true,
       "date": "2026-06-27"
+    },
+    {
+      "t1": "RSA",
+      "t2": "CAN",
+      "score1": 0,
+      "score2": 1,
+      "round": "r32",
+      "played": true,
+      "date": "2026-06-28"
     }
   ]
 }

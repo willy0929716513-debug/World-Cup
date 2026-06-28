@@ -28,7 +28,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .error-screen a{color:var(--home);text-decoration:none}
 
 /* NAV */
-nav{position:sticky;top:0;z-index:200;background:rgba(5,8,15,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 1.5rem;height:56px;display:flex;align-items:center;gap:1rem}
+nav{position:sticky;top:0;z-index:200;background:rgba(5,8,15,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top) 1.5rem 0;height:calc(56px + env(safe-area-inset-top));display:flex;align-items:center;gap:1rem}
 .nav-logo{font-family:'Orbitron',sans-serif;font-size:.9rem;font-weight:900;background:linear-gradient(90deg,var(--home),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px}
 .nav-spacer{flex:1}
 .nav-pill{font-size:.7rem;border:1px solid var(--border);color:var(--dim);padding:.25rem .7rem;border-radius:20px}
@@ -205,7 +205,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(5,8,15,.9);backdrop-filter
 @media(max-width:900px){.charts-row{grid-template-columns:1fr 1fr}.charts-row>*:first-child{grid-column:span 2}.two-col,.three-col{grid-template-columns:1fr}.matchup{grid-template-columns:1fr auto 1fr}}
 @media(max-width:640px){.charts-row{grid-template-columns:1fr}.matchup{grid-template-columns:1fr;gap:1rem}.vs-center{order:-1}.team-code{font-size:2.2rem}.prob-pct{font-size:1.6rem}.hero{padding:1.5rem 1rem 1.5rem}.main{padding:1rem 1rem 3rem}.bet-thead{display:none}.bet-row{grid-template-columns:1.6fr auto auto auto;font-size:.76rem}.bet-row .bet-num:nth-child(3){display:none}.nav-tabs{display:none}}
 @media(max-width:480px){
-  nav{padding:0 .8rem;height:50px;gap:.4rem}
+  nav{padding:env(safe-area-inset-top) .8rem 0;height:calc(50px + env(safe-area-inset-top));gap:.4rem}
   nav .nav-link,.nav-tag{display:none}
   .team-code{font-size:1.8rem}
   .prob-pct{font-size:1.4rem}
@@ -397,7 +397,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 </div>
 
 <nav>
-  <button class="nd-hamburger" onclick="ndOpen()" aria-label="選單" style="font-size:1.2rem;padding:.3rem .4rem;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.75);border-radius:7px;flex-shrink:0;-webkit-tap-highlight-color:transparent;">☰</button>
+  <button class="nd-hamburger" onclick="ndOpen()" aria-label="選單">☰</button>
   <a href="index.html" class="nav-back">← 返回</a>
   <span class="nav-logo">WC2026</span>
   <span class="nav-spacer"></span>

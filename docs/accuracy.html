@@ -34,7 +34,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 
 nav{position:sticky;top:0;z-index:100;background:rgba(5,8,15,.92);
   backdrop-filter:blur(16px);border-bottom:1px solid var(--border);
-  padding:0 1.5rem;height:56px;display:flex;align-items:center;gap:.8rem}
+  padding:env(safe-area-inset-top) 1.5rem 0;height:calc(56px + env(safe-area-inset-top));display:flex;align-items:center;gap:.8rem}
 .nav-logo{font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:900;
   background:linear-gradient(90deg,var(--blue),var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -130,6 +130,11 @@ td{padding:.75rem .8rem;vertical-align:middle}
   color:var(--dim);padding:.8rem 1rem .3rem;max-width:1200px;margin:0 auto}
 
 .no-data{text-align:center;padding:4rem;color:var(--dim);font-size:.9rem}
+
+@media(max-width:640px){
+  nav{padding:env(safe-area-inset-top) 1rem 0;height:calc(50px + env(safe-area-inset-top));gap:.5rem}
+  nav .nav-btn:not(.active){display:none}
+}
 </style>
 </head>
 <body>

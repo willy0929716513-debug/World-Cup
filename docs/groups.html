@@ -46,7 +46,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 /* NAV */
 nav{position:sticky;top:0;z-index:100;background:rgba(5,8,15,.92);
   backdrop-filter:blur(16px);border-bottom:1px solid var(--border);
-  padding:0 1.5rem;height:56px;display:flex;align-items:center;gap:.8rem}
+  padding:env(safe-area-inset-top) 1.5rem 0;height:calc(56px + env(safe-area-inset-top));display:flex;align-items:center;gap:.8rem}
 .nav-logo{font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:900;
   background:linear-gradient(90deg,var(--blue),var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -245,7 +245,7 @@ a.nav-btn.gold:hover{background:rgba(255,215,0,.07)}
   .nav-logo{display:flex}
 }
 @media(max-width:520px){
-  nav{padding:0 .8rem;height:50px;gap:.5rem}
+  nav{padding:env(safe-area-inset-top) .8rem 0;height:calc(50px + env(safe-area-inset-top));gap:.5rem}
   .hero{padding:1.5rem 1rem 1.2rem}
   .hero-title{font-size:1.4rem}
   .hero-sub{font-size:.8rem}
@@ -420,7 +420,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 </style>
 </head>
 <body>
-<div id="stage-indicator" style="display:none;background:#0a3d1e;color:#9ef5a0;text-align:center;padding:8px 1rem;font-size:.88rem;font-weight:500;border-bottom:1px solid rgba(0,230,118,.18);position:relative;z-index:200;"></div>
+<div id="stage-indicator" style="display:none;background:#0a3d1e;color:#9ef5a0;text-align:center;padding:8px 1rem;padding-top:max(8px,env(safe-area-inset-top));font-size:.88rem;font-weight:500;border-bottom:1px solid rgba(0,230,118,.18);position:relative;z-index:200;"></div>
 <div class="floodlights"><div class="flood flood-l"></div><div class="flood flood-r"></div></div>
 <div class="pitch-circle"></div>
 

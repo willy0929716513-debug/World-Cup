@@ -580,23 +580,23 @@ const SCHEDULE=[
   {d:'2026-06-27',t:'23:30',g:'K',t1:'COD',t2:'UZB',v:'AKR'},
   {d:'2026-06-28',t:'02:00',g:'J',t1:'JOR',t2:'ARG',v:'AKR'},
   {d:'2026-06-28',t:'02:00',g:'J',t1:'ALG',t2:'AUT',v:'AZT'},
-  // ── Round of 32 (AI predicted bracket, approximate UTC kickoff times) ────
-  {d:'2026-06-28',t:'17:00',r:'r32',t1:'ARG',t2:'RSA'},
-  {d:'2026-06-28',t:'20:00',r:'r32',t1:'FRA',t2:'ECU'},
-  {d:'2026-06-29',t:'00:00',r:'r32',t1:'MEX',t2:'BIH'},
-  {d:'2026-06-29',t:'03:00',r:'r32',t1:'MAR',t2:'CAN'},
-  {d:'2026-06-29',t:'17:00',r:'r32',t1:'BRA',t2:'COD'},
-  {d:'2026-06-29',t:'20:00',r:'r32',t1:'NED',t2:'IRN'},
-  {d:'2026-06-30',t:'00:00',r:'r32',t1:'COL',t2:'PAR'},
-  {d:'2026-06-30',t:'03:00',r:'r32',t1:'ENG',t2:'CPV'},
-  {d:'2026-06-30',t:'17:00',r:'r32',t1:'NOR',t2:'AUS'},
-  {d:'2026-06-30',t:'20:00',r:'r32',t1:'SUI',t2:'ALG'},
-  {d:'2026-07-01',t:'00:00',r:'r32',t1:'ESP',t2:'CRO'},
-  {d:'2026-07-01',t:'03:00',r:'r32',t1:'JPN',t2:'SWE'},
-  {d:'2026-07-01',t:'17:00',r:'r32',t1:'GHA',t2:'CIV'},
-  {d:'2026-07-01',t:'20:00',r:'r32',t1:'USA',t2:'AUT'},
-  {d:'2026-07-02',t:'00:00',r:'r32',t1:'EGY',t2:'BEL'},
-  {d:'2026-07-02',t:'03:00',r:'r32',t1:'GER',t2:'POR'},
+  // ── Round of 32 (actual bracket, UTC kickoff times) ──────────────────────
+  {d:'2026-06-28',t:'19:00',r:'r32',t1:'RSA',t2:'CAN'},
+  {d:'2026-06-29',t:'17:00',r:'r32',t1:'BRA',t2:'JPN'},
+  {d:'2026-06-29',t:'20:30',r:'r32',t1:'GER',t2:'PAR'},
+  {d:'2026-06-30',t:'01:00',r:'r32',t1:'NED',t2:'MAR'},
+  {d:'2026-06-30',t:'17:00',r:'r32',t1:'CIV',t2:'NOR'},
+  {d:'2026-06-30',t:'21:00',r:'r32',t1:'FRA',t2:'SWE'},
+  {d:'2026-07-01',t:'01:00',r:'r32',t1:'MEX',t2:'ECU'},
+  {d:'2026-07-01',t:'16:00',r:'r32',t1:'COD',t2:'ENG'},
+  {d:'2026-07-01',t:'20:00',r:'r32',t1:'BEL',t2:'SEN'},
+  {d:'2026-07-02',t:'00:00',r:'r32',t1:'USA',t2:'BIH'},
+  {d:'2026-07-02',t:'08:00',r:'r32',t1:'SUI',t2:'ALG'},
+  {d:'2026-07-02',t:'19:00',r:'r32',t1:'ESP',t2:'AUT'},
+  {d:'2026-07-02',t:'23:00',r:'r32',t1:'POR',t2:'CRO'},
+  {d:'2026-07-03',t:'17:00',r:'r32',t1:'AUS',t2:'EGY'},
+  {d:'2026-07-03',t:'22:00',r:'r32',t1:'ARG',t2:'CPV'},
+  {d:'2026-07-04',t:'00:30',r:'r32',t1:'COL',t2:'GHA'},
 ];
 
 /* Countdown */
@@ -673,8 +673,8 @@ Promise.all([
   showList.forEach(sc=>{
     const key=`${sc.t1}_${sc.t2}`;
     const isKO=!!sc.r;
-    const md=isKO?(r32Data[key]||r32Data[`${sc.t2}_${sc.t1}`]):(matchData[key]||matchData[`${sc.t2}_${sc.t1}`]);
-    if(!md)return;
+    let md=isKO?(r32Data[key]||r32Data[`${sc.t2}_${sc.t1}`]):(matchData[key]||matchData[`${sc.t2}_${sc.t1}`]);
+    if(!md){if(!isKO)return;md={p_home:50,p_draw:0,p_away:50,xg_home:1,xg_away:1};}
     const swapped=isKO?!!r32Data[`${sc.t2}_${sc.t1}`]&&!r32Data[key]:!matchData[key];
     const t1=sc.t1,t2=sc.t2;
     const n1=team_names[t1]||t1,n2=team_names[t2]||t2;
@@ -1017,27 +1017,6 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')simClose();});
           banner.style.display = 'block';
         }
 
-        // Auto-redirect to bracket unless user explicitly stayed on index
-        if (!sessionStorage.getItem('stayOnIndex')) {
-          var count = 3;
-          if (banner) {
-            var countSpan = document.createElement('span');
-            countSpan.style.cssText = 'margin-left:.6rem;font-size:.85rem;opacity:.7';
-            countSpan.textContent = '（' + count + ' 秒後自動跳轉…）';
-            banner.appendChild(countSpan);
-            var iv = setInterval(function() {
-              count--;
-              if (count <= 0) {
-                clearInterval(iv);
-                window.location.href = 'bracket.html';
-              } else {
-                countSpan.textContent = '（' + count + ' 秒後自動跳轉…）';
-              }
-            }, 1000);
-          } else {
-            setTimeout(function() { window.location.href = 'bracket.html'; }, 3000);
-          }
-        }
       }
     })
     .catch(function() {});

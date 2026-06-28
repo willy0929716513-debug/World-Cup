@@ -426,9 +426,25 @@ var STAGE_LABEL = {
   qf: '8強', sf: '4強', final: '決賽', champion: '冠軍'
 };
 
-fetch('data/tournament.json').then(function(r){return r.json();}).then(function(d){
-  var s = d.current_stage;
-  if (!s) return;
+fetch('data/results.json?v=' + Date.now()).then(function(r){return r.json();}).then(function(d){
+  var matches = d.matches || [];
+  var GROUP_TOTAL = 72;
+  var groupPlayed = matches.filter(function(m){ return m.played && m.group; }).length;
+  var s;
+  if (groupPlayed < GROUP_TOTAL) {
+    s = { stage: 'group', played: groupPlayed, total: GROUP_TOTAL };
+  } else {
+    var rounds = [
+      { key: 'r32', total: 16 }, { key: 'r16', total: 8 },
+      { key: 'qf', total: 4 }, { key: 'sf', total: 2 }, { key: 'final', total: 1 }
+    ];
+    s = { stage: 'champion', played: 31, total: 31 };
+    for (var i = 0; i < rounds.length; i++) {
+      var r = rounds[i];
+      var rp = matches.filter(function(m){ return m.played && m.round === r.key; }).length;
+      if (rp < r.total) { s = { stage: r.key, played: rp, total: r.total }; break; }
+    }
+  }
   var el = document.getElementById('stage-indicator');
   if (!el) return;
   el.style.display = 'block';

@@ -118,6 +118,21 @@ CANONICAL_PAIRS = {
     frozenset(["JOR","ARG"]): ("JOR","ARG"), frozenset(["ALG","AUT"]): ("ALG","AUT"),
 }
 
+# WC2026 knockout stage date ranges (inclusive) → round code
+_KO_RANGES = [
+    (date(2026, 6, 28), date(2026, 7,  3), "r32"),
+    (date(2026, 7,  4), date(2026, 7,  8), "r16"),
+    (date(2026, 7,  9), date(2026, 7, 12), "qf"),
+    (date(2026, 7, 13), date(2026, 7, 16), "sf"),
+    (date(2026, 7, 17), date(2026, 7, 19), "final"),
+]
+
+def round_for_date(d: date) -> str | None:
+    for start, end, rnd in _KO_RANGES:
+        if start <= d <= end:
+            return rnd
+    return None
+
 # football-data.org — same as NAME_TO_CODE (reuse)
 FD_NAME_TO_CODE = NAME_TO_CODE
 
@@ -183,23 +198,33 @@ def fetch_espn(start_date: date, end_date: date) -> list[dict]:
             if h_score < 0 or a_score < 0:
                 continue
 
-            # Use canonical ordering from our schedule
             pair_key = frozenset([h_code, a_code])
             canonical = CANONICAL_PAIRS.get(pair_key)
-            if not canonical:
-                print(f"  ⚠  Not in group-stage schedule: {h_code} vs {a_code}")
-                continue
-            t1, t2 = canonical
-            s1 = h_score if t1 == h_code else a_score
-            s2 = a_score if t1 == h_code else h_score
-
-            group = TEAM_GROUP.get(t1, "?")
-            results.append({
-                "t1": t1, "t2": t2,
-                "score1": s1, "score2": s2,
-                "group": group, "played": True,
-                "date": d.isoformat(),
-            })
+            if canonical:
+                # Group stage: use canonical team ordering
+                t1, t2 = canonical
+                s1 = h_score if t1 == h_code else a_score
+                s2 = a_score if t1 == h_code else h_score
+                group = TEAM_GROUP.get(t1, "?")
+                results.append({
+                    "t1": t1, "t2": t2,
+                    "score1": s1, "score2": s2,
+                    "group": group, "played": True,
+                    "date": d.isoformat(),
+                })
+            else:
+                # Not a group-stage pair — check if it's a knockout match by date
+                rnd = round_for_date(d)
+                if not rnd:
+                    print(f"  ⚠  Unknown match (not in schedule or knockout dates): {h_code} vs {a_code}")
+                    continue
+                print(f"  🏆  {rnd.upper()}: {h_code} {h_score}–{a_score} {a_code}")
+                results.append({
+                    "t1": h_code, "t2": a_code,
+                    "score1": h_score, "score2": a_score,
+                    "round": rnd, "played": True,
+                    "date": d.isoformat(),
+                })
 
         d += timedelta(days=1)
 
@@ -231,14 +256,32 @@ def fetch_football_data(api_key: str) -> list[dict]:
 
         match_date = (m.get("utcDate", "") or "")[:10]
         group_name = m.get("group", "") or ""
-        group = group_name.replace("GROUP_", "") if group_name else TEAM_GROUP.get(h_code, "?")
+        group = group_name.replace("GROUP_", "") if group_name else None
 
-        results.append({
-            "t1": h_code, "t2": a_code,
-            "score1": int(h_score), "score2": int(a_score),
-            "group": group, "played": True,
-            "date": match_date,
-        })
+        _FD_STAGE_MAP = {
+            "ROUND_OF_32": "r32", "ROUND_OF_16": "r16",
+            "QUARTER_FINALS": "qf", "SEMI_FINALS": "sf",
+            "THIRD_PLACE": "final", "FINAL": "final",
+        }
+        stage_name = m.get("stage", "") or ""
+        rnd = _FD_STAGE_MAP.get(stage_name)
+
+        if group:
+            results.append({
+                "t1": h_code, "t2": a_code,
+                "score1": int(h_score), "score2": int(a_score),
+                "group": group, "played": True,
+                "date": match_date,
+            })
+        elif rnd:
+            results.append({
+                "t1": h_code, "t2": a_code,
+                "score1": int(h_score), "score2": int(a_score),
+                "round": rnd, "played": True,
+                "date": match_date,
+            })
+        else:
+            print(f"  ⚠  Skipping {h_code} vs {a_code}: no group or known stage ({stage_name!r})")
 
     return results
 

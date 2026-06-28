@@ -43,6 +43,10 @@ jobs:
         if: steps.fetch.outputs.new_results == 'true'
         run: python scripts/update_elo_from_results.py
 
+      # Step 3 — always patch current_stage in tournament.json (lightweight, no Monte Carlo)
+      - name: Patch current_stage in tournament.json
+        run: python scripts/patch_stage.py
+
       # Commit everything that changed (results + ELO + predictions)
       - name: Commit & push all changes
         run: |

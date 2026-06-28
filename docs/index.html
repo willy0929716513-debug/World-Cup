@@ -939,11 +939,31 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')simClose();});
 <script src="js/security.js"></script>
 <script>
 (function detectStage() {
-  fetch('data/tournament.json')
+  // Read results.json directly — updated every 20 min by CI, no daily build lag
+  fetch('data/results.json?v=' + Date.now())
     .then(function(r) { return r.json(); })
     .then(function(data) {
-      var s = data.current_stage;
-      if (!s) return;
+      var matches = data.matches || [];
+
+      // Compute current stage client-side from raw results
+      var GROUP_TOTAL = 72;
+      var groupPlayed = matches.filter(function(m) { return m.played && m.group; }).length;
+      var s;
+      if (groupPlayed < GROUP_TOTAL) {
+        s = { stage: 'group', played: groupPlayed, total: GROUP_TOTAL };
+      } else {
+        var rounds = [
+          { key: 'r32', total: 16 }, { key: 'r16', total: 8 },
+          { key: 'qf', total: 4 },  { key: 'sf', total: 2 },
+          { key: 'final', total: 1 }
+        ];
+        s = { stage: 'champion', played: 31, total: 31 };
+        for (var i = 0; i < rounds.length; i++) {
+          var r = rounds[i];
+          var rPlayed = matches.filter(function(m) { return m.played && m.round === r.key; }).length;
+          if (rPlayed < r.total) { s = { stage: r.key, played: rPlayed, total: r.total }; break; }
+        }
+      }
 
       var STAGE_LABEL = {
         group: '小組賽', r32: '32強', r16: '16強',
@@ -965,7 +985,6 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')simClose();});
         if (!sessionStorage.getItem('stayOnIndex')) {
           var count = 3;
           if (banner) {
-            var baseHTML = banner.innerHTML;
             var countSpan = document.createElement('span');
             countSpan.style.cssText = 'margin-left:.6rem;font-size:.85rem;opacity:.7';
             countSpan.textContent = '（' + count + ' 秒後自動跳轉…）';
@@ -985,7 +1004,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')simClose();});
         }
       }
     })
-    .catch(function() {}); // Silently fail if no data
+    .catch(function() {});
 })();
 </script>
 </body>

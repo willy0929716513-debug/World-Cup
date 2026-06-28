@@ -597,6 +597,42 @@
       "date": "2026-06-26"
     },
     {
+      "t1": "ALG",
+      "t2": "AUT",
+      "score1": 3,
+      "score2": 3,
+      "group": "J",
+      "played": true,
+      "date": "2026-06-27"
+    },
+    {
+      "t1": "JOR",
+      "t2": "ARG",
+      "score1": 1,
+      "score2": 3,
+      "group": "J",
+      "played": true,
+      "date": "2026-06-27"
+    },
+    {
+      "t1": "COL",
+      "t2": "POR",
+      "score1": 0,
+      "score2": 0,
+      "group": "K",
+      "played": true,
+      "date": "2026-06-27"
+    },
+    {
+      "t1": "COD",
+      "t2": "UZB",
+      "score1": 3,
+      "score2": 1,
+      "group": "K",
+      "played": true,
+      "date": "2026-06-27"
+    },
+    {
       "t1": "PAN",
       "t2": "ENG",
       "score1": 0,

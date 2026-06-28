@@ -1,6 +1,6 @@
 {
   "note": "實際比賽結果 — 自動更新 (GitHub Actions)",
-  "updated": "2026-06-27",
+  "updated": "2026-06-28",
   "matches": [
     {
       "t1": "MEX",
@@ -601,6 +601,15 @@
       "t2": "ENG",
       "score1": 0,
       "score2": 2,
+      "group": "L",
+      "played": true,
+      "date": "2026-06-27"
+    },
+    {
+      "t1": "CRO",
+      "t2": "GHA",
+      "score1": 2,
+      "score2": 1,
       "group": "L",
       "played": true,
       "date": "2026-06-27"

@@ -676,6 +676,15 @@
       "round": "r32",
       "played": true,
       "date": "2026-06-30"
+    },
+    {
+      "t1": "FRA",
+      "t2": "SWE",
+      "score1": 3,
+      "score2": 0,
+      "round": "r32",
+      "played": true,
+      "date": "2026-06-30"
     }
   ]
 }

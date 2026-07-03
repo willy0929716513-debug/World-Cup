@@ -730,6 +730,15 @@
       "round": "r32",
       "played": true,
       "date": "2026-07-02"
+    },
+    {
+      "t1": "SUI",
+      "t2": "ALG",
+      "score1": 2,
+      "score2": 0,
+      "round": "r32",
+      "played": true,
+      "date": "2026-07-02"
     }
   ]
 }

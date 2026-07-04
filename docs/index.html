@@ -597,6 +597,15 @@ const SCHEDULE=[
   {d:'2026-07-03',t:'17:00',r:'r32',t1:'AUS',t2:'EGY'},
   {d:'2026-07-03',t:'22:00',r:'r32',t1:'ARG',t2:'CPV'},
   {d:'2026-07-04',t:'00:30',r:'r32',t1:'COL',t2:'GHA'},
+  // ── Round of 16 (actual bracket, UTC kickoff times) ──────────────────────
+  {d:'2026-07-04',t:'17:00',r:'r16',t1:'CAN',t2:'MAR'},
+  {d:'2026-07-04',t:'21:00',r:'r16',t1:'PAR',t2:'FRA'},
+  {d:'2026-07-05',t:'20:00',r:'r16',t1:'BRA',t2:'NOR'},
+  {d:'2026-07-06',t:'00:00',r:'r16',t1:'MEX',t2:'ENG'},
+  {d:'2026-07-06',t:'19:00',r:'r16',t1:'POR',t2:'ESP'},
+  {d:'2026-07-06',t:'21:00',r:'r16',t1:'USA',t2:'BEL'},
+  {d:'2026-07-07',t:'16:00',r:'r16',t1:'ARG',t2:'EGY'},
+  {d:'2026-07-07',t:'20:00',r:'r16',t1:'SUI',t2:'COL'},
 ];
 
 /* Countdown */
@@ -692,7 +701,7 @@ Promise.all([
     const isToday=sc.d===todayStr;
     const timeLabel=sc.t+' UTC';
     const stageBadge=isKO
-      ?`<span class="mcgb" style="color:var(--gold);background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.25)">🏆 R32</span>`
+      ?`<span class="mcgb" style="color:var(--gold);background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.25)">🏆 ${(sc.r||'KO').toUpperCase()}</span>`
       :`<span class="mcgb">GROUP ${sc.g}</span>`;
     let statusHTML;
     if(r){statusHTML='<span class="mcst">✓ FINAL</span>'}

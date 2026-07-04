@@ -669,6 +669,24 @@
       "date": "2026-06-29"
     },
     {
+      "t1": "GER",
+      "t2": "PAR",
+      "score1": 1,
+      "score2": 1,
+      "round": "r32",
+      "played": true,
+      "date": "2026-06-29"
+    },
+    {
+      "t1": "NED",
+      "t2": "MAR",
+      "score1": 1,
+      "score2": 1,
+      "round": "r32",
+      "played": true,
+      "date": "2026-06-29"
+    },
+    {
       "t1": "CIV",
       "t2": "NOR",
       "score1": 1,
@@ -714,6 +732,15 @@
       "date": "2026-07-01"
     },
     {
+      "t1": "BEL",
+      "t2": "SEN",
+      "score1": 3,
+      "score2": 2,
+      "round": "r32",
+      "played": true,
+      "date": "2026-07-01"
+    },
+    {
       "t1": "ESP",
       "t2": "AUT",
       "score1": 3,
@@ -750,33 +777,6 @@
       "date": "2026-07-03"
     },
     {
-      "t1": "GER",
-      "t2": "PAR",
-      "score1": 1,
-      "score2": 1,
-      "round": "r32",
-      "played": true,
-      "date": "2026-06-29"
-    },
-    {
-      "t1": "NED",
-      "t2": "MAR",
-      "score1": 1,
-      "score2": 1,
-      "round": "r32",
-      "played": true,
-      "date": "2026-06-29"
-    },
-    {
-      "t1": "BEL",
-      "t2": "SEN",
-      "score1": 3,
-      "score2": 2,
-      "round": "r32",
-      "played": true,
-      "date": "2026-07-01"
-    },
-    {
       "t1": "AUS",
       "t2": "EGY",
       "score1": 1,
@@ -793,6 +793,15 @@
       "round": "r32",
       "played": true,
       "date": "2026-07-03"
+    },
+    {
+      "t1": "CAN",
+      "t2": "MAR",
+      "score1": 0,
+      "score2": 3,
+      "round": "r16",
+      "played": true,
+      "date": "2026-07-04"
     }
   ]
 }

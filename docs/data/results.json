@@ -748,6 +748,51 @@
       "round": "r32",
       "played": true,
       "date": "2026-07-03"
+    },
+    {
+      "t1": "GER",
+      "t2": "PAR",
+      "score1": 1,
+      "score2": 1,
+      "round": "r32",
+      "played": true,
+      "date": "2026-06-29"
+    },
+    {
+      "t1": "NED",
+      "t2": "MAR",
+      "score1": 1,
+      "score2": 1,
+      "round": "r32",
+      "played": true,
+      "date": "2026-06-29"
+    },
+    {
+      "t1": "BEL",
+      "t2": "SEN",
+      "score1": 3,
+      "score2": 2,
+      "round": "r32",
+      "played": true,
+      "date": "2026-07-01"
+    },
+    {
+      "t1": "AUS",
+      "t2": "EGY",
+      "score1": 1,
+      "score2": 1,
+      "round": "r32",
+      "played": true,
+      "date": "2026-07-03"
+    },
+    {
+      "t1": "ARG",
+      "t2": "CPV",
+      "score1": 3,
+      "score2": 2,
+      "round": "r32",
+      "played": true,
+      "date": "2026-07-03"
     }
   ]
 }

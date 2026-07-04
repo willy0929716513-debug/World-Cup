@@ -802,6 +802,15 @@
       "round": "r16",
       "played": true,
       "date": "2026-07-04"
+    },
+    {
+      "t1": "PAR",
+      "t2": "FRA",
+      "score1": 0,
+      "score2": 1,
+      "round": "r16",
+      "played": true,
+      "date": "2026-07-04"
     }
   ]
 }

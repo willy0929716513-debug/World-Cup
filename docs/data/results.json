@@ -829,6 +829,15 @@
       "round": "r16",
       "played": true,
       "date": "2026-07-05"
+    },
+    {
+      "t1": "POR",
+      "t2": "ESP",
+      "score1": 0,
+      "score2": 1,
+      "round": "r16",
+      "played": true,
+      "date": "2026-07-06"
     }
   ]
 }

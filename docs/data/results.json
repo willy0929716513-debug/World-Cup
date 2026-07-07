@@ -847,6 +847,15 @@
       "round": "r16",
       "played": true,
       "date": "2026-07-06"
+    },
+    {
+      "t1": "ARG",
+      "t2": "EGY",
+      "score1": 3,
+      "score2": 2,
+      "round": "r16",
+      "played": true,
+      "date": "2026-07-07"
     }
   ]
 }

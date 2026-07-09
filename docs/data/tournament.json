@@ -1,1 +1,1954 @@
-{"generated_at": "2026-07-09T14:16:36Z", "n_sim": 10000, "group_probs": {"A": {"MEX": {"pos1": 84.7, "pos2": 11.7, "pos3": 2.9, "pos4": 0.7, "qualified": 96.4, "best_third": 2.6}, "RSA": {"pos1": 8.1, "pos2": 41.7, "pos3": 30.3, "pos4": 19.9, "qualified": 49.8, "best_third": 18.4}, "KOR": {"pos1": 5.0, "pos2": 28.8, "pos3": 36.5, "pos4": 29.6, "qualified": 33.9, "best_third": 20.2}, "CZE": {"pos1": 2.1, "pos2": 17.8, "pos3": 30.2, "pos4": 49.8, "qualified": 19.9, "best_third": 14.6}}, "B": {"CAN": {"pos1": 29.5, "pos2": 33.8, "pos3": 23.6, "pos4": 13.0, "qualified": 63.4, "best_third": 17.5}, "SUI": {"pos1": 52.9, "pos2": 28.6, "pos3": 13.4, "pos4": 5.1, "qualified": 81.5, "best_third": 11.1}, "QAT": {"pos1": 6.0, "pos2": 15.4, "pos3": 29.0, "pos4": 49.5, "qualified": 21.4, "best_third": 17.6}, "BIH": {"pos1": 11.6, "pos2": 22.1, "pos3": 34.0, "pos4": 32.4, "qualified": 33.7, "best_third": 21.9}}, "C": {"BRA": {"pos1": 52.0, "pos2": 38.6, "pos3": 8.6, "pos4": 0.8, "qualified": 90.6, "best_third": 7.5}, "MAR": {"pos1": 43.7, "pos2": 45.0, "pos3": 10.3, "pos4": 1.0, "qualified": 88.7, "best_third": 9.0}, "SCO": {"pos1": 4.1, "pos2": 14.8, "pos3": 64.1, "pos4": 17.0, "qualified": 18.9, "best_third": 39.1}, "HAI": {"pos1": 0.2, "pos2": 1.6, "pos3": 16.9, "pos4": 81.3, "qualified": 1.8, "best_third": 5.1}}, "D": {"USA": {"pos1": 39.1, "pos2": 27.5, "pos3": 20.2, "pos4": 13.2, "qualified": 66.5, "best_third": 16.1}, "PAR": {"pos1": 25.2, "pos2": 26.6, "pos3": 25.9, "pos4": 22.3, "qualified": 51.8, "best_third": 19.1}, "AUS": {"pos1": 22.4, "pos2": 26.3, "pos3": 26.5, "pos4": 24.8, "qualified": 48.6, "best_third": 19.6}, "TUR": {"pos1": 13.3, "pos2": 19.7, "pos3": 27.3, "pos4": 39.6, "qualified": 33.0, "best_third": 18.6}}, "E": {"GER": {"pos1": 41.4, "pos2": 28.1, "pos3": 18.9, "pos4": 11.6, "qualified": 69.5, "best_third": 14.8}, "CUW": {"pos1": 11.1, "pos2": 18.8, "pos3": 27.5, "pos4": 42.7, "qualified": 29.9, "best_third": 18.5}, "CIV": {"pos1": 28.1, "pos2": 28.4, "pos3": 24.7, "pos4": 18.9, "qualified": 56.4, "best_third": 18.3}, "ECU": {"pos1": 19.5, "pos2": 24.7, "pos3": 29.0, "pos4": 26.9, "qualified": 44.2, "best_third": 20.5}}, "F": {"NED": {"pos1": 57.7, "pos2": 28.1, "pos3": 12.6, "pos4": 1.7, "qualified": 85.7, "best_third": 10.7}, "JPN": {"pos1": 25.9, "pos2": 38.5, "pos3": 29.9, "pos4": 5.7, "qualified": 64.4, "best_third": 23.2}, "SWE": {"pos1": 15.7, "pos2": 30.2, "pos3": 43.4, "pos4": 10.7, "qualified": 45.9, "best_third": 31.9}, "TUN": {"pos1": 0.7, "pos2": 3.2, "pos3": 14.1, "pos4": 82.0, "qualified": 4.0, "best_third": 6.8}}, "G": {"BEL": {"pos1": 45.3, "pos2": 29.0, "pos3": 17.5, "pos4": 8.2, "qualified": 74.2, "best_third": 13.9}, "EGY": {"pos1": 29.3, "pos2": 31.7, "pos3": 25.1, "pos4": 14.0, "qualified": 61.0, "best_third": 18.9}, "IRN": {"pos1": 19.5, "pos2": 26.5, "pos3": 32.1, "pos4": 22.0, "qualified": 46.0, "best_third": 22.8}, "NZL": {"pos1": 5.9, "pos2": 12.9, "pos3": 25.4, "pos4": 55.8, "qualified": 18.8, "best_third": 15.4}}, "H": {"ESP": {"pos1": 62.0, "pos2": 23.1, "pos3": 10.8, "pos4": 4.1, "qualified": 85.1, "best_third": 9.0}, "CPV": {"pos1": 18.8, "pos2": 33.4, "pos3": 27.4, "pos4": 20.4, "qualified": 52.2, "best_third": 19.0}, "KSA": {"pos1": 10.8, "pos2": 23.4, "pos3": 30.7, "pos4": 35.1, "qualified": 34.2, "best_third": 19.6}, "URU": {"pos1": 8.5, "pos2": 20.0, "pos3": 31.1, "pos4": 40.4, "qualified": 28.5, "best_third": 19.6}}, "I": {"FRA": {"pos1": 75.4, "pos2": 21.8, "pos3": 2.7, "pos4": 0.1, "qualified": 97.2, "best_third": 2.5}, "SEN": {"pos1": 2.7, "pos2": 17.6, "pos3": 59.3, "pos4": 20.4, "qualified": 20.3, "best_third": 32.9}, "IRQ": {"pos1": 0.3, "pos2": 2.9, "pos3": 20.4, "pos4": 76.4, "qualified": 3.2, "best_third": 6.3}, "NOR": {"pos1": 21.6, "pos2": 57.7, "pos3": 17.6, "pos4": 3.1, "qualified": 79.3, "best_third": 13.0}}, "J": {"ARG": {"pos1": 86.1, "pos2": 11.4, "pos3": 2.4, "pos4": 0.2, "qualified": 97.4, "best_third": 2.3}, "ALG": {"pos1": 7.2, "pos2": 45.4, "pos3": 37.3, "pos4": 10.0, "qualified": 52.7, "best_third": 24.0}, "AUT": {"pos1": 6.6, "pos2": 38.5, "pos3": 43.2, "pos4": 11.8, "qualified": 45.0, "best_third": 27.5}, "JOR": {"pos1": 0.2, "pos2": 4.7, "pos3": 17.1, "pos4": 78.0, "qualified": 4.9, "best_third": 6.0}}, "K": {"POR": {"pos1": 42.7, "pos2": 33.2, "pos3": 20.6, "pos4": 3.5, "qualified": 75.9, "best_third": 16.7}, "COD": {"pos1": 17.4, "pos2": 28.7, "pos3": 41.5, "pos4": 12.5, "qualified": 46.1, "best_third": 30.4}, "UZB": {"pos1": 1.2, "pos2": 4.2, "pos3": 15.4, "pos4": 79.2, "qualified": 5.4, "best_third": 8.2}, "COL": {"pos1": 38.7, "pos2": 33.9, "pos3": 22.5, "pos4": 4.8, "qualified": 72.6, "best_third": 18.0}}, "L": {"ENG": {"pos1": 67.3, "pos2": 23.0, "pos3": 8.8, "pos4": 0.9, "qualified": 90.3, "best_third": 7.8}, "CRO": {"pos1": 20.2, "pos2": 42.1, "pos3": 31.7, "pos4": 5.9, "qualified": 62.3, "best_third": 24.6}, "GHA": {"pos1": 11.9, "pos2": 31.5, "pos3": 45.4, "pos4": 11.2, "qualified": 43.4, "best_third": 32.6}, "PAN": {"pos1": 0.5, "pos2": 3.4, "pos3": 14.1, "pos4": 81.9, "qualified": 4.0, "best_third": 6.3}}}, "predicted_group_standings": {"A": ["MEX", "RSA", "KOR", "CZE"], "B": ["SUI", "CAN", "BIH", "QAT"], "C": ["MAR", "BRA", "SCO", "HAI"], "D": ["USA", "AUS", "PAR", "TUR"], "E": ["GER", "CIV", "ECU", "CUW"], "F": ["NED", "JPN", "SWE", "TUN"], "G": ["BEL", "EGY", "IRN", "NZL"], "H": ["ESP", "CPV", "URU", "KSA"], "I": ["FRA", "NOR", "SEN", "IRQ"], "J": ["ARG", "ALG", "AUT", "JOR"], "K": ["COL", "POR", "COD", "UZB"], "L": ["ENG", "CRO", "GHA", "PAN"]}, "group_matches": {"A": [{"t1": "MEX", "t2": "RSA", "xg_home": 2.41, "xg_away": 0.48, "p_home": 74.5, "p_draw": 21.6, "p_away": 4.0}, {"t1": "MEX", "t2": "KOR", "xg_home": 2.16, "xg_away": 0.6, "p_home": 64.4, "p_draw": 25.1, "p_away": 10.4}, {"t1": "MEX", "t2": "CZE", "xg_home": 2.41, "xg_away": 0.68, "p_home": 64.8, "p_draw": 21.4, "p_away": 13.8}, {"t1": "RSA", "t2": "KOR", "xg_home": 0.96, "xg_away": 1.27, "p_home": 23.2, "p_draw": 31.7, "p_away": 45.2}, {"t1": "RSA", "t2": "CZE", "xg_home": 1.12, "xg_away": 0.99, "p_home": 33.6, "p_draw": 31.5, "p_away": 34.9}, {"t1": "KOR", "t2": "CZE", "xg_home": 1.43, "xg_away": 0.83, "p_home": 46.5, "p_draw": 32.2, "p_away": 21.4}], "B": [{"t1": "CAN", "t2": "SUI", "xg_home": 0.9, "xg_away": 1.71, "p_home": 18.0, "p_draw": 31.9, "p_away": 50.1}, {"t1": "CAN", "t2": "QAT", "xg_home": 1.85, "xg_away": 0.66, "p_home": 53.6, "p_draw": 33.0, "p_away": 13.5}, {"t1": "CAN", "t2": "BIH", "xg_home": 1.6, "xg_away": 0.9, "p_home": 43.1, "p_draw": 36.7, "p_away": 20.2}, {"t1": "SUI", "t2": "QAT", "xg_home": 2.23, "xg_away": 0.57, "p_home": 61.5, "p_draw": 27.4, "p_away": 11.1}, {"t1": "SUI", "t2": "BIH", "xg_home": 1.99, "xg_away": 0.75, "p_home": 53.7, "p_draw": 31.8, "p_away": 14.5}, {"t1": "QAT", "t2": "BIH", "xg_home": 0.76, "xg_away": 1.83, "p_home": 12.9, "p_draw": 24.3, "p_away": 62.8}], "C": [{"t1": "BRA", "t2": "MAR", "xg_home": 1.25, "xg_away": 1.42, "p_home": 29.9, "p_draw": 38.6, "p_away": 31.5}, {"t1": "BRA", "t2": "SCO", "xg_home": 2.65, "xg_away": 0.56, "p_home": 79.2, "p_draw": 16.8, "p_away": 3.9}, {"t1": "BRA", "t2": "HAI", "xg_home": 2.6, "xg_away": 0.38, "p_home": 78.5, "p_draw": 17.5, "p_away": 4.0}, {"t1": "MAR", "t2": "SCO", "xg_home": 2.02, "xg_away": 0.58, "p_home": 61.2, "p_draw": 26.6, "p_away": 12.2}, {"t1": "MAR", "t2": "HAI", "xg_home": 3.0, "xg_away": 0.41, "p_home": 88.5, "p_draw": 7.6, "p_away": 3.9}, {"t1": "SCO", "t2": "HAI", "xg_home": 1.65, "xg_away": 0.47, "p_home": 61.0, "p_draw": 30.8, "p_away": 8.1}], "D": [{"t1": "USA", "t2": "PAR", "xg_home": 2.04, "xg_away": 0.88, "p_home": 58.4, "p_draw": 26.3, "p_away": 15.3}, {"t1": "USA", "t2": "AUS", "xg_home": 1.52, "xg_away": 1.03, "p_home": 44.2, "p_draw": 30.6, "p_away": 25.2}, {"t1": "USA", "t2": "TUR", "xg_home": 1.99, "xg_away": 0.98, "p_home": 51.5, "p_draw": 26.9, "p_away": 21.6}, {"t1": "PAR", "t2": "AUS", "xg_home": 0.9, "xg_away": 0.99, "p_home": 31.3, "p_draw": 42.4, "p_away": 26.3}, {"t1": "PAR", "t2": "TUR", "xg_home": 1.24, "xg_away": 0.99, "p_home": 37.0, "p_draw": 34.7, "p_away": 28.3}, {"t1": "AUS", "t2": "TUR", "xg_home": 1.53, "xg_away": 0.84, "p_home": 47.8, "p_draw": 34.0, "p_away": 18.2}], "E": [{"t1": "GER", "t2": "CUW", "xg_home": 2.51, "xg_away": 0.59, "p_home": 69.0, "p_draw": 26.3, "p_away": 4.7}, {"t1": "GER", "t2": "CIV", "xg_home": 1.98, "xg_away": 0.99, "p_home": 57.9, "p_draw": 29.7, "p_away": 12.4}, {"t1": "GER", "t2": "ECU", "xg_home": 2.1, "xg_away": 0.96, "p_home": 53.0, "p_draw": 28.8, "p_away": 18.3}, {"t1": "CUW", "t2": "CIV", "xg_home": 0.63, "xg_away": 2.27, "p_home": 7.3, "p_draw": 17.7, "p_away": 75.0}, {"t1": "CUW", "t2": "ECU", "xg_home": 0.6, "xg_away": 2.08, "p_home": 8.9, "p_draw": 17.9, "p_away": 73.2}, {"t1": "CIV", "t2": "ECU", "xg_home": 1.26, "xg_away": 0.87, "p_home": 40.3, "p_draw": 36.9, "p_away": 22.8}], "F": [{"t1": "NED", "t2": "JPN", "xg_home": 1.88, "xg_away": 1.1, "p_home": 46.2, "p_draw": 31.1, "p_away": 22.7}, {"t1": "NED", "t2": "SWE", "xg_home": 2.89, "xg_away": 0.87, "p_home": 70.7, "p_draw": 19.1, "p_away": 10.2}, {"t1": "NED", "t2": "TUN", "xg_home": 3.0, "xg_away": 0.51, "p_home": 87.7, "p_draw": 8.4, "p_away": 4.0}, {"t1": "JPN", "t2": "SWE", "xg_home": 1.51, "xg_away": 1.06, "p_home": 45.9, "p_draw": 33.7, "p_away": 20.4}, {"t1": "JPN", "t2": "TUN", "xg_home": 2.31, "xg_away": 0.51, "p_home": 73.8, "p_draw": 21.3, "p_away": 4.9}, {"t1": "SWE", "t2": "TUN", "xg_home": 2.36, "xg_away": 0.6, "p_home": 75.3, "p_draw": 19.8, "p_away": 4.9}], "G": [{"t1": "BEL", "t2": "EGY", "xg_home": 1.79, "xg_away": 0.85, "p_home": 43.9, "p_draw": 38.0, "p_away": 18.1}, {"t1": "BEL", "t2": "IRN", "xg_home": 2.25, "xg_away": 0.73, "p_home": 63.3, "p_draw": 29.3, "p_away": 7.3}, {"t1": "BEL", "t2": "NZL", "xg_home": 2.94, "xg_away": 0.58, "p_home": 76.3, "p_draw": 19.8, "p_away": 3.9}, {"t1": "EGY", "t2": "IRN", "xg_home": 1.27, "xg_away": 0.87, "p_home": 40.5, "p_draw": 40.0, "p_away": 19.6}, {"t1": "EGY", "t2": "NZL", "xg_home": 1.58, "xg_away": 0.77, "p_home": 41.4, "p_draw": 33.7, "p_away": 24.9}, {"t1": "IRN", "t2": "NZL", "xg_home": 1.71, "xg_away": 0.82, "p_home": 48.0, "p_draw": 34.0, "p_away": 18.0}], "H": [{"t1": "ESP", "t2": "CPV", "xg_home": 2.09, "xg_away": 0.49, "p_home": 59.2, "p_draw": 32.7, "p_away": 8.0}, {"t1": "ESP", "t2": "KSA", "xg_home": 3.0, "xg_away": 1.4, "p_home": 78.8, "p_draw": 17.2, "p_away": 4.0}, {"t1": "ESP", "t2": "URU", "xg_home": 2.21, "xg_away": 0.62, "p_home": 65.9, "p_draw": 26.0, "p_away": 8.2}, {"t1": "CPV", "t2": "KSA", "xg_home": 1.2, "xg_away": 0.94, "p_home": 38.0, "p_draw": 34.4, "p_away": 27.6}, {"t1": "CPV", "t2": "URU", "xg_home": 0.88, "xg_away": 1.48, "p_home": 20.1, "p_draw": 23.6, "p_away": 56.3}, {"t1": "KSA", "t2": "URU", "xg_home": 0.88, "xg_away": 1.31, "p_home": 24.4, "p_draw": 31.4, "p_away": 44.2}], "I": [{"t1": "FRA", "t2": "SEN", "xg_home": 3.0, "xg_away": 0.65, "p_home": 78.0, "p_draw": 17.1, "p_away": 4.9}, {"t1": "FRA", "t2": "IRQ", "xg_home": 3.0, "xg_away": 0.45, "p_home": 92.1, "p_draw": 4.0, "p_away": 3.9}, {"t1": "FRA", "t2": "NOR", "xg_home": 2.56, "xg_away": 1.1, "p_home": 64.1, "p_draw": 22.8, "p_away": 13.1}, {"t1": "SEN", "t2": "IRQ", "xg_home": 2.43, "xg_away": 0.61, "p_home": 77.1, "p_draw": 18.9, "p_away": 4.0}, {"t1": "SEN", "t2": "NOR", "xg_home": 0.87, "xg_away": 2.31, "p_home": 16.9, "p_draw": 27.0, "p_away": 56.1}, {"t1": "IRQ", "t2": "NOR", "xg_home": 0.56, "xg_away": 2.88, "p_home": 4.1, "p_draw": 16.4, "p_away": 79.4}], "J": [{"t1": "ARG", "t2": "ALG", "xg_home": 3.0, "xg_away": 0.56, "p_home": 79.7, "p_draw": 16.3, "p_away": 4.0}, {"t1": "ARG", "t2": "AUT", "xg_home": 2.86, "xg_away": 0.6, "p_home": 78.4, "p_draw": 17.6, "p_away": 3.9}, {"t1": "ARG", "t2": "JOR", "xg_home": 3.0, "xg_away": 0.49, "p_home": 89.7, "p_draw": 6.3, "p_away": 4.0}, {"t1": "ALG", "t2": "AUT", "xg_home": 0.88, "xg_away": 1.14, "p_home": 24.8, "p_draw": 43.6, "p_away": 31.6}, {"t1": "ALG", "t2": "JOR", "xg_home": 1.99, "xg_away": 0.64, "p_home": 70.1, "p_draw": 22.8, "p_away": 7.1}, {"t1": "AUT", "t2": "JOR", "xg_home": 2.06, "xg_away": 0.63, "p_home": 68.3, "p_draw": 23.2, "p_away": 8.5}], "K": [{"t1": "POR", "t2": "COD", "xg_home": 1.88, "xg_away": 0.71, "p_home": 55.2, "p_draw": 31.3, "p_away": 13.5}, {"t1": "POR", "t2": "UZB", "xg_home": 2.95, "xg_away": 0.48, "p_home": 85.6, "p_draw": 10.5, "p_away": 3.9}, {"t1": "POR", "t2": "COL", "xg_home": 1.34, "xg_away": 1.46, "p_home": 35.1, "p_draw": 30.7, "p_away": 34.1}, {"t1": "COD", "t2": "UZB", "xg_home": 1.99, "xg_away": 0.62, "p_home": 68.4, "p_draw": 24.9, "p_away": 6.7}, {"t1": "COD", "t2": "COL", "xg_home": 0.65, "xg_away": 2.04, "p_home": 7.7, "p_draw": 23.9, "p_away": 68.5}, {"t1": "UZB", "t2": "COL", "xg_home": 0.54, "xg_away": 2.38, "p_home": 8.4, "p_draw": 21.0, "p_away": 70.5}], "L": [{"t1": "ENG", "t2": "CRO", "xg_home": 2.22, "xg_away": 0.97, "p_home": 55.5, "p_draw": 29.3, "p_away": 15.1}, {"t1": "ENG", "t2": "GHA", "xg_home": 2.8, "xg_away": 0.58, "p_home": 76.8, "p_draw": 19.2, "p_away": 4.0}, {"t1": "ENG", "t2": "PAN", "xg_home": 3.0, "xg_away": 0.49, "p_home": 87.1, "p_draw": 8.9, "p_away": 4.0}, {"t1": "CRO", "t2": "GHA", "xg_home": 1.64, "xg_away": 0.7, "p_home": 52.3, "p_draw": 37.4, "p_away": 10.3}, {"t1": "CRO", "t2": "PAN", "xg_home": 2.29, "xg_away": 0.5, "p_home": 76.4, "p_draw": 19.6, "p_away": 4.0}, {"t1": "GHA", "t2": "PAN", "xg_home": 1.63, "xg_away": 0.58, "p_home": 56.6, "p_draw": 29.4, "p_away": 14.1}]}, "expected_bracket": {"r32": [{"slot": "M1", "team1": "FRA", "team2": "RSA", "p1": 90.5, "score": "3-1"}, {"slot": "M2", "team1": "ARG", "team2": "ECU", "p1": 85.5, "score": "2-1"}, {"slot": "M3", "team1": "MEX", "team2": "BIH", "p1": 78.5, "score": "2-1"}, {"slot": "M4", "team1": "ENG", "team2": "AUT", "p1": 76.1, "score": "2-1"}, {"slot": "M5", "team1": "MAR", "team2": "ALG", "p1": 75.8, "score": "2-1"}, {"slot": "M6", "team1": "NOR", "team2": "CIV", "p1": 74.2, "score": "2-1"}, {"slot": "M7", "team1": "BRA", "team2": "CPV", "p1": 73.8, "score": "2-1"}, {"slot": "M8", "team1": "COL", "team2": "GHA", "p1": 70.5, "score": "2-1"}, {"slot": "M9", "team1": "NED", "team2": "COD", "p1": 70.4, "score": "2-1"}, {"slot": "M10", "team1": "ESP", "team2": "PAR", "p1": 69.9, "score": "2-1"}, {"slot": "M11", "team1": "SUI", "team2": "IRN", "p1": 68.4, "score": "2-1"}, {"slot": "M12", "team1": "POR", "team2": "GER", "p1": 64.6, "score": "2-1"}, {"slot": "M13", "team1": "BEL", "team2": "AUS", "p1": 62.1, "score": "1-1"}, {"slot": "M14", "team1": "JPN", "team2": "SWE", "p1": 59.3, "score": "1-1"}, {"slot": "M15", "team1": "USA", "team2": "CAN", "p1": 58.1, "score": "1-1"}, {"slot": "M16", "team1": "CRO", "team2": "EGY", "p1": 55.6, "score": "1-1"}], "r16": [{"slot": "M1", "team1": "FRA", "team2": "ARG", "p1": 57.2, "score": "1-1"}, {"slot": "M2", "team1": "MEX", "team2": "ENG", "p1": 56.4, "score": "1-1"}, {"slot": "M3", "team1": "MAR", "team2": "NOR", "p1": 55.4, "score": "1-1"}, {"slot": "M4", "team1": "BRA", "team2": "COL", "p1": 58.6, "score": "1-1"}, {"slot": "M5", "team1": "NED", "team2": "ESP", "p1": 55.1, "score": "1-1"}, {"slot": "M6", "team1": "SUI", "team2": "POR", "p1": 58.6, "score": "1-1"}, {"slot": "M7", "team1": "BEL", "team2": "JPN", "p1": 57.2, "score": "1-1"}, {"slot": "M8", "team1": "USA", "team2": "CRO", "p1": 55.1, "score": "1-1"}], "qf": [{"slot": "M1", "team1": "FRA", "team2": "MEX", "p1": 67.0, "score": "2-1"}, {"slot": "M2", "team1": "MAR", "team2": "BRA", "p1": 55.5, "score": "1-1"}, {"slot": "M3", "team1": "NED", "team2": "SUI", "p1": 56.7, "score": "1-1"}, {"slot": "M4", "team1": "BEL", "team2": "USA", "p1": 58.3, "score": "1-1"}], "sf": [{"slot": "M1", "team1": "FRA", "team2": "MAR", "p1": 68.5, "score": "2-1"}, {"slot": "M2", "team1": "NED", "team2": "BEL", "p1": 62.6, "score": "1-1"}], "final": {"slot": "M1", "team1": "FRA", "team2": "NED", "p1": 72.5, "score": "2-1"}}, "tournament_probs": {"ARG": {"qual": 99.7, "r16": 94.5, "qf": 40.8, "sf": 28.2, "final": 19.7, "champ": 15.7}, "BRA": {"qual": 98.0, "r16": 79.4, "qf": 49.3, "sf": 23.5, "final": 7.6, "champ": 5.0}, "FRA": {"qual": 99.7, "r16": 97.0, "qf": 58.6, "sf": 41.7, "final": 31.2, "champ": 26.0}, "ENG": {"qual": 98.0, "r16": 83.5, "qf": 39.9, "sf": 11.9, "final": 6.7, "champ": 4.7}, "ESP": {"qual": 94.1, "r16": 70.5, "qf": 37.0, "sf": 23.5, "final": 16.2, "champ": 4.9}, "GER": {"qual": 84.4, "r16": 33.2, "qf": 15.3, "sf": 7.2, "final": 2.5, "champ": 0.5}, "POR": {"qual": 92.6, "r16": 63.5, "qf": 31.6, "sf": 13.7, "final": 8.8, "champ": 2.0}, "NED": {"qual": 96.5, "r16": 73.1, "qf": 42.0, "sf": 24.6, "final": 15.8, "champ": 5.6}, "URU": {"qual": 48.1, "r16": 8.4, "qf": 2.1, "sf": 0.6, "final": 0.1, "champ": 0.0}, "USA": {"qual": 82.7, "r16": 50.9, "qf": 27.0, "sf": 14.1, "final": 5.0, "champ": 1.1}, "MAR": {"qual": 97.7, "r16": 82.5, "qf": 49.8, "sf": 30.4, "final": 10.4, "champ": 7.4}, "BEL": {"qual": 88.1, "r16": 57.4, "qf": 32.2, "sf": 17.3, "final": 7.8, "champ": 1.9}, "CRO": {"qual": 86.9, "r16": 50.9, "qf": 25.6, "sf": 11.7, "final": 4.2, "champ": 0.8}, "SUI": {"qual": 92.6, "r16": 67.6, "qf": 40.2, "sf": 20.6, "final": 14.0, "champ": 4.3}, "AUT": {"qual": 72.5, "r16": 16.9, "qf": 5.4, "sf": 1.9, "final": 0.6, "champ": 0.1}, "TUR": {"qual": 51.6, "r16": 10.0, "qf": 3.1, "sf": 1.0, "final": 0.2, "champ": 0.1}, "SCO": {"qual": 58.0, "r16": 8.3, "qf": 1.7, "sf": 0.4, "final": 0.0, "champ": 0.0}, "COL": {"qual": 90.6, "r16": 70.8, "qf": 34.2, "sf": 14.1, "final": 4.1, "champ": 2.5}, "ECU": {"qual": 64.7, "r16": 12.9, "qf": 3.9, "sf": 1.0, "final": 0.2, "champ": 0.0}, "PAR": {"qual": 70.9, "r16": 24.6, "qf": 11.2, "sf": 5.0, "final": 1.8, "champ": 0.4}, "JPN": {"qual": 87.6, "r16": 54.8, "qf": 27.7, "sf": 15.6, "final": 6.0, "champ": 1.2}, "KOR": {"qual": 54.1, "r16": 3.7, "qf": 0.6, "sf": 0.1, "final": 0.0, "champ": 0.0}, "KSA": {"qual": 53.7, "r16": 9.1, "qf": 2.3, "sf": 0.5, "final": 0.1, "champ": 0.0}, "AUS": {"qual": 68.2, "r16": 27.3, "qf": 12.5, "sf": 5.5, "final": 1.8, "champ": 0.3}, "IRN": {"qual": 68.8, "r16": 25.6, "qf": 11.6, "sf": 5.4, "final": 1.8, "champ": 0.4}, "QAT": {"qual": 39.0, "r16": 3.2, "qf": 0.6, "sf": 0.1, "final": 0.0, "champ": 0.0}, "IRQ": {"qual": 9.5, "r16": 0.1, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0}, "UZB": {"qual": 13.6, "r16": 0.2, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0}, "SEN": {"qual": 53.2, "r16": 7.7, "qf": 1.6, "sf": 0.3, "final": 0.0, "champ": 0.0}, "EGY": {"qual": 79.9, "r16": 43.0, "qf": 20.8, "sf": 9.1, "final": 3.3, "champ": 0.6}, "CIV": {"qual": 74.7, "r16": 19.6, "qf": 7.4, "sf": 2.8, "final": 1.4, "champ": 0.2}, "ALG": {"qual": 76.7, "r16": 18.1, "qf": 6.0, "sf": 2.1, "final": 0.7, "champ": 0.2}, "RSA": {"qual": 68.2, "r16": 8.2, "qf": 1.4, "sf": 0.2, "final": 0.0, "champ": 0.0}, "TUN": {"qual": 10.8, "r16": 0.2, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0}, "MEX": {"qual": 99.0, "r16": 88.7, "qf": 54.3, "sf": 17.3, "final": 10.6, "champ": 7.3}, "CAN": {"qual": 80.9, "r16": 36.6, "qf": 16.7, "sf": 6.9, "final": 2.2, "champ": 0.4}, "PAN": {"qual": 10.3, "r16": 0.1, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0}, "NZL": {"qual": 34.2, "r16": 3.8, "qf": 0.7, "sf": 0.1, "final": 0.0, "champ": 0.0}, "SWE": {"qual": 77.8, "r16": 34.3, "qf": 16.7, "sf": 7.2, "final": 2.4, "champ": 0.4}, "NOR": {"qual": 92.3, "r16": 76.5, "qf": 38.0, "sf": 23.0, "final": 7.8, "champ": 5.3}, "CZE": {"qual": 34.6, "r16": 1.2, "qf": 0.1, "sf": 0.0, "final": 0.0, "champ": 0.0}, "GHA": {"qual": 76.1, "r16": 22.4, "qf": 8.7, "sf": 3.1, "final": 1.6, "champ": 0.2}, "COD": {"qual": 76.5, "r16": 24.7, "qf": 10.1, "sf": 3.9, "final": 1.6, "champ": 0.2}, "BIH": {"qual": 55.6, "r16": 11.2, "qf": 3.7, "sf": 1.2, "final": 0.2, "champ": 0.1}, "CPV": {"qual": 71.2, "r16": 20.6, "qf": 7.8, "sf": 3.0, "final": 1.4, "champ": 0.2}, "JOR": {"qual": 10.9, "r16": 0.2, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0}, "CUW": {"qual": 48.4, "r16": 2.8, "qf": 0.2, "sf": 0.0, "final": 0.0, "champ": 0.0}, "HAI": {"qual": 6.9, "r16": 0.1, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0}}, "team_names": {"ARG": "阿根廷", "BRA": "巴西", "FRA": "法國", "ENG": "英格蘭", "ESP": "西班牙", "GER": "德國", "POR": "葡萄牙", "NED": "荷蘭", "URU": "烏拉圭", "USA": "美國", "MAR": "摩洛哥", "BEL": "比利時", "CRO": "克羅埃西亞", "SUI": "瑞士", "AUT": "奧地利", "TUR": "土耳其", "SCO": "蘇格蘭", "COL": "哥倫比亞", "ECU": "厄瓜多", "PAR": "巴拉圭", "JPN": "日本", "KOR": "南韓", "KSA": "沙烏地阿拉伯", "AUS": "澳洲", "IRN": "伊朗", "QAT": "卡達", "IRQ": "伊拉克", "UZB": "烏茲別克", "SEN": "塞內加爾", "EGY": "埃及", "CIV": "象牙海岸", "ALG": "阿爾及利亞", "RSA": "南非", "TUN": "突尼西亞", "MEX": "墨西哥", "CAN": "加拿大", "PAN": "巴拿馬", "NZL": "紐西蘭", "SWE": "瑞典", "NOR": "挪威", "CZE": "捷克", "GHA": "迦納", "COD": "剛果民主共和國", "BIH": "波士尼亞", "CPV": "維德角", "JOR": "約旦", "CUW": "庫拉索", "HAI": "海地"}, "confederations": {"ARG": "CONMEBOL", "BRA": "CONMEBOL", "URU": "CONMEBOL", "COL": "CONMEBOL", "ECU": "CONMEBOL", "PAR": "CONMEBOL", "ESP": "UEFA", "FRA": "UEFA", "GER": "UEFA", "ENG": "UEFA", "POR": "UEFA", "NED": "UEFA", "BEL": "UEFA", "CRO": "UEFA", "SUI": "UEFA", "AUT": "UEFA", "TUR": "UEFA", "SCO": "UEFA", "MAR": "CAF", "SEN": "CAF", "EGY": "CAF", "CIV": "CAF", "ALG": "CAF", "RSA": "CAF", "TUN": "CAF", "JPN": "AFC", "KOR": "AFC", "KSA": "AFC", "AUS": "AFC", "IRN": "AFC", "QAT": "AFC", "IRQ": "AFC", "UZB": "AFC", "USA": "CONCACAF", "MEX": "CONCACAF", "CAN": "CONCACAF", "PAN": "CONCACAF", "NZL": "OFC", "SWE": "UEFA", "NOR": "UEFA", "CZE": "UEFA", "BIH": "UEFA", "CPV": "CAF", "GHA": "CAF", "COD": "CAF", "JOR": "AFC", "CUW": "CONCACAF", "HAI": "CONCACAF"}, "groups": {"A": ["MEX", "RSA", "KOR", "CZE"], "B": ["CAN", "SUI", "QAT", "BIH"], "C": ["BRA", "MAR", "SCO", "HAI"], "D": ["USA", "PAR", "AUS", "TUR"], "E": ["GER", "CUW", "CIV", "ECU"], "F": ["NED", "JPN", "SWE", "TUN"], "G": ["BEL", "EGY", "IRN", "NZL"], "H": ["ESP", "CPV", "KSA", "URU"], "I": ["FRA", "SEN", "IRQ", "NOR"], "J": ["ARG", "ALG", "AUT", "JOR"], "K": ["POR", "COD", "UZB", "COL"], "L": ["ENG", "CRO", "GHA", "PAN"]}, "current_stage": {"stage": "qf", "played": 0, "total": 4}}
+{
+  "generated_at": "2026-07-09T14:16:36Z",
+  "n_sim": 10000,
+  "group_probs": {
+    "A": {
+      "MEX": {
+        "pos1": 84.7,
+        "pos2": 11.7,
+        "pos3": 2.9,
+        "pos4": 0.7,
+        "qualified": 96.4,
+        "best_third": 2.6
+      },
+      "RSA": {
+        "pos1": 8.1,
+        "pos2": 41.7,
+        "pos3": 30.3,
+        "pos4": 19.9,
+        "qualified": 49.8,
+        "best_third": 18.4
+      },
+      "KOR": {
+        "pos1": 5.0,
+        "pos2": 28.8,
+        "pos3": 36.5,
+        "pos4": 29.6,
+        "qualified": 33.9,
+        "best_third": 20.2
+      },
+      "CZE": {
+        "pos1": 2.1,
+        "pos2": 17.8,
+        "pos3": 30.2,
+        "pos4": 49.8,
+        "qualified": 19.9,
+        "best_third": 14.6
+      }
+    },
+    "B": {
+      "CAN": {
+        "pos1": 29.5,
+        "pos2": 33.8,
+        "pos3": 23.6,
+        "pos4": 13.0,
+        "qualified": 63.4,
+        "best_third": 17.5
+      },
+      "SUI": {
+        "pos1": 52.9,
+        "pos2": 28.6,
+        "pos3": 13.4,
+        "pos4": 5.1,
+        "qualified": 81.5,
+        "best_third": 11.1
+      },
+      "QAT": {
+        "pos1": 6.0,
+        "pos2": 15.4,
+        "pos3": 29.0,
+        "pos4": 49.5,
+        "qualified": 21.4,
+        "best_third": 17.6
+      },
+      "BIH": {
+        "pos1": 11.6,
+        "pos2": 22.1,
+        "pos3": 34.0,
+        "pos4": 32.4,
+        "qualified": 33.7,
+        "best_third": 21.9
+      }
+    },
+    "C": {
+      "BRA": {
+        "pos1": 52.0,
+        "pos2": 38.6,
+        "pos3": 8.6,
+        "pos4": 0.8,
+        "qualified": 90.6,
+        "best_third": 7.5
+      },
+      "MAR": {
+        "pos1": 43.7,
+        "pos2": 45.0,
+        "pos3": 10.3,
+        "pos4": 1.0,
+        "qualified": 88.7,
+        "best_third": 9.0
+      },
+      "SCO": {
+        "pos1": 4.1,
+        "pos2": 14.8,
+        "pos3": 64.1,
+        "pos4": 17.0,
+        "qualified": 18.9,
+        "best_third": 39.1
+      },
+      "HAI": {
+        "pos1": 0.2,
+        "pos2": 1.6,
+        "pos3": 16.9,
+        "pos4": 81.3,
+        "qualified": 1.8,
+        "best_third": 5.1
+      }
+    },
+    "D": {
+      "USA": {
+        "pos1": 39.1,
+        "pos2": 27.5,
+        "pos3": 20.2,
+        "pos4": 13.2,
+        "qualified": 66.5,
+        "best_third": 16.1
+      },
+      "PAR": {
+        "pos1": 25.2,
+        "pos2": 26.6,
+        "pos3": 25.9,
+        "pos4": 22.3,
+        "qualified": 51.8,
+        "best_third": 19.1
+      },
+      "AUS": {
+        "pos1": 22.4,
+        "pos2": 26.3,
+        "pos3": 26.5,
+        "pos4": 24.8,
+        "qualified": 48.6,
+        "best_third": 19.6
+      },
+      "TUR": {
+        "pos1": 13.3,
+        "pos2": 19.7,
+        "pos3": 27.3,
+        "pos4": 39.6,
+        "qualified": 33.0,
+        "best_third": 18.6
+      }
+    },
+    "E": {
+      "GER": {
+        "pos1": 41.4,
+        "pos2": 28.1,
+        "pos3": 18.9,
+        "pos4": 11.6,
+        "qualified": 69.5,
+        "best_third": 14.8
+      },
+      "CUW": {
+        "pos1": 11.1,
+        "pos2": 18.8,
+        "pos3": 27.5,
+        "pos4": 42.7,
+        "qualified": 29.9,
+        "best_third": 18.5
+      },
+      "CIV": {
+        "pos1": 28.1,
+        "pos2": 28.4,
+        "pos3": 24.7,
+        "pos4": 18.9,
+        "qualified": 56.4,
+        "best_third": 18.3
+      },
+      "ECU": {
+        "pos1": 19.5,
+        "pos2": 24.7,
+        "pos3": 29.0,
+        "pos4": 26.9,
+        "qualified": 44.2,
+        "best_third": 20.5
+      }
+    },
+    "F": {
+      "NED": {
+        "pos1": 57.7,
+        "pos2": 28.1,
+        "pos3": 12.6,
+        "pos4": 1.7,
+        "qualified": 85.7,
+        "best_third": 10.7
+      },
+      "JPN": {
+        "pos1": 25.9,
+        "pos2": 38.5,
+        "pos3": 29.9,
+        "pos4": 5.7,
+        "qualified": 64.4,
+        "best_third": 23.2
+      },
+      "SWE": {
+        "pos1": 15.7,
+        "pos2": 30.2,
+        "pos3": 43.4,
+        "pos4": 10.7,
+        "qualified": 45.9,
+        "best_third": 31.9
+      },
+      "TUN": {
+        "pos1": 0.7,
+        "pos2": 3.2,
+        "pos3": 14.1,
+        "pos4": 82.0,
+        "qualified": 4.0,
+        "best_third": 6.8
+      }
+    },
+    "G": {
+      "BEL": {
+        "pos1": 45.3,
+        "pos2": 29.0,
+        "pos3": 17.5,
+        "pos4": 8.2,
+        "qualified": 74.2,
+        "best_third": 13.9
+      },
+      "EGY": {
+        "pos1": 29.3,
+        "pos2": 31.7,
+        "pos3": 25.1,
+        "pos4": 14.0,
+        "qualified": 61.0,
+        "best_third": 18.9
+      },
+      "IRN": {
+        "pos1": 19.5,
+        "pos2": 26.5,
+        "pos3": 32.1,
+        "pos4": 22.0,
+        "qualified": 46.0,
+        "best_third": 22.8
+      },
+      "NZL": {
+        "pos1": 5.9,
+        "pos2": 12.9,
+        "pos3": 25.4,
+        "pos4": 55.8,
+        "qualified": 18.8,
+        "best_third": 15.4
+      }
+    },
+    "H": {
+      "ESP": {
+        "pos1": 62.0,
+        "pos2": 23.1,
+        "pos3": 10.8,
+        "pos4": 4.1,
+        "qualified": 85.1,
+        "best_third": 9.0
+      },
+      "CPV": {
+        "pos1": 18.8,
+        "pos2": 33.4,
+        "pos3": 27.4,
+        "pos4": 20.4,
+        "qualified": 52.2,
+        "best_third": 19.0
+      },
+      "KSA": {
+        "pos1": 10.8,
+        "pos2": 23.4,
+        "pos3": 30.7,
+        "pos4": 35.1,
+        "qualified": 34.2,
+        "best_third": 19.6
+      },
+      "URU": {
+        "pos1": 8.5,
+        "pos2": 20.0,
+        "pos3": 31.1,
+        "pos4": 40.4,
+        "qualified": 28.5,
+        "best_third": 19.6
+      }
+    },
+    "I": {
+      "FRA": {
+        "pos1": 75.4,
+        "pos2": 21.8,
+        "pos3": 2.7,
+        "pos4": 0.1,
+        "qualified": 97.2,
+        "best_third": 2.5
+      },
+      "SEN": {
+        "pos1": 2.7,
+        "pos2": 17.6,
+        "pos3": 59.3,
+        "pos4": 20.4,
+        "qualified": 20.3,
+        "best_third": 32.9
+      },
+      "IRQ": {
+        "pos1": 0.3,
+        "pos2": 2.9,
+        "pos3": 20.4,
+        "pos4": 76.4,
+        "qualified": 3.2,
+        "best_third": 6.3
+      },
+      "NOR": {
+        "pos1": 21.6,
+        "pos2": 57.7,
+        "pos3": 17.6,
+        "pos4": 3.1,
+        "qualified": 79.3,
+        "best_third": 13.0
+      }
+    },
+    "J": {
+      "ARG": {
+        "pos1": 86.1,
+        "pos2": 11.4,
+        "pos3": 2.4,
+        "pos4": 0.2,
+        "qualified": 97.4,
+        "best_third": 2.3
+      },
+      "ALG": {
+        "pos1": 7.2,
+        "pos2": 45.4,
+        "pos3": 37.3,
+        "pos4": 10.0,
+        "qualified": 52.7,
+        "best_third": 24.0
+      },
+      "AUT": {
+        "pos1": 6.6,
+        "pos2": 38.5,
+        "pos3": 43.2,
+        "pos4": 11.8,
+        "qualified": 45.0,
+        "best_third": 27.5
+      },
+      "JOR": {
+        "pos1": 0.2,
+        "pos2": 4.7,
+        "pos3": 17.1,
+        "pos4": 78.0,
+        "qualified": 4.9,
+        "best_third": 6.0
+      }
+    },
+    "K": {
+      "POR": {
+        "pos1": 42.7,
+        "pos2": 33.2,
+        "pos3": 20.6,
+        "pos4": 3.5,
+        "qualified": 75.9,
+        "best_third": 16.7
+      },
+      "COD": {
+        "pos1": 17.4,
+        "pos2": 28.7,
+        "pos3": 41.5,
+        "pos4": 12.5,
+        "qualified": 46.1,
+        "best_third": 30.4
+      },
+      "UZB": {
+        "pos1": 1.2,
+        "pos2": 4.2,
+        "pos3": 15.4,
+        "pos4": 79.2,
+        "qualified": 5.4,
+        "best_third": 8.2
+      },
+      "COL": {
+        "pos1": 38.7,
+        "pos2": 33.9,
+        "pos3": 22.5,
+        "pos4": 4.8,
+        "qualified": 72.6,
+        "best_third": 18.0
+      }
+    },
+    "L": {
+      "ENG": {
+        "pos1": 67.3,
+        "pos2": 23.0,
+        "pos3": 8.8,
+        "pos4": 0.9,
+        "qualified": 90.3,
+        "best_third": 7.8
+      },
+      "CRO": {
+        "pos1": 20.2,
+        "pos2": 42.1,
+        "pos3": 31.7,
+        "pos4": 5.9,
+        "qualified": 62.3,
+        "best_third": 24.6
+      },
+      "GHA": {
+        "pos1": 11.9,
+        "pos2": 31.5,
+        "pos3": 45.4,
+        "pos4": 11.2,
+        "qualified": 43.4,
+        "best_third": 32.6
+      },
+      "PAN": {
+        "pos1": 0.5,
+        "pos2": 3.4,
+        "pos3": 14.1,
+        "pos4": 81.9,
+        "qualified": 4.0,
+        "best_third": 6.3
+      }
+    }
+  },
+  "predicted_group_standings": {
+    "A": [
+      "MEX",
+      "RSA",
+      "KOR",
+      "CZE"
+    ],
+    "B": [
+      "SUI",
+      "CAN",
+      "BIH",
+      "QAT"
+    ],
+    "C": [
+      "MAR",
+      "BRA",
+      "SCO",
+      "HAI"
+    ],
+    "D": [
+      "USA",
+      "AUS",
+      "PAR",
+      "TUR"
+    ],
+    "E": [
+      "GER",
+      "CIV",
+      "ECU",
+      "CUW"
+    ],
+    "F": [
+      "NED",
+      "JPN",
+      "SWE",
+      "TUN"
+    ],
+    "G": [
+      "BEL",
+      "EGY",
+      "IRN",
+      "NZL"
+    ],
+    "H": [
+      "ESP",
+      "CPV",
+      "URU",
+      "KSA"
+    ],
+    "I": [
+      "FRA",
+      "NOR",
+      "SEN",
+      "IRQ"
+    ],
+    "J": [
+      "ARG",
+      "ALG",
+      "AUT",
+      "JOR"
+    ],
+    "K": [
+      "COL",
+      "POR",
+      "COD",
+      "UZB"
+    ],
+    "L": [
+      "ENG",
+      "CRO",
+      "GHA",
+      "PAN"
+    ]
+  },
+  "group_matches": {
+    "A": [
+      {
+        "t1": "MEX",
+        "t2": "RSA",
+        "xg_home": 2.41,
+        "xg_away": 0.48,
+        "p_home": 74.5,
+        "p_draw": 21.6,
+        "p_away": 4.0
+      },
+      {
+        "t1": "MEX",
+        "t2": "KOR",
+        "xg_home": 2.16,
+        "xg_away": 0.6,
+        "p_home": 64.4,
+        "p_draw": 25.1,
+        "p_away": 10.4
+      },
+      {
+        "t1": "MEX",
+        "t2": "CZE",
+        "xg_home": 2.41,
+        "xg_away": 0.68,
+        "p_home": 64.8,
+        "p_draw": 21.4,
+        "p_away": 13.8
+      },
+      {
+        "t1": "RSA",
+        "t2": "KOR",
+        "xg_home": 0.96,
+        "xg_away": 1.27,
+        "p_home": 23.2,
+        "p_draw": 31.7,
+        "p_away": 45.2
+      },
+      {
+        "t1": "RSA",
+        "t2": "CZE",
+        "xg_home": 1.12,
+        "xg_away": 0.99,
+        "p_home": 33.6,
+        "p_draw": 31.5,
+        "p_away": 34.9
+      },
+      {
+        "t1": "KOR",
+        "t2": "CZE",
+        "xg_home": 1.43,
+        "xg_away": 0.83,
+        "p_home": 46.5,
+        "p_draw": 32.2,
+        "p_away": 21.4
+      }
+    ],
+    "B": [
+      {
+        "t1": "CAN",
+        "t2": "SUI",
+        "xg_home": 0.9,
+        "xg_away": 1.71,
+        "p_home": 18.0,
+        "p_draw": 31.9,
+        "p_away": 50.1
+      },
+      {
+        "t1": "CAN",
+        "t2": "QAT",
+        "xg_home": 1.85,
+        "xg_away": 0.66,
+        "p_home": 53.6,
+        "p_draw": 33.0,
+        "p_away": 13.5
+      },
+      {
+        "t1": "CAN",
+        "t2": "BIH",
+        "xg_home": 1.6,
+        "xg_away": 0.9,
+        "p_home": 43.1,
+        "p_draw": 36.7,
+        "p_away": 20.2
+      },
+      {
+        "t1": "SUI",
+        "t2": "QAT",
+        "xg_home": 2.23,
+        "xg_away": 0.57,
+        "p_home": 61.5,
+        "p_draw": 27.4,
+        "p_away": 11.1
+      },
+      {
+        "t1": "SUI",
+        "t2": "BIH",
+        "xg_home": 1.99,
+        "xg_away": 0.75,
+        "p_home": 53.7,
+        "p_draw": 31.8,
+        "p_away": 14.5
+      },
+      {
+        "t1": "QAT",
+        "t2": "BIH",
+        "xg_home": 0.76,
+        "xg_away": 1.83,
+        "p_home": 12.9,
+        "p_draw": 24.3,
+        "p_away": 62.8
+      }
+    ],
+    "C": [
+      {
+        "t1": "BRA",
+        "t2": "MAR",
+        "xg_home": 1.25,
+        "xg_away": 1.42,
+        "p_home": 29.9,
+        "p_draw": 38.6,
+        "p_away": 31.5
+      },
+      {
+        "t1": "BRA",
+        "t2": "SCO",
+        "xg_home": 2.65,
+        "xg_away": 0.56,
+        "p_home": 79.2,
+        "p_draw": 16.8,
+        "p_away": 3.9
+      },
+      {
+        "t1": "BRA",
+        "t2": "HAI",
+        "xg_home": 2.6,
+        "xg_away": 0.38,
+        "p_home": 78.5,
+        "p_draw": 17.5,
+        "p_away": 4.0
+      },
+      {
+        "t1": "MAR",
+        "t2": "SCO",
+        "xg_home": 2.02,
+        "xg_away": 0.58,
+        "p_home": 61.2,
+        "p_draw": 26.6,
+        "p_away": 12.2
+      },
+      {
+        "t1": "MAR",
+        "t2": "HAI",
+        "xg_home": 3.0,
+        "xg_away": 0.41,
+        "p_home": 88.5,
+        "p_draw": 7.6,
+        "p_away": 3.9
+      },
+      {
+        "t1": "SCO",
+        "t2": "HAI",
+        "xg_home": 1.65,
+        "xg_away": 0.47,
+        "p_home": 61.0,
+        "p_draw": 30.8,
+        "p_away": 8.1
+      }
+    ],
+    "D": [
+      {
+        "t1": "USA",
+        "t2": "PAR",
+        "xg_home": 2.04,
+        "xg_away": 0.88,
+        "p_home": 58.4,
+        "p_draw": 26.3,
+        "p_away": 15.3
+      },
+      {
+        "t1": "USA",
+        "t2": "AUS",
+        "xg_home": 1.52,
+        "xg_away": 1.03,
+        "p_home": 44.2,
+        "p_draw": 30.6,
+        "p_away": 25.2
+      },
+      {
+        "t1": "USA",
+        "t2": "TUR",
+        "xg_home": 1.99,
+        "xg_away": 0.98,
+        "p_home": 51.5,
+        "p_draw": 26.9,
+        "p_away": 21.6
+      },
+      {
+        "t1": "PAR",
+        "t2": "AUS",
+        "xg_home": 0.9,
+        "xg_away": 0.99,
+        "p_home": 31.3,
+        "p_draw": 42.4,
+        "p_away": 26.3
+      },
+      {
+        "t1": "PAR",
+        "t2": "TUR",
+        "xg_home": 1.24,
+        "xg_away": 0.99,
+        "p_home": 37.0,
+        "p_draw": 34.7,
+        "p_away": 28.3
+      },
+      {
+        "t1": "AUS",
+        "t2": "TUR",
+        "xg_home": 1.53,
+        "xg_away": 0.84,
+        "p_home": 47.8,
+        "p_draw": 34.0,
+        "p_away": 18.2
+      }
+    ],
+    "E": [
+      {
+        "t1": "GER",
+        "t2": "CUW",
+        "xg_home": 2.51,
+        "xg_away": 0.59,
+        "p_home": 69.0,
+        "p_draw": 26.3,
+        "p_away": 4.7
+      },
+      {
+        "t1": "GER",
+        "t2": "CIV",
+        "xg_home": 1.98,
+        "xg_away": 0.99,
+        "p_home": 57.9,
+        "p_draw": 29.7,
+        "p_away": 12.4
+      },
+      {
+        "t1": "GER",
+        "t2": "ECU",
+        "xg_home": 2.1,
+        "xg_away": 0.96,
+        "p_home": 53.0,
+        "p_draw": 28.8,
+        "p_away": 18.3
+      },
+      {
+        "t1": "CUW",
+        "t2": "CIV",
+        "xg_home": 0.63,
+        "xg_away": 2.27,
+        "p_home": 7.3,
+        "p_draw": 17.7,
+        "p_away": 75.0
+      },
+      {
+        "t1": "CUW",
+        "t2": "ECU",
+        "xg_home": 0.6,
+        "xg_away": 2.08,
+        "p_home": 8.9,
+        "p_draw": 17.9,
+        "p_away": 73.2
+      },
+      {
+        "t1": "CIV",
+        "t2": "ECU",
+        "xg_home": 1.26,
+        "xg_away": 0.87,
+        "p_home": 40.3,
+        "p_draw": 36.9,
+        "p_away": 22.8
+      }
+    ],
+    "F": [
+      {
+        "t1": "NED",
+        "t2": "JPN",
+        "xg_home": 1.88,
+        "xg_away": 1.1,
+        "p_home": 46.2,
+        "p_draw": 31.1,
+        "p_away": 22.7
+      },
+      {
+        "t1": "NED",
+        "t2": "SWE",
+        "xg_home": 2.89,
+        "xg_away": 0.87,
+        "p_home": 70.7,
+        "p_draw": 19.1,
+        "p_away": 10.2
+      },
+      {
+        "t1": "NED",
+        "t2": "TUN",
+        "xg_home": 3.0,
+        "xg_away": 0.51,
+        "p_home": 87.7,
+        "p_draw": 8.4,
+        "p_away": 4.0
+      },
+      {
+        "t1": "JPN",
+        "t2": "SWE",
+        "xg_home": 1.51,
+        "xg_away": 1.06,
+        "p_home": 45.9,
+        "p_draw": 33.7,
+        "p_away": 20.4
+      },
+      {
+        "t1": "JPN",
+        "t2": "TUN",
+        "xg_home": 2.31,
+        "xg_away": 0.51,
+        "p_home": 73.8,
+        "p_draw": 21.3,
+        "p_away": 4.9
+      },
+      {
+        "t1": "SWE",
+        "t2": "TUN",
+        "xg_home": 2.36,
+        "xg_away": 0.6,
+        "p_home": 75.3,
+        "p_draw": 19.8,
+        "p_away": 4.9
+      }
+    ],
+    "G": [
+      {
+        "t1": "BEL",
+        "t2": "EGY",
+        "xg_home": 1.79,
+        "xg_away": 0.85,
+        "p_home": 43.9,
+        "p_draw": 38.0,
+        "p_away": 18.1
+      },
+      {
+        "t1": "BEL",
+        "t2": "IRN",
+        "xg_home": 2.25,
+        "xg_away": 0.73,
+        "p_home": 63.3,
+        "p_draw": 29.3,
+        "p_away": 7.3
+      },
+      {
+        "t1": "BEL",
+        "t2": "NZL",
+        "xg_home": 2.94,
+        "xg_away": 0.58,
+        "p_home": 76.3,
+        "p_draw": 19.8,
+        "p_away": 3.9
+      },
+      {
+        "t1": "EGY",
+        "t2": "IRN",
+        "xg_home": 1.27,
+        "xg_away": 0.87,
+        "p_home": 40.5,
+        "p_draw": 40.0,
+        "p_away": 19.6
+      },
+      {
+        "t1": "EGY",
+        "t2": "NZL",
+        "xg_home": 1.58,
+        "xg_away": 0.77,
+        "p_home": 41.4,
+        "p_draw": 33.7,
+        "p_away": 24.9
+      },
+      {
+        "t1": "IRN",
+        "t2": "NZL",
+        "xg_home": 1.71,
+        "xg_away": 0.82,
+        "p_home": 48.0,
+        "p_draw": 34.0,
+        "p_away": 18.0
+      }
+    ],
+    "H": [
+      {
+        "t1": "ESP",
+        "t2": "CPV",
+        "xg_home": 2.09,
+        "xg_away": 0.49,
+        "p_home": 59.2,
+        "p_draw": 32.7,
+        "p_away": 8.0
+      },
+      {
+        "t1": "ESP",
+        "t2": "KSA",
+        "xg_home": 3.0,
+        "xg_away": 1.4,
+        "p_home": 78.8,
+        "p_draw": 17.2,
+        "p_away": 4.0
+      },
+      {
+        "t1": "ESP",
+        "t2": "URU",
+        "xg_home": 2.21,
+        "xg_away": 0.62,
+        "p_home": 65.9,
+        "p_draw": 26.0,
+        "p_away": 8.2
+      },
+      {
+        "t1": "CPV",
+        "t2": "KSA",
+        "xg_home": 1.2,
+        "xg_away": 0.94,
+        "p_home": 38.0,
+        "p_draw": 34.4,
+        "p_away": 27.6
+      },
+      {
+        "t1": "CPV",
+        "t2": "URU",
+        "xg_home": 0.88,
+        "xg_away": 1.48,
+        "p_home": 20.1,
+        "p_draw": 23.6,
+        "p_away": 56.3
+      },
+      {
+        "t1": "KSA",
+        "t2": "URU",
+        "xg_home": 0.88,
+        "xg_away": 1.31,
+        "p_home": 24.4,
+        "p_draw": 31.4,
+        "p_away": 44.2
+      }
+    ],
+    "I": [
+      {
+        "t1": "FRA",
+        "t2": "SEN",
+        "xg_home": 3.0,
+        "xg_away": 0.65,
+        "p_home": 78.0,
+        "p_draw": 17.1,
+        "p_away": 4.9
+      },
+      {
+        "t1": "FRA",
+        "t2": "IRQ",
+        "xg_home": 3.0,
+        "xg_away": 0.45,
+        "p_home": 92.1,
+        "p_draw": 4.0,
+        "p_away": 3.9
+      },
+      {
+        "t1": "FRA",
+        "t2": "NOR",
+        "xg_home": 2.56,
+        "xg_away": 1.1,
+        "p_home": 64.1,
+        "p_draw": 22.8,
+        "p_away": 13.1
+      },
+      {
+        "t1": "SEN",
+        "t2": "IRQ",
+        "xg_home": 2.43,
+        "xg_away": 0.61,
+        "p_home": 77.1,
+        "p_draw": 18.9,
+        "p_away": 4.0
+      },
+      {
+        "t1": "SEN",
+        "t2": "NOR",
+        "xg_home": 0.87,
+        "xg_away": 2.31,
+        "p_home": 16.9,
+        "p_draw": 27.0,
+        "p_away": 56.1
+      },
+      {
+        "t1": "IRQ",
+        "t2": "NOR",
+        "xg_home": 0.56,
+        "xg_away": 2.88,
+        "p_home": 4.1,
+        "p_draw": 16.4,
+        "p_away": 79.4
+      }
+    ],
+    "J": [
+      {
+        "t1": "ARG",
+        "t2": "ALG",
+        "xg_home": 3.0,
+        "xg_away": 0.56,
+        "p_home": 79.7,
+        "p_draw": 16.3,
+        "p_away": 4.0
+      },
+      {
+        "t1": "ARG",
+        "t2": "AUT",
+        "xg_home": 2.86,
+        "xg_away": 0.6,
+        "p_home": 78.4,
+        "p_draw": 17.6,
+        "p_away": 3.9
+      },
+      {
+        "t1": "ARG",
+        "t2": "JOR",
+        "xg_home": 3.0,
+        "xg_away": 0.49,
+        "p_home": 89.7,
+        "p_draw": 6.3,
+        "p_away": 4.0
+      },
+      {
+        "t1": "ALG",
+        "t2": "AUT",
+        "xg_home": 0.88,
+        "xg_away": 1.14,
+        "p_home": 24.8,
+        "p_draw": 43.6,
+        "p_away": 31.6
+      },
+      {
+        "t1": "ALG",
+        "t2": "JOR",
+        "xg_home": 1.99,
+        "xg_away": 0.64,
+        "p_home": 70.1,
+        "p_draw": 22.8,
+        "p_away": 7.1
+      },
+      {
+        "t1": "AUT",
+        "t2": "JOR",
+        "xg_home": 2.06,
+        "xg_away": 0.63,
+        "p_home": 68.3,
+        "p_draw": 23.2,
+        "p_away": 8.5
+      }
+    ],
+    "K": [
+      {
+        "t1": "POR",
+        "t2": "COD",
+        "xg_home": 1.88,
+        "xg_away": 0.71,
+        "p_home": 55.2,
+        "p_draw": 31.3,
+        "p_away": 13.5
+      },
+      {
+        "t1": "POR",
+        "t2": "UZB",
+        "xg_home": 2.95,
+        "xg_away": 0.48,
+        "p_home": 85.6,
+        "p_draw": 10.5,
+        "p_away": 3.9
+      },
+      {
+        "t1": "POR",
+        "t2": "COL",
+        "xg_home": 1.34,
+        "xg_away": 1.46,
+        "p_home": 35.1,
+        "p_draw": 30.7,
+        "p_away": 34.1
+      },
+      {
+        "t1": "COD",
+        "t2": "UZB",
+        "xg_home": 1.99,
+        "xg_away": 0.62,
+        "p_home": 68.4,
+        "p_draw": 24.9,
+        "p_away": 6.7
+      },
+      {
+        "t1": "COD",
+        "t2": "COL",
+        "xg_home": 0.65,
+        "xg_away": 2.04,
+        "p_home": 7.7,
+        "p_draw": 23.9,
+        "p_away": 68.5
+      },
+      {
+        "t1": "UZB",
+        "t2": "COL",
+        "xg_home": 0.54,
+        "xg_away": 2.38,
+        "p_home": 8.4,
+        "p_draw": 21.0,
+        "p_away": 70.5
+      }
+    ],
+    "L": [
+      {
+        "t1": "ENG",
+        "t2": "CRO",
+        "xg_home": 2.22,
+        "xg_away": 0.97,
+        "p_home": 55.5,
+        "p_draw": 29.3,
+        "p_away": 15.1
+      },
+      {
+        "t1": "ENG",
+        "t2": "GHA",
+        "xg_home": 2.8,
+        "xg_away": 0.58,
+        "p_home": 76.8,
+        "p_draw": 19.2,
+        "p_away": 4.0
+      },
+      {
+        "t1": "ENG",
+        "t2": "PAN",
+        "xg_home": 3.0,
+        "xg_away": 0.49,
+        "p_home": 87.1,
+        "p_draw": 8.9,
+        "p_away": 4.0
+      },
+      {
+        "t1": "CRO",
+        "t2": "GHA",
+        "xg_home": 1.64,
+        "xg_away": 0.7,
+        "p_home": 52.3,
+        "p_draw": 37.4,
+        "p_away": 10.3
+      },
+      {
+        "t1": "CRO",
+        "t2": "PAN",
+        "xg_home": 2.29,
+        "xg_away": 0.5,
+        "p_home": 76.4,
+        "p_draw": 19.6,
+        "p_away": 4.0
+      },
+      {
+        "t1": "GHA",
+        "t2": "PAN",
+        "xg_home": 1.63,
+        "xg_away": 0.58,
+        "p_home": 56.6,
+        "p_draw": 29.4,
+        "p_away": 14.1
+      }
+    ]
+  },
+  "expected_bracket": {
+    "r32": [
+      {
+        "slot": "M1",
+        "team1": "FRA",
+        "team2": "RSA",
+        "p1": 90.5,
+        "score": "3-1"
+      },
+      {
+        "slot": "M2",
+        "team1": "ARG",
+        "team2": "ECU",
+        "p1": 85.5,
+        "score": "2-1"
+      },
+      {
+        "slot": "M3",
+        "team1": "MEX",
+        "team2": "BIH",
+        "p1": 78.5,
+        "score": "2-1"
+      },
+      {
+        "slot": "M4",
+        "team1": "ENG",
+        "team2": "AUT",
+        "p1": 76.1,
+        "score": "2-1"
+      },
+      {
+        "slot": "M5",
+        "team1": "MAR",
+        "team2": "ALG",
+        "p1": 75.8,
+        "score": "2-1"
+      },
+      {
+        "slot": "M6",
+        "team1": "NOR",
+        "team2": "CIV",
+        "p1": 74.2,
+        "score": "2-1"
+      },
+      {
+        "slot": "M7",
+        "team1": "BRA",
+        "team2": "CPV",
+        "p1": 73.8,
+        "score": "2-1"
+      },
+      {
+        "slot": "M8",
+        "team1": "COL",
+        "team2": "GHA",
+        "p1": 70.5,
+        "score": "2-1"
+      },
+      {
+        "slot": "M9",
+        "team1": "NED",
+        "team2": "COD",
+        "p1": 70.4,
+        "score": "2-1"
+      },
+      {
+        "slot": "M10",
+        "team1": "ESP",
+        "team2": "PAR",
+        "p1": 69.9,
+        "score": "2-1"
+      },
+      {
+        "slot": "M11",
+        "team1": "SUI",
+        "team2": "IRN",
+        "p1": 68.4,
+        "score": "2-1"
+      },
+      {
+        "slot": "M12",
+        "team1": "POR",
+        "team2": "GER",
+        "p1": 64.6,
+        "score": "2-1"
+      },
+      {
+        "slot": "M13",
+        "team1": "BEL",
+        "team2": "AUS",
+        "p1": 62.1,
+        "score": "1-1"
+      },
+      {
+        "slot": "M14",
+        "team1": "JPN",
+        "team2": "SWE",
+        "p1": 59.3,
+        "score": "1-1"
+      },
+      {
+        "slot": "M15",
+        "team1": "USA",
+        "team2": "CAN",
+        "p1": 58.1,
+        "score": "1-1"
+      },
+      {
+        "slot": "M16",
+        "team1": "CRO",
+        "team2": "EGY",
+        "p1": 55.6,
+        "score": "1-1"
+      }
+    ],
+    "r16": [
+      {
+        "slot": "M1",
+        "team1": "FRA",
+        "team2": "ARG",
+        "p1": 57.2,
+        "score": "1-1"
+      },
+      {
+        "slot": "M2",
+        "team1": "MEX",
+        "team2": "ENG",
+        "p1": 56.4,
+        "score": "1-1"
+      },
+      {
+        "slot": "M3",
+        "team1": "MAR",
+        "team2": "NOR",
+        "p1": 55.4,
+        "score": "1-1"
+      },
+      {
+        "slot": "M4",
+        "team1": "BRA",
+        "team2": "COL",
+        "p1": 58.6,
+        "score": "1-1"
+      },
+      {
+        "slot": "M5",
+        "team1": "NED",
+        "team2": "ESP",
+        "p1": 55.1,
+        "score": "1-1"
+      },
+      {
+        "slot": "M6",
+        "team1": "SUI",
+        "team2": "POR",
+        "p1": 58.6,
+        "score": "1-1"
+      },
+      {
+        "slot": "M7",
+        "team1": "BEL",
+        "team2": "JPN",
+        "p1": 57.2,
+        "score": "1-1"
+      },
+      {
+        "slot": "M8",
+        "team1": "USA",
+        "team2": "CRO",
+        "p1": 55.1,
+        "score": "1-1"
+      }
+    ],
+    "qf": [
+      {
+        "slot": "M1",
+        "team1": "FRA",
+        "team2": "MEX",
+        "p1": 67.0,
+        "score": "2-1"
+      },
+      {
+        "slot": "M2",
+        "team1": "MAR",
+        "team2": "BRA",
+        "p1": 55.5,
+        "score": "1-1"
+      },
+      {
+        "slot": "M3",
+        "team1": "NED",
+        "team2": "SUI",
+        "p1": 56.7,
+        "score": "1-1"
+      },
+      {
+        "slot": "M4",
+        "team1": "BEL",
+        "team2": "USA",
+        "p1": 58.3,
+        "score": "1-1"
+      }
+    ],
+    "sf": [
+      {
+        "slot": "M1",
+        "team1": "FRA",
+        "team2": "MAR",
+        "p1": 68.5,
+        "score": "2-1"
+      },
+      {
+        "slot": "M2",
+        "team1": "NED",
+        "team2": "BEL",
+        "p1": 62.6,
+        "score": "1-1"
+      }
+    ],
+    "final": {
+      "slot": "M1",
+      "team1": "FRA",
+      "team2": "NED",
+      "p1": 72.5,
+      "score": "2-1"
+    }
+  },
+  "tournament_probs": {
+    "ARG": {
+      "qual": 99.7,
+      "r16": 94.5,
+      "qf": 40.8,
+      "sf": 28.2,
+      "final": 19.7,
+      "champ": 15.7
+    },
+    "BRA": {
+      "qual": 98.0,
+      "r16": 79.4,
+      "qf": 49.3,
+      "sf": 23.5,
+      "final": 7.6,
+      "champ": 5.0
+    },
+    "FRA": {
+      "qual": 99.7,
+      "r16": 97.0,
+      "qf": 58.6,
+      "sf": 41.7,
+      "final": 31.2,
+      "champ": 26.0
+    },
+    "ENG": {
+      "qual": 98.0,
+      "r16": 83.5,
+      "qf": 39.9,
+      "sf": 11.9,
+      "final": 6.7,
+      "champ": 4.7
+    },
+    "ESP": {
+      "qual": 94.1,
+      "r16": 70.5,
+      "qf": 37.0,
+      "sf": 23.5,
+      "final": 16.2,
+      "champ": 4.9
+    },
+    "GER": {
+      "qual": 84.4,
+      "r16": 33.2,
+      "qf": 15.3,
+      "sf": 7.2,
+      "final": 2.5,
+      "champ": 0.5
+    },
+    "POR": {
+      "qual": 92.6,
+      "r16": 63.5,
+      "qf": 31.6,
+      "sf": 13.7,
+      "final": 8.8,
+      "champ": 2.0
+    },
+    "NED": {
+      "qual": 96.5,
+      "r16": 73.1,
+      "qf": 42.0,
+      "sf": 24.6,
+      "final": 15.8,
+      "champ": 5.6
+    },
+    "URU": {
+      "qual": 48.1,
+      "r16": 8.4,
+      "qf": 2.1,
+      "sf": 0.6,
+      "final": 0.1,
+      "champ": 0.0
+    },
+    "USA": {
+      "qual": 82.7,
+      "r16": 50.9,
+      "qf": 27.0,
+      "sf": 14.1,
+      "final": 5.0,
+      "champ": 1.1
+    },
+    "MAR": {
+      "qual": 97.7,
+      "r16": 82.5,
+      "qf": 49.8,
+      "sf": 30.4,
+      "final": 10.4,
+      "champ": 7.4
+    },
+    "BEL": {
+      "qual": 88.1,
+      "r16": 57.4,
+      "qf": 32.2,
+      "sf": 17.3,
+      "final": 7.8,
+      "champ": 1.9
+    },
+    "CRO": {
+      "qual": 86.9,
+      "r16": 50.9,
+      "qf": 25.6,
+      "sf": 11.7,
+      "final": 4.2,
+      "champ": 0.8
+    },
+    "SUI": {
+      "qual": 92.6,
+      "r16": 67.6,
+      "qf": 40.2,
+      "sf": 20.6,
+      "final": 14.0,
+      "champ": 4.3
+    },
+    "AUT": {
+      "qual": 72.5,
+      "r16": 16.9,
+      "qf": 5.4,
+      "sf": 1.9,
+      "final": 0.6,
+      "champ": 0.1
+    },
+    "TUR": {
+      "qual": 51.6,
+      "r16": 10.0,
+      "qf": 3.1,
+      "sf": 1.0,
+      "final": 0.2,
+      "champ": 0.1
+    },
+    "SCO": {
+      "qual": 58.0,
+      "r16": 8.3,
+      "qf": 1.7,
+      "sf": 0.4,
+      "final": 0.0,
+      "champ": 0.0
+    },
+    "COL": {
+      "qual": 90.6,
+      "r16": 70.8,
+      "qf": 34.2,
+      "sf": 14.1,
+      "final": 4.1,
+      "champ": 2.5
+    },
+    "ECU": {
+      "qual": 64.7,
+      "r16": 12.9,
+      "qf": 3.9,
+      "sf": 1.0,
+      "final": 0.2,
+      "champ": 0.0
+    },
+    "PAR": {
+      "qual": 70.9,
+      "r16": 24.6,
+      "qf": 11.2,
+      "sf": 5.0,
+      "final": 1.8,
+      "champ": 0.4
+    },
+    "JPN": {
+      "qual": 87.6,
+      "r16": 54.8,
+      "qf": 27.7,
+      "sf": 15.6,
+      "final": 6.0,
+      "champ": 1.2
+    },
+    "KOR": {
+      "qual": 54.1,
+      "r16": 3.7,
+      "qf": 0.6,
+      "sf": 0.1,
+      "final": 0.0,
+      "champ": 0.0
+    },
+    "KSA": {
+      "qual": 53.7,
+      "r16": 9.1,
+      "qf": 2.3,
+      "sf": 0.5,
+      "final": 0.1,
+      "champ": 0.0
+    },
+    "AUS": {
+      "qual": 68.2,
+      "r16": 27.3,
+      "qf": 12.5,
+      "sf": 5.5,
+      "final": 1.8,
+      "champ": 0.3
+    },
+    "IRN": {
+      "qual": 68.8,
+      "r16": 25.6,
+      "qf": 11.6,
+      "sf": 5.4,
+      "final": 1.8,
+      "champ": 0.4
+    },
+    "QAT": {
+      "qual": 39.0,
+      "r16": 3.2,
+      "qf": 0.6,
+      "sf": 0.1,
+      "final": 0.0,
+      "champ": 0.0
+    },
+    "IRQ": {
+      "qual": 9.5,
+      "r16": 0.1,
+      "qf": 0.0,
+      "sf": 0.0,
+      "final": 0.0,
+      "champ": 0.0
+    },
+    "UZB": {
+      "qual": 13.6,
+      "r16": 0.2,
+      "qf": 0.0,
+      "sf": 0.0,
+      "final": 0.0,
+      "champ": 0.0
+    },
+    "SEN": {
+      "qual": 53.2,
+      "r16": 7.7,
+      "qf": 1.6,
+      "sf": 0.3,
+      "final": 0.0,
+      "champ": 0.0
+    },
+    "EGY": {
+      "qual": 79.9,
+      "r16": 43.0,
+      "qf": 20.8,
+      "sf": 9.1,
+      "final": 3.3,
+      "champ": 0.6
+    },
+    "CIV": {
+      "qual": 74.7,
+      "r16": 19.6,
+      "qf": 7.4,
+      "sf": 2.8,
+      "final": 1.4,
+      "champ": 0.2
+    },
+    "ALG": {
+      "qual": 76.7,
+      "r16": 18.1,
+      "qf": 6.0,
+      "sf": 2.1,
+      "final": 0.7,
+      "champ": 0.2
+    },
+    "RSA": {
+      "qual": 68.2,
+      "r16": 8.2,
+      "qf": 1.4,
+      "sf": 0.2,
+      "final": 0.0,
+      "champ": 0.0
+    },
+    "TUN": {
+      "qual": 10.8,
+      "r16": 0.2,
+      "qf": 0.0,
+      "sf": 0.0,
+      "final": 0.0,
+      "champ": 0.0
+    },
+    "MEX": {
+      "qual": 99.0,
+      "r16": 88.7,
+      "qf": 54.3,
+      "sf": 17.3,
+      "final": 10.6,
+      "champ": 7.3
+    },
+    "CAN": {
+      "qual": 80.9,
+      "r16": 36.6,
+      "qf": 16.7,
+      "sf": 6.9,
+      "final": 2.2,
+      "champ": 0.4
+    },
+    "PAN": {
+      "qual": 10.3,
+      "r16": 0.1,
+      "qf": 0.0,
+      "sf": 0.0,
+      "final": 0.0,
+      "champ": 0.0
+    },
+    "NZL": {
+      "qual": 34.2,
+      "r16": 3.8,
+      "qf": 0.7,
+      "sf": 0.1,
+      "final": 0.0,
+      "champ": 0.0
+    },
+    "SWE": {
+      "qual": 77.8,
+      "r16": 34.3,
+      "qf": 16.7,
+      "sf": 7.2,
+      "final": 2.4,
+      "champ": 0.4
+    },
+    "NOR": {
+      "qual": 92.3,
+      "r16": 76.5,
+      "qf": 38.0,
+      "sf": 23.0,
+      "final": 7.8,
+      "champ": 5.3
+    },
+    "CZE": {
+      "qual": 34.6,
+      "r16": 1.2,
+      "qf": 0.1,
+      "sf": 0.0,
+      "final": 0.0,
+      "champ": 0.0
+    },
+    "GHA": {
+      "qual": 76.1,
+      "r16": 22.4,
+      "qf": 8.7,
+      "sf": 3.1,
+      "final": 1.6,
+      "champ": 0.2
+    },
+    "COD": {
+      "qual": 76.5,
+      "r16": 24.7,
+      "qf": 10.1,
+      "sf": 3.9,
+      "final": 1.6,
+      "champ": 0.2
+    },
+    "BIH": {
+      "qual": 55.6,
+      "r16": 11.2,
+      "qf": 3.7,
+      "sf": 1.2,
+      "final": 0.2,
+      "champ": 0.1
+    },
+    "CPV": {
+      "qual": 71.2,
+      "r16": 20.6,
+      "qf": 7.8,
+      "sf": 3.0,
+      "final": 1.4,
+      "champ": 0.2
+    },
+    "JOR": {
+      "qual": 10.9,
+      "r16": 0.2,
+      "qf": 0.0,
+      "sf": 0.0,
+      "final": 0.0,
+      "champ": 0.0
+    },
+    "CUW": {
+      "qual": 48.4,
+      "r16": 2.8,
+      "qf": 0.2,
+      "sf": 0.0,
+      "final": 0.0,
+      "champ": 0.0
+    },
+    "HAI": {
+      "qual": 6.9,
+      "r16": 0.1,
+      "qf": 0.0,
+      "sf": 0.0,
+      "final": 0.0,
+      "champ": 0.0
+    }
+  },
+  "team_names": {
+    "ARG": "阿根廷",
+    "BRA": "巴西",
+    "FRA": "法國",
+    "ENG": "英格蘭",
+    "ESP": "西班牙",
+    "GER": "德國",
+    "POR": "葡萄牙",
+    "NED": "荷蘭",
+    "URU": "烏拉圭",
+    "USA": "美國",
+    "MAR": "摩洛哥",
+    "BEL": "比利時",
+    "CRO": "克羅埃西亞",
+    "SUI": "瑞士",
+    "AUT": "奧地利",
+    "TUR": "土耳其",
+    "SCO": "蘇格蘭",
+    "COL": "哥倫比亞",
+    "ECU": "厄瓜多",
+    "PAR": "巴拉圭",
+    "JPN": "日本",
+    "KOR": "南韓",
+    "KSA": "沙烏地阿拉伯",
+    "AUS": "澳洲",
+    "IRN": "伊朗",
+    "QAT": "卡達",
+    "IRQ": "伊拉克",
+    "UZB": "烏茲別克",
+    "SEN": "塞內加爾",
+    "EGY": "埃及",
+    "CIV": "象牙海岸",
+    "ALG": "阿爾及利亞",
+    "RSA": "南非",
+    "TUN": "突尼西亞",
+    "MEX": "墨西哥",
+    "CAN": "加拿大",
+    "PAN": "巴拿馬",
+    "NZL": "紐西蘭",
+    "SWE": "瑞典",
+    "NOR": "挪威",
+    "CZE": "捷克",
+    "GHA": "迦納",
+    "COD": "剛果民主共和國",
+    "BIH": "波士尼亞",
+    "CPV": "維德角",
+    "JOR": "約旦",
+    "CUW": "庫拉索",
+    "HAI": "海地"
+  },
+  "confederations": {
+    "ARG": "CONMEBOL",
+    "BRA": "CONMEBOL",
+    "URU": "CONMEBOL",
+    "COL": "CONMEBOL",
+    "ECU": "CONMEBOL",
+    "PAR": "CONMEBOL",
+    "ESP": "UEFA",
+    "FRA": "UEFA",
+    "GER": "UEFA",
+    "ENG": "UEFA",
+    "POR": "UEFA",
+    "NED": "UEFA",
+    "BEL": "UEFA",
+    "CRO": "UEFA",
+    "SUI": "UEFA",
+    "AUT": "UEFA",
+    "TUR": "UEFA",
+    "SCO": "UEFA",
+    "MAR": "CAF",
+    "SEN": "CAF",
+    "EGY": "CAF",
+    "CIV": "CAF",
+    "ALG": "CAF",
+    "RSA": "CAF",
+    "TUN": "CAF",
+    "JPN": "AFC",
+    "KOR": "AFC",
+    "KSA": "AFC",
+    "AUS": "AFC",
+    "IRN": "AFC",
+    "QAT": "AFC",
+    "IRQ": "AFC",
+    "UZB": "AFC",
+    "USA": "CONCACAF",
+    "MEX": "CONCACAF",
+    "CAN": "CONCACAF",
+    "PAN": "CONCACAF",
+    "NZL": "OFC",
+    "SWE": "UEFA",
+    "NOR": "UEFA",
+    "CZE": "UEFA",
+    "BIH": "UEFA",
+    "CPV": "CAF",
+    "GHA": "CAF",
+    "COD": "CAF",
+    "JOR": "AFC",
+    "CUW": "CONCACAF",
+    "HAI": "CONCACAF"
+  },
+  "groups": {
+    "A": [
+      "MEX",
+      "RSA",
+      "KOR",
+      "CZE"
+    ],
+    "B": [
+      "CAN",
+      "SUI",
+      "QAT",
+      "BIH"
+    ],
+    "C": [
+      "BRA",
+      "MAR",
+      "SCO",
+      "HAI"
+    ],
+    "D": [
+      "USA",
+      "PAR",
+      "AUS",
+      "TUR"
+    ],
+    "E": [
+      "GER",
+      "CUW",
+      "CIV",
+      "ECU"
+    ],
+    "F": [
+      "NED",
+      "JPN",
+      "SWE",
+      "TUN"
+    ],
+    "G": [
+      "BEL",
+      "EGY",
+      "IRN",
+      "NZL"
+    ],
+    "H": [
+      "ESP",
+      "CPV",
+      "KSA",
+      "URU"
+    ],
+    "I": [
+      "FRA",
+      "SEN",
+      "IRQ",
+      "NOR"
+    ],
+    "J": [
+      "ARG",
+      "ALG",
+      "AUT",
+      "JOR"
+    ],
+    "K": [
+      "POR",
+      "COD",
+      "UZB",
+      "COL"
+    ],
+    "L": [
+      "ENG",
+      "CRO",
+      "GHA",
+      "PAN"
+    ]
+  },
+  "current_stage": {
+    "stage": "qf",
+    "played": 0,
+    "total": 4
+  }
+}

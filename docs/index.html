@@ -580,52 +580,44 @@ const SCHEDULE=[
   {d:'2026-06-27',t:'23:30',g:'K',t1:'COD',t2:'UZB',v:'AKR'},
   {d:'2026-06-28',t:'02:00',g:'J',t1:'JOR',t2:'ARG',v:'AKR'},
   {d:'2026-06-28',t:'02:00',g:'J',t1:'ALG',t2:'AUT',v:'AZT'},
-  // ── Round of 32 (actual bracket, UTC kickoff times) ──────────────────────
-  {d:'2026-06-28',t:'19:00',r:'r32',t1:'RSA',t2:'CAN'},
-  {d:'2026-06-29',t:'17:00',r:'r32',t1:'BRA',t2:'JPN'},
-  {d:'2026-06-29',t:'20:30',r:'r32',t1:'GER',t2:'PAR'},
-  {d:'2026-06-30',t:'01:00',r:'r32',t1:'NED',t2:'MAR'},
-  {d:'2026-06-30',t:'17:00',r:'r32',t1:'CIV',t2:'NOR'},
-  {d:'2026-06-30',t:'21:00',r:'r32',t1:'FRA',t2:'SWE'},
-  {d:'2026-07-01',t:'01:00',r:'r32',t1:'MEX',t2:'ECU'},
-  {d:'2026-07-01',t:'16:00',r:'r32',t1:'COD',t2:'ENG'},
-  {d:'2026-07-01',t:'20:00',r:'r32',t1:'BEL',t2:'SEN'},
-  {d:'2026-07-02',t:'00:00',r:'r32',t1:'USA',t2:'BIH'},
-  {d:'2026-07-02',t:'08:00',r:'r32',t1:'SUI',t2:'ALG'},
-  {d:'2026-07-02',t:'19:00',r:'r32',t1:'ESP',t2:'AUT'},
-  {d:'2026-07-02',t:'23:00',r:'r32',t1:'POR',t2:'CRO'},
-  {d:'2026-07-03',t:'17:00',r:'r32',t1:'AUS',t2:'EGY'},
-  {d:'2026-07-03',t:'22:00',r:'r32',t1:'ARG',t2:'CPV'},
-  {d:'2026-07-04',t:'00:30',r:'r32',t1:'COL',t2:'GHA'},
-  // ── Round of 16 (actual bracket, UTC kickoff times) ──────────────────────
-  {d:'2026-07-04',t:'17:00',r:'r16',t1:'CAN',t2:'MAR'},
-  {d:'2026-07-04',t:'21:00',r:'r16',t1:'PAR',t2:'FRA'},
-  {d:'2026-07-05',t:'20:00',r:'r16',t1:'BRA',t2:'NOR'},
-  {d:'2026-07-06',t:'00:00',r:'r16',t1:'MEX',t2:'ENG'},
-  {d:'2026-07-06',t:'19:00',r:'r16',t1:'POR',t2:'ESP'},
-  {d:'2026-07-06',t:'21:00',r:'r16',t1:'USA',t2:'BEL'},
-  {d:'2026-07-07',t:'16:00',r:'r16',t1:'ARG',t2:'EGY'},
-  {d:'2026-07-07',t:'20:00',r:'r16',t1:'SUI',t2:'COL'},
 ];
+// KO schedule loaded from ko_schedule.json at runtime (see fetch below)
+
+/* Load KO schedule from data file so CI can update it automatically */
+fetch('data/ko_schedule.json?v='+Date.now())
+  .then(function(r){return r.ok?r.json():{matches:[]};})
+  .then(function(ko){
+    var existing=new Set(SCHEDULE.map(function(s){return s.d+'|'+s.r+'|'+s.t1+'|'+s.t2;}));
+    (ko.matches||[]).forEach(function(m){
+      if(!existing.has(m.d+'|'+m.r+'|'+m.t1+'|'+m.t2)){SCHEDULE.push(m);}
+    });
+    SCHEDULE.sort(function(a,b){return(a.d+a.t).localeCompare(b.d+b.t);});
+    cdTick();
+  }).catch(function(){});
 
 /* Countdown */
 function cdTick(){
-  const now=new Date();
-  const next=SCHEDULE.find(s=>new Date(s.d+'T'+s.t+':00Z')>now);
+  var now=new Date();
+  var next=SCHEDULE.find(function(s){return new Date(s.d+'T'+s.t+':00Z')>now;});
   if(!next){
-    const nm=document.getElementById('nmatch');
+    var nm=document.getElementById('nmatch');
     if(nm)nm.innerHTML='<span style="color:var(--gold);font-size:.78rem">🏆 淘汰賽進行中</span>';
-    ['cdh','cdm','cds'].forEach(id=>document.getElementById(id).textContent='--');
+    ['cdh','cdm','cds'].forEach(function(id){document.getElementById(id).textContent='--';});
     return;
   }
-  const mt=new Date(next.d+'T'+next.t+':00Z');
-  const diff=mt-now;
+  var mt=new Date(next.d+'T'+next.t+':00Z');
+  var diff=mt-now;
   document.getElementById('cdh').textContent=Math.floor(diff/3600000).toString().padStart(2,'0');
   document.getElementById('cdm').textContent=Math.floor((diff%3600000)/60000).toString().padStart(2,'0');
   document.getElementById('cds').textContent=Math.floor((diff%60000)/1000).toString().padStart(2,'0');
-  const nm=document.getElementById('nmatch');
-  const stageLabel=next.r?next.r.toUpperCase():`Group ${next.g}`;
-  if(nm)nm.innerHTML=`${FLAGS[next.t1]||''} ${next.t1} <span style="color:var(--gold)">vs</span> ${next.t2} ${FLAGS[next.t2]||''}&nbsp;<span style="color:var(--dim2);font-size:.58rem;font-weight:400">${stageLabel} · ${next.t} UTC</span>`;
+  var nm=document.getElementById('nmatch');
+  var stageLabel=next.r?next.r.toUpperCase():'Group '+next.g;
+  var isTBD=next.t1==='TBD'||next.t2==='TBD';
+  if(isTBD){
+    if(nm)nm.innerHTML='<span style="color:var(--gold)">🏆 '+stageLabel+'</span>&nbsp;<span style="color:var(--dim2);font-size:.58rem;font-weight:400">'+next.d.slice(5)+' · '+next.t+' UTC</span>';
+  } else {
+    if(nm)nm.innerHTML=(FLAGS[next.t1]||'')+' '+next.t1+' <span style="color:var(--gold)">vs</span> '+next.t2+' '+(FLAGS[next.t2]||'')+'&nbsp;<span style="color:var(--dim2);font-size:.58rem;font-weight:400">'+stageLabel+' · '+next.t+' UTC</span>';
+  }
 }
 setInterval(cdTick,1000);cdTick();
 
@@ -673,9 +665,9 @@ Promise.all([
   const todayStr=now2.toISOString().split('T')[0];
   const SIM_DATA={};
 
-  // Show upcoming group stage matches OR upcoming R32 matches (up to 5)
-  const todayUpcoming=SCHEDULE.filter(s=>s.d===todayStr&&new Date(s.d+'T'+s.t+':00Z')>now2);
-  const futureUpcoming=SCHEDULE.filter(s=>s.d>todayStr);
+  // Show upcoming matches (skip TBD placeholder slots)
+  const todayUpcoming=SCHEDULE.filter(s=>s.d===todayStr&&new Date(s.d+'T'+s.t+':00Z')>now2&&s.t1!=='TBD');
+  const futureUpcoming=SCHEDULE.filter(s=>s.d>todayStr&&s.t1!=='TBD');
   const showList=[...todayUpcoming,...futureUpcoming].slice(0,5);
 
   const scroll=document.getElementById('mscroll');

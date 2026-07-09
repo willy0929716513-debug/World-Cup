@@ -584,7 +584,7 @@ const SCHEDULE=[
 // KO schedule loaded from ko_schedule.json at runtime (see fetch below)
 
 /* Load KO schedule from data file so CI can update it automatically */
-fetch('data/ko_schedule.json?v='+Date.now())
+var koScheduleReady=fetch('data/ko_schedule.json?v='+Date.now())
   .then(function(r){return r.ok?r.json():{matches:[]};})
   .then(function(ko){
     var existing=new Set(SCHEDULE.map(function(s){return s.d+'|'+s.r+'|'+s.t1+'|'+s.t2;}));
@@ -640,7 +640,8 @@ document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
 /* Data */
 Promise.all([
   fetch('data/tournament.json').then(r=>r.json()),
-  fetch('data/results.json').then(r=>r.ok?r.json():{matches:[]}).catch(()=>({matches:[]}))
+  fetch('data/results.json').then(r=>r.ok?r.json():{matches:[]}).catch(()=>({matches:[]})),
+  koScheduleReady
 ]).then(([data,res])=>{
   const{group_matches,team_names,groups,n_sim,expected_bracket}=data;
   if(n_sim) document.getElementById('snsim').textContent=n_sim>=1000?Math.round(n_sim/1000)+'K':n_sim.toLocaleString();

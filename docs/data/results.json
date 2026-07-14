@@ -1,6 +1,6 @@
 {
   "note": "實際比賽結果 — 自動更新 (GitHub Actions)",
-  "updated": "2026-07-10",
+  "updated": "2026-07-14",
   "matches": [
     {
       "t1": "MEX",
@@ -883,6 +883,15 @@
       "round": "qf",
       "played": true,
       "date": "2026-07-10"
+    },
+    {
+      "t1": "FRA",
+      "t2": "ESP",
+      "score1": 0,
+      "score2": 2,
+      "round": "sf",
+      "played": true,
+      "date": "2026-07-14"
     }
   ]
 }

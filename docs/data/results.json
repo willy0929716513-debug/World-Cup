@@ -885,15 +885,6 @@
       "date": "2026-07-10"
     },
     {
-      "t1": "FRA",
-      "t2": "ESP",
-      "score1": 0,
-      "score2": 2,
-      "round": "sf",
-      "played": true,
-      "date": "2026-07-14"
-    },
-    {
       "t1": "NOR",
       "t2": "ENG",
       "score1": 1,
@@ -910,6 +901,24 @@
       "round": "qf",
       "played": true,
       "date": "2026-07-12"
+    },
+    {
+      "t1": "FRA",
+      "t2": "ESP",
+      "score1": 0,
+      "score2": 2,
+      "round": "sf",
+      "played": true,
+      "date": "2026-07-14"
+    },
+    {
+      "t1": "ENG",
+      "t2": "ARG",
+      "score1": 1,
+      "score2": 2,
+      "round": "sf",
+      "played": true,
+      "date": "2026-07-15"
     }
   ]
 }

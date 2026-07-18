@@ -1947,8 +1947,8 @@
     ]
   },
   "current_stage": {
-    "stage": "final",
-    "played": 0,
-    "total": 1
+    "stage": "champion",
+    "played": 31,
+    "total": 31
   }
 }
